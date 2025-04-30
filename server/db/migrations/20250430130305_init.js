@@ -12,7 +12,7 @@ exports.up = function (knex) {
       table.string('email').notNullable().unique();
       table.string('name').notNullable();
       table.string('password_hash').notNullable();
-      table.integer('zip_code').notNullable();
+      table.string('zip_code', 5).notNullable();
     })
     .createTable('donations', (table) => {
       table.increments();
