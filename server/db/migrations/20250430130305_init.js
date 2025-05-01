@@ -35,6 +35,8 @@ exports.up = function (knex) {
       table.timestamps(true, true);
 
       table.string('name').notNullable();
+      table.string('event_url');
+      table.string('address').notNullable();
       table.timestamp('start_date').notNullable();
       table.timestamp('end_date').notNullable();
     })
@@ -65,8 +67,8 @@ exports.up = function (knex) {
  */
 exports.down = function (knex) {
   return knex.schema
-    .dropTable('users')
-    .dropTable('donations')
-    .dropTable('events')
-    .dropTable('rsvp');
+    .dropTableIfExists('rsvp')
+    .dropTableIfExists('donations')
+    .dropTableIfExists('events')
+    .dropTableIfExists('users');
 };
