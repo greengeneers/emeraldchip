@@ -8,13 +8,13 @@ class User {
 
   // Create a User instance with the password hidden
   // Instances of User can be sent to clients without exposing the password
-  constructor({ id, username, email, name, passwordHash, zip_code }) {
+  constructor({ id, username, email, name, password_hash, zip_code }) {
     this.id = id;
     this.username = username;
     this.email = email;
     this.name = name;
-    this.#passwordHash = passwordHash;
-    this.zip_code = zip_code;
+    this.#passwordHash = password_hash;
+    this.zipCode = zip_code;
   }
 
   // Controllers can use this instance method to validate passwords prior to sending responses

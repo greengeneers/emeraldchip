@@ -3,17 +3,17 @@ const User = require('../models/User');
 exports.registerUser = async (req, res) => {
   // Request needs a body
   if (!req.body) {
-    return res.status(400).send({ message: 'Username and password required' });
+    return res.status(400).send({ message: 'Username, email, name, password, and zip_code required' });
   }
 
   // Body needs a username and password
-  const { username, password } = req.body;
+  const {username, email, name, password, zip_code} = req.body;
   if (!username || !password) {
-    return res.status(400).send({ message: 'Username and password required' });
+    return res.status(400).send({ message: 'Username, email, name, password, and zip_code required' });
   }
 
   // User.create will handle hashing the password and storing in the database
-  const user = await User.create(username, password);
+  const user = await User.create(username, email, name, password, zip_code);
 
   // Add the user id to the cookie and send the user data back
   req.session.userId = user.id;
