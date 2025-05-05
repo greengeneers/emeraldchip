@@ -15,6 +15,8 @@ const logErrors = require('./middleware/logErrors');
 // controller imports
 const authControllers = require('./controllers/authControllers');
 const userControllers = require('./controllers/userControllers');
+const eventControllers = require('./controllers/eventControllers');
+const rsvpControllers = require('./controllers/rsvpControllers');
 const app = express();
 
 // middleware
@@ -41,6 +43,16 @@ app.delete('/api/auth/logout', authControllers.logoutUser);
 app.get('/api/users', checkAuthentication, userControllers.listUsers);
 app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
 app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
+
+// EVENT ENDPOINTS:
+app.get('/api/events', checkAuthentication, eventControllers.listEvents);
+app.get('/api/events/:id', checkAuthentication, eventControllers.showEventById);
+app.get('/api/events/:name', checkAuthentication, eventControllers.showEventByName);
+
+// RSVP ENDPOINTS:
+app.get('/api/rsvp', checkAuthentication, rsvpControllers.listRsvp);
+app.post('/api/rsvp', checkAuthentication, rsvpControllers.addRsvp);
+app.delete('/api/rsvp', checkAuthentication, rsvpControllers.removeRsvp);
 
 ///////////////////////////////
 // Fallback Routes

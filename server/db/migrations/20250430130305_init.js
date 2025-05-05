@@ -41,8 +41,6 @@ exports.up = function (knex) {
       table.timestamp('end_date').notNullable();
     })
     .createTable('rsvp', (table) => {
-      table.increments();
-
       table
         .integer('donor_id')
         .notNullable()
@@ -50,7 +48,6 @@ exports.up = function (knex) {
         .references('id')
         .inTable('users')
         .onDelete('CASCADE');
-
       table
         .integer('event_id')
         .notNullable()
@@ -58,6 +55,8 @@ exports.up = function (knex) {
         .references('id')
         .inTable('events')
         .onDelete('CASCADE');
+      table
+        .primary(['donor_id', 'event_id']);
     });
 };
 
