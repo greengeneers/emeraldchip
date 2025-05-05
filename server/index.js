@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 ///////////////////////////////
 // Imports
 ///////////////////////////////
@@ -15,6 +16,8 @@ const logErrors = require('./middleware/logErrors');
 // controller imports
 const authControllers = require('./controllers/authControllers');
 const userControllers = require('./controllers/userControllers');
+const dashboardControllers = require('./controllers/dashboardController.js');
+
 const app = express();
 
 // middleware
@@ -41,6 +44,16 @@ app.delete('/api/auth/logout', authControllers.logoutUser);
 app.get('/api/users', checkAuthentication, userControllers.listUsers);
 app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
 app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
+
+///////////////////////////////
+// Dashboard Routes
+///////////////////////////////
+
+app.get(
+  '/api/dashboard',
+  checkAuthentication,
+  dashboardControllers.showOverview
+);
 
 ///////////////////////////////
 // Fallback Routes
