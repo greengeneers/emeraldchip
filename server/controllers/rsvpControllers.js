@@ -27,10 +27,10 @@ exports.addRsvp = async (req, res) => {
 
   const rsvpSuccess = await Rsvp.add(userId, eventId);
   if (!rsvpSuccess) {
-    return res.status(404).send({ message: 'RSVP failed!' });
+    return res.status(404).send({ message: 'RSVP failed! Link already exists!' });
   }
 
-  res.send(rsvpSuccess);
+  res.status(200).send({ message: 'RSVP success!' });
 };
 
 /*
@@ -54,8 +54,8 @@ exports.removeRsvp = async (req, res) => {
 
   const removeRsvpSuccess = await Rsvp.remove(userId, eventId);
   if (!removeRsvpSuccess) {
-    return res.status(404).send({ message: 'RSVP removal failed!' });
+    return res.status(404).send({ message: 'RSVP removal failed! Link does not exist!' });
   }
 
-  res.send(removeRsvpSuccess);
+  res.status(200).send({ message: 'RSVP removal success!' });
 };
