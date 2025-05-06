@@ -1,4 +1,5 @@
 import LandingAbout from '../components/Landing/LandingAbout.jsx';
+import LandingFooter from '../components/Landing/LandingFooter.jsx';
 import LandingHeader from '../components/Landing/LandingHeader.jsx';
 import LandingHero from '../components/Landing/LandingHero.jsx';
 import LandingSplitter from '../components/Landing/LandingSplitter.jsx';
@@ -12,6 +13,7 @@ const Landing = () => {
       <LandingSplitter />
       <LandingAbout />
       <LandingSplitter />
+      <LandingFooter />
     </div>
   );
 };

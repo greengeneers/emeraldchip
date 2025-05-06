@@ -131,3 +131,11 @@
   border-radius: var(--radius-2xl);
   object-fit: cover;
 }
+
+.landing-footer {
+  text-align: center;
+}
+
+.landing-footer p {
+  font-size: var(--font-2xl);
+}
