@@ -42,6 +42,16 @@ app.get('/api/users', checkAuthentication, userControllers.listUsers);
 app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
 app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
 
+app.get('/api/test-modal', userControllers.testModal);
+// app.get('/test-modal', (req, res) => {
+//   res.json({
+//     id: 1,
+//     name: 'Jose Castle',
+//     email: 'Josec@example.com',
+//     zipcode: '12345',
+//   });
+// });
+
 ///////////////////////////////
 // Fallback Routes
 ///////////////////////////////
@@ -54,6 +64,8 @@ app.get('*', (req, res, next) => {
 });
 
 app.use(logErrors);
+
+
 
 ///////////////////////////////
 // Start Listening

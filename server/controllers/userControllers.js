@@ -34,6 +34,8 @@ exports.updateUser = async (req, res) => {
     return res.status(400).send({ message: 'New username required.' });
   }
 
+
+  
   // A user is only authorized to modify their own user information
   // e.g. User 5 sends a PATCH /api/users/5 request -> success!
   // e.g. User 5 sends a PATCH /api/users/4 request -> 403!
@@ -42,11 +44,24 @@ exports.updateUser = async (req, res) => {
   if (userRequestingChange !== userToModify) {
     return res.status(403).send({ message: "Unauthorized." });
   }
-
+  
   const updatedUser = await User.update(userToModify, username);
   if (!updatedUser) {
     return res.status(404).send({ message: 'User not found.' });
   }
-
+  
   res.send(updatedUser);
+};
+exports.testModal = async (req, res) => {
+  try {
+
+    const user = await User.find(1); 
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
 };
