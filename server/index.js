@@ -51,8 +51,8 @@ app.get('/api/events/:name', checkAuthentication, eventControllers.showEventByNa
 
 // RSVP ENDPOINTS:
 app.get('/api/rsvp', checkAuthentication, rsvpControllers.listRsvp);
-app.post('/api/rsvp', checkAuthentication, rsvpControllers.addRsvp);
-app.delete('/api/rsvp', checkAuthentication, rsvpControllers.removeRsvp);
+app.post('/api/rsvp/:eventId', checkAuthentication, rsvpControllers.addRsvp);
+app.delete('/api/rsvp/:eventId', checkAuthentication, rsvpControllers.removeRsvp);
 
 ///////////////////////////////
 // Fallback Routes
