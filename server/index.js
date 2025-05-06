@@ -43,6 +43,7 @@ app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
 app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
 
 app.get('/api/test-modal', userControllers.testModal);
+app.patch('/api/test-modal', userControllers.testModal);
 // app.get('/test-modal', (req, res) => {
 //   res.json({
 //     id: 1,
