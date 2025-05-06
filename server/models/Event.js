@@ -47,7 +47,7 @@ class Event {
       const rawEventData = result.rows[0];
       return new Event(rawEventData);
     } catch (error) {
-      return null;
+      next(error);
     }
   }
 
@@ -57,8 +57,7 @@ class Event {
       const result = await knex.raw(query);
       return result.rows.map((rawEventData) => new Event(rawEventData));
     } catch (error) {
-      console.error('An error occurred: ', error);
-      return null;
+      next(error);
     }
   }
 
@@ -79,8 +78,7 @@ class Event {
       const rawEventData = result.rows[0];
       return rawEventData ? new Event(rawEventData) : null;
     } catch (error) {
-      console.error('An error occurred: ', error);
-      return null;
+      next(error);
     }
   }
 
@@ -108,8 +106,7 @@ class Event {
     try {
       return knex('events').del();
     } catch (error) {
-      console.error('An error occurred: ', error);
-      return null;
+      next(error);
     }
   }
 }

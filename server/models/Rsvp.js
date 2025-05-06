@@ -15,8 +15,7 @@ class Rsvp {
         const result = await knex.raw(query);
         return result.rows;
       } catch (error) {
-        console.error('An error occurred: ', error);
-        return null;
+        next(error);
       }
     }
 
@@ -40,8 +39,7 @@ class Rsvp {
       const success = result.rows[0];
       return success ? true : false;
     } catch(error) {
-      console.error('An error occurred: ', error);
-      return null;
+      next(error);
     }
   }
 
@@ -62,8 +60,7 @@ class Rsvp {
       const result = await knex.raw(query, [userId, eventId]);
       return result.rowCount > 0; // if any changes made
     } catch (error) {
-      console.error('An error occurred: ', error);
-      return null;
+      next(error);
     }
   }
 
@@ -71,8 +68,7 @@ class Rsvp {
     try {
       return knex('rsvp').del();
     } catch (error) {
-      console.error('An error occurred: ', error);
-      return null
+      next(error);
     }
   }
 }
