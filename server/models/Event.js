@@ -34,23 +34,32 @@ class Event {
   }
 
   static async create(createdAt, updatedAt, name, eventUrl, address, startDate, endDate) {
-    const query = `
-      INSERT INTO events (created_at, updated_at, name, eventUrl, address, startDate, endDate)
-      VALUES (?, ?, ?, ?, ?, ? ,?)
-      RETURNING *;
-    `;
-    const result = await knex.raw(query, [
-      createdAt, updatedAt, name, eventUrl, address, startDate, endDate
-    ]);
+    try {
+      const query = `
+        INSERT INTO events (created_at, updated_at, name, eventUrl, address, startDate, endDate)
+        VALUES (?, ?, ?, ?, ?, ? ,?)
+        RETURNING *;
+      `;
+      const result = await knex.raw(query, [
+        createdAt, updatedAt, name, eventUrl, address, startDate, endDate
+      ]);
 
-    const rawEventData = result.rows[0];
-    return new Event(rawEventData);
+      const rawEventData = result.rows[0];
+      return new Event(rawEventData);
+    } catch (error) {
+      return null;
+    }
   }
 
   static async list() {
-    const query = `SELECT * FROM events;`;
-    const result = await knex.raw(query);
-    return result.rows.map((rawEventData) => new Event(rawEventData));
+    try {
+      const query = `SELECT * FROM events;`;
+      const result = await knex.raw(query);
+      return result.rows.map((rawEventData) => new Event(rawEventData));
+    } catch (error) {
+      console.error('An error occurred: ', error);
+      return null;
+    }
   }
 
   /**
@@ -64,10 +73,15 @@ class Event {
    *  - Creates a new `Event` instance if a matching row is found.
    */
   static async findBy(by, key) {
-    const query = `SELECT * FROM events WHERE ${by} = ?`;
-    const result = await knex.raw(query, [key]);
-    const rawEventData = result.rows[0];
-    return rawEventData ? new Event(rawEventData) : null;
+    try {
+      const query = `SELECT * FROM events WHERE ${by} = ?`;
+      const result = await knex.raw(query, [key]);
+      const rawEventData = result.rows[0];
+      return rawEventData ? new Event(rawEventData) : null;
+    } catch (error) {
+      console.error('An error occurred: ', error);
+      return null;
+    }
   }
 
   /**
@@ -91,7 +105,12 @@ class Event {
   }
 
   static async deleteAll() {
-    return knex('events').del();
+    try {
+      return knex('events').del();
+    } catch (error) {
+      console.error('An error occurred: ', error);
+      return null;
+    }
   }
 }
 

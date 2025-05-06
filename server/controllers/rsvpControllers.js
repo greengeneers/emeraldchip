@@ -3,6 +3,11 @@ const Rsvp = require('../models/Rsvp');
 
 exports.listRsvp = async (req, res) => {
   const rsvps = await Rsvp.list();
+  if (!rsvps) {
+    return res.status(404).send({
+      message: 'Error fetching resource.'
+    })
+  }
   res.send(rsvps);
 }
 
