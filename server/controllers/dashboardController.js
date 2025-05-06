@@ -1,8 +1,10 @@
 /* eslint-disable comma-dangle */
 const knex = require('../db/knex.js');
 
-exports.showOverview = async (req, res) => {
+exports.showOverview = async (req, res, next) => {
   const user = Number(req.session.userId);
+
+  // TODO: Calculate C20 Saved and Waste Reduced
 
   try {
     const pastEventsCountResult = await knex.raw(
@@ -57,7 +59,6 @@ exports.showOverview = async (req, res) => {
       recentEvents,
     });
   } catch (err) {
-    console.error('Error fetching dashboard overview:', err);
-    res.status(500).send({ error: 'Failed to load dashboard data' });
+    next(err);
   }
 };
