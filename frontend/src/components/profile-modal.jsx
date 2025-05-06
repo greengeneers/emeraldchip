@@ -38,14 +38,25 @@ const ProfileModal = ({ userId, onClose }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+  
+    if (name === 'zipCode') {
+  
+      if (!/^\d*$/.test(value)) {    
+        setZipCodeWarning('ZIP code must contain only numbers');
+      } 
 
+      else if (value.length < 5) {
+        setZipCodeWarning('ZIP code must be exactly 5 characters long');
+      } 
    
-    if (name === 'zipCode' && value.length > 5) {
-      setZipCodeWarning('ZIP code cannot exceed 5 characters');
-    } else {
-      setZipCodeWarning(''); 
+      else if (value.length > 5) {
+        setZipCodeWarning('ZIP code must be exactly 5 characters long');
+      }
+      else {
+        setZipCodeWarning('');
+      }
     }
-
+  
     setFormData({ ...formData, [name]: value });
   };
 
