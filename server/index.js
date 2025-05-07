@@ -57,6 +57,10 @@ app.get('/api/rsvp', checkAuthentication, rsvpControllers.listRsvp);
 app.post('/api/rsvp/:eventId', checkAuthentication, rsvpControllers.addRsvp);
 app.delete('/api/rsvp/:eventId', checkAuthentication, rsvpControllers.removeRsvp);
 
+// Test Modal
+app.get('/api/test-modal', userControllers.testModal);
+app.patch('/api/test-modal', userControllers.testModal);
+
 ///////////////////////////////
 // Dashboard Routes
 ///////////////////////////////
@@ -79,6 +83,8 @@ app.get('*', (req, res, next) => {
 });
 
 app.use(logErrors);
+
+
 
 ///////////////////////////////
 // Start Listening
