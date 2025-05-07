@@ -1,0 +1,31 @@
+@import 'index.css';
+
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vh;
+}
+
+.calendar-nav {
+  display: flex;
+}
+
+.middle-padding {
+  flex-grow: 1;
+}
+
+.date-list {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 columns for each week */
+  gap: 10px; /* Adjust the gap as needed for spacing between days */
+  list-style: none; /* Remove default list styling (bullets) */
+  padding: 0; /* Remove default padding */
+}
+
+.date-li {
+  /* Style each day, e.g., borders, background, text alignment */
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}

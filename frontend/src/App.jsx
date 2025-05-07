@@ -10,6 +10,7 @@ import { checkForLoggedInUser } from './adapters/auth-adapter';
 import UsersPage from './pages/Users';
 import UserPage from './pages/User';
 import ProfileModal from './components/profile-modal';
+import EventsTest from './pages/EventsTest';
 
 export default function App() {
   const { setCurrentUser } = useContext(UserContext);
@@ -33,7 +34,8 @@ export default function App() {
         <Route path='/users/:id' element={<UserPage />} />
         <Route path='/test-modal' element={<ProfileModal onClose={() => window.history.back()} />}
         />
-        
+        <Route path='/events' element={<EventsTest />} />
+
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </main>
