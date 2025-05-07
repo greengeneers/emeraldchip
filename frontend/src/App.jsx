@@ -9,33 +9,36 @@ import UserContext from './contexts/current-user-context';
 import { checkForLoggedInUser } from './adapters/auth-adapter';
 import UsersPage from './pages/Users';
 import UserPage from './pages/User';
-import ProfileModal from './components/profile-modal';
+import Landing from './pages/Landing.jsx';
 
 export default function App() {
-  const { setCurrentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   useEffect(() => {
     const loadCurrentUser = async () => {
       // we aren't concerned about an error happening here
       const [data] = await checkForLoggedInUser();
-      if (data) setCurrentUser(data)
-    }
+      if (data) setCurrentUser(data);
+    };
     loadCurrentUser();
   }, [setCurrentUser]);
 
-  return <>
-    <SiteHeadingAndNav />
-    <main>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/sign-up' element={<SignUpPage />} />
-        <Route path='/users' element={<UsersPage />} />
-        <Route path='/users/:id' element={<UserPage />} />
-        <Route path='/test-modal' element={<ProfileModal onClose={() => window.history.back()} />}
-        />
-        
-        <Route path='*' element={<NotFoundPage />} />
-      </Routes>
-    </main>
-  </>;
+  return (
+    <>
+      <main>
+        <Routes>
+          {currentUser ? (
+            <Route path="/" element={<Home />} />
+          ) : (
+            <Route path="/" element={<Landing />} />
+          )}
+
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/sign-up" element={<SignUpPage />} />
+          <Route path="/users" element={<UsersPage />} />
+          <Route path="/users/:id" element={<UserPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </main>
+    </>
+  );
 }
