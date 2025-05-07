@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 ///////////////////////////////
 // Imports
 ///////////////////////////////
@@ -17,6 +18,8 @@ const authControllers = require('./controllers/authControllers');
 const userControllers = require('./controllers/userControllers');
 const eventControllers = require('./controllers/eventControllers');
 const rsvpControllers = require('./controllers/rsvpControllers');
+const dashboardControllers = require('./controllers/dashboardController.js');
+
 const app = express();
 
 // middleware
@@ -53,6 +56,16 @@ app.get('/api/events/:name', checkAuthentication, eventControllers.showEventByNa
 app.get('/api/rsvp', checkAuthentication, rsvpControllers.listRsvp);
 app.post('/api/rsvp/:eventId', checkAuthentication, rsvpControllers.addRsvp);
 app.delete('/api/rsvp/:eventId', checkAuthentication, rsvpControllers.removeRsvp);
+
+///////////////////////////////
+// Dashboard Routes
+///////////////////////////////
+
+app.get(
+  '/api/dashboard',
+  checkAuthentication,
+  dashboardControllers.showOverview
+);
 
 ///////////////////////////////
 // Fallback Routes
