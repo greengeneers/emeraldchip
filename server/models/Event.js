@@ -47,17 +47,42 @@ class Event {
       const rawEventData = result.rows[0];
       return new Event(rawEventData);
     } catch (error) {
-      next(error);
+      console.error("Error in route handler:", error); // Log the error
+      res.status(500).json({ error: 'Failed to create event' }); // Send an error response
     }
   }
 
-  static async list() {
+  // static async list(month, year) {
+  //   try {
+  //     const query = `SELECT * FROM events;`;
+  //     const result = await knex.raw(query);
+  //     return result.rows.map((rawEventData) => new Event(rawEventData));
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
+
+  static async list(month, year) {
     try {
-      const query = `SELECT * FROM events;`;
+      const startOfMonth = new Date(Date.UTC(year, month - 1, 1)); // Note: month is 0-indexed in JavaScript Dates
+      const endOfMonth = new Date(Date.UTC(year, month, 1)); // First day of the next month
+      const startWithBuffer = new Date(startOfMonth);
+      startWithBuffer.setUTCMonth(startWithBuffer.getUTCMonth() - 1); // Subtract 1 month (buffer)
+      const endWithBuffer = new Date(endOfMonth);
+      endWithBuffer.setUTCMonth(endWithBuffer.getUTCMonth() + 1); // Add 1 month (buffer)
+      const startDateString = startWithBuffer.toISOString();
+      const endDateString = endWithBuffer.toISOString();
+
+      const query = `
+        SELECT *
+        FROM events
+        WHERE start_date <= '${endDateString}' AND end_date >= '${startDateString}'
+      `;
       const result = await knex.raw(query);
       return result.rows.map((rawEventData) => new Event(rawEventData));
     } catch (error) {
-      next(error);
+      console.error("Error in route handler:", error); // Log the error
+      res.status(500).json({ error: 'Failed to retrieve events' }); // Send an error response
     }
   }
 
@@ -78,7 +103,9 @@ class Event {
       const rawEventData = result.rows[0];
       return rawEventData ? new Event(rawEventData) : null;
     } catch (error) {
-      next(error);
+      console.error("Error in route handler:", error); // Log the error
+      res.status(500).json({ error: 'Failed to find event.' }); // Send an error response
+
     }
   }
 
@@ -106,7 +133,9 @@ class Event {
     try {
       return knex('events').del();
     } catch (error) {
-      next(error);
+      console.error("Error in route handler:", error); // Log the error
+      res.status(500).json({ error: 'Failed to delete all event rows.' }); // Send an error response
+
     }
   }
 }

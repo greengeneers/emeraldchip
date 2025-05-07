@@ -8,6 +8,11 @@ export const deleteOptions = {
   credentials: 'include',
 };
 
+export const postOptions = {
+  method: 'POST',
+  credentials: 'include',
+}
+
 export const getPostOptions = (body) => ({
   method: 'POST',
   credentials: 'include',
@@ -30,10 +35,10 @@ export const fetchHandler = async (url, options = {}) => {
     const response = await fetch(url, options);
     const { ok, status, headers } = response;
     if (!ok) throw new Error(`Fetch failed with status - ${status}`, { cause: status });
-    
+
     const isJson = (headers.get('content-type') || '').includes('application/json');
     const responseData = await (isJson ? response.json() : response.text());
-    
+
     return [responseData, null];
   } catch (error) {
     console.warn(error);
@@ -42,6 +47,6 @@ export const fetchHandler = async (url, options = {}) => {
 };
 
 export const patchRequest = async (url, body) => {
-  const options = getPatchOptions(body); 
-  return await fetchHandler(url, options); 
+  const options = getPatchOptions(body);
+  return await fetchHandler(url, options);
 };
