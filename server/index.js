@@ -16,6 +16,8 @@ const logErrors = require('./middleware/logErrors');
 // controller imports
 const authControllers = require('./controllers/authControllers');
 const userControllers = require('./controllers/userControllers');
+const eventControllers = require('./controllers/eventControllers');
+const rsvpControllers = require('./controllers/rsvpControllers');
 const dashboardControllers = require('./controllers/dashboardController.js');
 
 const app = express();
@@ -45,16 +47,19 @@ app.get('/api/users', checkAuthentication, userControllers.listUsers);
 app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
 app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
 
+// EVENT ENDPOINTS:
+app.get('/api/events', checkAuthentication, eventControllers.listEvents);
+app.get('/api/events/:id', checkAuthentication, eventControllers.showEventById);
+app.get('/api/events/:name', checkAuthentication, eventControllers.showEventByName);
+
+// RSVP ENDPOINTS:
+app.get('/api/rsvp', checkAuthentication, rsvpControllers.listRsvp);
+app.post('/api/rsvp/:eventId', checkAuthentication, rsvpControllers.addRsvp);
+app.delete('/api/rsvp/:eventId', checkAuthentication, rsvpControllers.removeRsvp);
+
+// Test Modal
 app.get('/api/test-modal', userControllers.testModal);
 app.patch('/api/test-modal', userControllers.testModal);
-// app.get('/test-modal', (req, res) => {
-//   res.json({
-//     id: 1,
-//     name: 'Jose Castle',
-//     email: 'Josec@example.com',
-//     zipcode: '12345',
-//   });
-// });
 
 ///////////////////////////////
 // Dashboard Routes

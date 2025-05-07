@@ -15,7 +15,6 @@ exports.seed = async (knex) => {
   await knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 1');
   await knex.raw('ALTER SEQUENCE donations_id_seq RESTART WITH 1');
   await knex.raw('ALTER SEQUENCE events_id_seq RESTART WITH 1');
-  await knex.raw('ALTER SEQUENCE rsvp_id_seq RESTART WITH 1');
 
   // Seed Users
   const firstUser = await User.create(
@@ -179,13 +178,4 @@ exports.seed = async (knex) => {
 
   await knex.raw(rsvpQuery, [secondUser.id, firstEvent.rows[0].id]);
   await knex.raw(rsvpQuery, [secondUser.id, secondEvent.rows[0].id]);
-
-  await knex.raw(rsvpQuery, [thirdUser.id, firstEvent.rows[0].id]);
-  await knex.raw(rsvpQuery, [thirdUser.id, secondEvent.rows[0].id]);
-
-  await knex.raw(rsvpQuery, [fourthUser.id, firstEvent.rows[0].id]);
-  await knex.raw(rsvpQuery, [fourthUser.id, secondEvent.rows[0].id]);
-
-  await knex.raw(rsvpQuery, [fifthUser.id, firstEvent.rows[0].id]);
-  await knex.raw(rsvpQuery, [fifthUser.id, secondEvent.rows[0].id]);
 };
