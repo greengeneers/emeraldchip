@@ -1,19 +1,19 @@
-import LandingAbout from '../components/Landing/LandingAbout.jsx';
-import LandingFooter from '../components/Landing/LandingFooter.jsx';
-import LandingHeader from '../components/Landing/LandingHeader.jsx';
-import LandingHero from '../components/Landing/LandingHero.jsx';
-import LandingSplitter from '../components/Landing/LandingSplitter.jsx';
 import '../styles/Landing.css';
+import Hero from '../components/Landing/Hero.jsx';
+import Header from '../components/Landing/Header.jsx';
+import Splitter from '../components/Landing/Splitter.jsx';
+import About from '../components/Landing/About.jsx';
+import Footer from '../components/Landing/Footer.jsx';
 
 const Landing = () => {
   return (
     <div id="landing">
-      <LandingHeader />
-      <LandingHero />
-      <LandingSplitter />
-      <LandingAbout />
-      <LandingSplitter />
-      <LandingFooter />
+      <Header />
+      <Hero />
+      <Splitter />
+      <About />
+      <Splitter />
+      <Footer />
     </div>
   );
 };

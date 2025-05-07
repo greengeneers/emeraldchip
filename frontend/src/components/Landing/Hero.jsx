@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import heroImage from '../../assets/images/hero.png';
 
-const LandingHero = () => {
+const Hero = () => {
   return (
     <section className="landing-hero">
       <div className="hero-image-container">
@@ -29,4 +29,4 @@ const LandingHero = () => {
   );
 };
 
-export default LandingHero;
+export default Hero;

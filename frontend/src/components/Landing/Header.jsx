@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import Logo from '../Logo.jsx';
 
-const LandingHeader = () => {
+const Header = () => {
   return (
     <header className="landing-header">
       <div className="logo-title-container">
@@ -21,4 +21,4 @@ const LandingHeader = () => {
   );
 };
 
-export default LandingHeader;
+export default Header;

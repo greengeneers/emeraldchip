@@ -1,6 +1,6 @@
 import Logo from '../Logo.jsx';
 
-const LandingSplitter = () => {
+const Splitter = () => {
   return (
     <section className="landing-splitter">
       <Logo />
@@ -8,4 +8,4 @@ const LandingSplitter = () => {
   );
 };
 
-export default LandingSplitter;
+export default Splitter;

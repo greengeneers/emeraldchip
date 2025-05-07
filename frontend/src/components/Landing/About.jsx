@@ -23,7 +23,7 @@ const cards = [
   },
 ];
 
-const LandingAbout = () => {
+const About = () => {
   return (
     <section id="landing-about">
       <div className="about-cards-container">
@@ -43,4 +43,4 @@ const LandingAbout = () => {
   );
 };
 
-export default LandingAbout;
+export default About;

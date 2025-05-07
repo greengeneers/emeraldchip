@@ -1,4 +1,4 @@
-const LandingFooter = () => {
+const Footer = () => {
   return (
     <footer className="landing-footer">
       <p>&copy; 2025 Emerald Chip. All rights reserved.</p>
@@ -6,4 +6,4 @@ const LandingFooter = () => {
   );
 };
 
-export default LandingFooter;
+export default Footer;
