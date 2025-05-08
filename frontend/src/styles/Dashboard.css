@@ -117,13 +117,7 @@
 
 /* OVERVIEW - RECENT DONATION & UPCOMING EVENTS */
 
-.donations-events-container {
-  height: 100%;
-}
-
-/* OVERVIEW - RECENT DONATION */
-
-#recent-donations {
+.donations-events {
   width: 50%;
   height: 100%;
   background-color: var(--background);
@@ -134,24 +128,33 @@
   gap: var(--gap-md);
 }
 
-.recent-donations-heading {
+.donations-events-container {
+  height: 100%;
+  display: flex;
+  gap: var(--gap-md);
+}
+
+.donations-events-heading {
   display: flex;
   justify-content: space-between;
 }
 
-.recent-donations-view-all {
+.donations-events-view-all,
+.add-to-calendar {
   background-color: transparent;
   border: none;
   font-size: var(--font-xl);
   color: var(--primary);
 }
 
-.recent-donations-list {
+.donations-events-list {
   display: flex;
   flex-direction: column;
   gap: var(--gap-md);
   height: 100%;
 }
+
+/* OVERVIEW - RECENT DONATION */
 
 .recent-donation {
   display: flex;
@@ -174,7 +177,6 @@
   width: 200px;
   height: 150px;
   object-fit: cover;
-  border-radius: var(--radius-lg);
 }
 
 .recent-donation-date {
@@ -202,4 +204,62 @@
 .new-donation-button:hover,
 .new-donation-button:focus {
   opacity: var(--opacity);
+}
+
+/* OVERVIEW - EVENTS */
+
+.event-item {
+  padding: var(--padding-md);
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--gap-md);
+  border-bottom: 2px solid var(--border);
+  width: 100%;
+}
+
+.event-data-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+}
+
+.event-day-data-container {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-md);
+}
+
+.event-item-day {
+  font-size: var(--font-5xl);
+  text-align: center;
+  width: 50px;
+}
+
+.event-data-container {
+  display: flex;
+}
+
+.event-data-title {
+  display: flex;
+  gap: var(--gap-md);
+  font-size: var(--font-2xl);
+  font-weight: bold;
+}
+
+.event-address-container,
+.event-last-updated-container {
+  display: flex;
+  gap: var(--gap-md);
+  align-items: center;
+  font-size: var(--font-xl);
+}
+
+.event-address-container svg {
+  font-size: var(--font-xl);
+}
+
+.event-item .add-to-calendar {
+  text-align: right;
 }

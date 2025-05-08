@@ -6,12 +6,12 @@ const statusColor = {
 
 const RecentDonations = ({ donations }) => {
   return (
-    <div id="recent-donations">
-      <div className="recent-donations-heading">
-        <h1 className="recent-donations-title">Recent Donations</h1>
-        <button className="recent-donations-view-all">View All</button>
+    <div id="recent-donations" className="donations-events">
+      <div className="donations-events-heading">
+        <h1 className="donations-events-title">Recent Donations</h1>
+        <button className="donations-events-view-all">View All</button>
       </div>
-      <ul className="recent-donations-list">
+      <ul className="donations-events-list">
         {donations.map((donation) => (
           <li className="recent-donation" key={donation.id}>
             <img

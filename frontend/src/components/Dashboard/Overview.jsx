@@ -30,8 +30,6 @@ const Overview = () => {
     return null;
   }
 
-  // TODO: instead of passing down the entire data object, only provide the components what they need.
-
   return (
     <div id="overview">
       <div className="greet-container">
