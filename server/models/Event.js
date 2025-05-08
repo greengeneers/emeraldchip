@@ -47,8 +47,8 @@ class Event {
       const rawEventData = result.rows[0];
       return new Event(rawEventData);
     } catch (error) {
-      console.error("Error in route handler:", error); // Log the error
-      res.status(500).json({ error: 'Failed to create event' }); // Send an error response
+      console.error("Error in route handler:", error);
+      res.status(500).json({ error: 'Failed to create event' });
     }
   }
 
@@ -81,8 +81,8 @@ class Event {
       const result = await knex.raw(query);
       return result.rows.map((rawEventData) => new Event(rawEventData));
     } catch (error) {
-      console.error("Error in route handler:", error); // Log the error
-      res.status(500).json({ error: 'Failed to retrieve events' }); // Send an error response
+      console.error("Error in route handler:", error);
+      res.status(500).json({ error: 'Failed to create event' });
     }
   }
 
@@ -103,9 +103,8 @@ class Event {
       const rawEventData = result.rows[0];
       return rawEventData ? new Event(rawEventData) : null;
     } catch (error) {
-      console.error("Error in route handler:", error); // Log the error
-      res.status(500).json({ error: 'Failed to find event.' }); // Send an error response
-
+      console.error("Error in route handler:", error);
+      res.status(500).json({ error: 'Failed to create event' });
     }
   }
 
@@ -133,9 +132,8 @@ class Event {
     try {
       return knex('events').del();
     } catch (error) {
-      console.error("Error in route handler:", error); // Log the error
-      res.status(500).json({ error: 'Failed to delete all event rows.' }); // Send an error response
-
+      console.error("Error in route handler:", error);
+      res.status(500).json({ error: 'Failed to create event' });
     }
   }
 }
