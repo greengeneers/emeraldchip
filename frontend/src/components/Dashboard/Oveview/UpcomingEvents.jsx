@@ -1,6 +1,14 @@
 import { FaLocationDot, FaRegClock } from 'react-icons/fa6';
+import { addRsvp, removeRsvp } from '../../../adapters/rsvp-adapter.js';
 
 const UpcomingEvents = ({ events }) => {
+  const handleAddRsvp = async (eventId) => {
+    await addRsvp(eventId);
+  };
+  const handleRemoveRsvp = async (eventId) => {
+    await removeRsvp(eventId);
+  };
+
   return (
     <div id="upcoming-events" className="donations-events">
       <div className="donations-events-heading">
@@ -57,11 +65,19 @@ const UpcomingEvents = ({ events }) => {
             </div>
 
             {event['is_user_registered'] ? (
-              <button className="event-calendar-button danger">
+              <button
+                className="event-calendar-button danger"
+                onClick={() => removeRsvp(event.id)}
+              >
                 Remove From Calendar
               </button>
             ) : (
-              <button className="event-calendar-button">Add to Calendar</button>
+              <button
+                className="event-calendar-button success"
+                onClick={() => addRsvp(event.id)}
+              >
+                Add to Calendar
+              </button>
             )}
           </li>
         ))}
