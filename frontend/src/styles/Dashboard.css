@@ -140,7 +140,7 @@
 }
 
 .donations-events-view-all,
-.add-to-calendar {
+.event-calendar-button {
   background-color: transparent;
   border: none;
   font-size: var(--font-xl);
@@ -260,6 +260,6 @@
   font-size: var(--font-xl);
 }
 
-.event-item .add-to-calendar {
+.event-calendar-button {
   text-align: right;
 }
