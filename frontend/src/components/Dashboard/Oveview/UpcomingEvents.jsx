@@ -56,7 +56,13 @@ const UpcomingEvents = ({ events }) => {
               </div>
             </div>
 
-            <button className="add-to-calendar">Add to Calendar</button>
+            {event['is_user_registered'] ? (
+              <button className="event-calendar-button danger">
+                Remove From Calendar
+              </button>
+            ) : (
+              <button className="event-calendar-button">Add to Calendar</button>
+            )}
           </li>
         ))}
       </ul>
