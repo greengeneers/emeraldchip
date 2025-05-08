@@ -52,6 +52,7 @@ html {
   /* Global Colors */
   --text-dark-mode: #f5f5f5;
   --text-light-mode: #000000;
+  --success: #3da733;
   --danger: #ee4b2b;
 
   /* Light Mode Colors */
@@ -78,6 +79,10 @@ html {
   --primary: #69968c;
   --accent: #626262;
   --border: rgba(255, 255, 255, 0.1);
+}
+
+.success {
+  color: var(--success) !important;
 }
 
 .danger {
