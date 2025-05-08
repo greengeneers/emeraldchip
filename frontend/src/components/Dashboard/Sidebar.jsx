@@ -1,27 +1,9 @@
 import Logo from '../Logo.jsx';
-
-const links = [
-  {
-    title: 'Overview',
-    state: 'overview',
-  },
-  {
-    title: 'My Donations',
-    state: 'donations',
-  },
-  {
-    title: 'Events',
-    state: 'events',
-  },
-  {
-    title: 'My Impact',
-    state: 'impact',
-  },
-];
+import { links } from './constants.js';
 
 const Sidebar = ({ currentTab, setCurrentTab }) => {
   return (
-    <header className="dashboard-sidebar">
+    <div className="dashboard-sidebar">
       <div className="sidebar-logo-container">
         <Logo />
       </div>
@@ -30,17 +12,18 @@ const Sidebar = ({ currentTab, setCurrentTab }) => {
           {links.map((link) => (
             <button
               className={`sidebar-button ${
-                currentTab === link.state ? 'sidebar-active-button' : null
+                currentTab.state === link.state ? 'sidebar-active-button' : null
               }`}
-              onClick={() => setCurrentTab(link.state)}
+              onClick={() => setCurrentTab(link)}
               key={link.state}
             >
+              <span>{<link.icon />}</span>
               {link.title}
             </button>
           ))}
         </ul>
       </nav>
-    </header>
+    </div>
   );
 };
 
