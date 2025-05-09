@@ -68,7 +68,7 @@ app.patch('/api/test-modal', userControllers.testModal);
 app.get(
   '/api/dashboard',
   checkAuthentication,
-  dashboardControllers.showOverview
+  dashboardControllers.showOverview,
 );
 
 ///////////////////////////////
@@ -83,8 +83,6 @@ app.get('*', (req, res, next) => {
 });
 
 app.use(logErrors);
-
-
 
 ///////////////////////////////
 // Start Listening

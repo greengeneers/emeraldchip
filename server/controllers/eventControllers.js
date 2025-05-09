@@ -8,8 +8,8 @@ exports.listEvents = async (req, res) => {
   const events = await Event.list();
   if (!events) {
     res.status(404).send({
-      message: 'Error fetching resource.'
-    })
+      message: 'Error fetching resource.',
+    });
   }
   res.send(events);
 };

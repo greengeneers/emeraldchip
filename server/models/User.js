@@ -70,16 +70,28 @@ class User {
 
   // Updates the user that matches the given id with a new username.
   // Returns the modified user, using the constructor to hide the passwordHash.
-  static async update(id, name, email, zipCode) {
+  static async update(id, username, email, name, zipCode) {
     const query = `
       UPDATE users
       SET username=?, email=?, name=?, zip_code=?
       WHERE id=?
       RETURNING *
     `;
-    const result = await knex.raw(query, [name, email, name, zipCode, id]);
+    const result = await knex.raw(query, [username, email, name, zipCode, id]);
     const rawUpdatedUser = result.rows[0];
     return rawUpdatedUser ? new User(rawUpdatedUser) : null;
+  }
+
+  static async login(username, password) {
+    const query = `SELECT * FROM users WHERE username = ?`;
+    const result = await knex.raw(query, [username]);
+    const rawUserData = result.rows[0];
+    if (!rawUserData) return null;
+
+    const isPasswordValid = await bcrypt.compare(password, rawUserData.password_hash);
+    if (!isPasswordValid) return null;
+
+    return new User(rawUserData);
   }
 
   static async deleteAll() {
