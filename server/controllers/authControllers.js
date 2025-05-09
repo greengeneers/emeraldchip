@@ -7,7 +7,7 @@ exports.registerUser = async (req, res) => {
   }
 
   // Body needs a username and password
-  const {username, email, name, password, zip_code} = req.body;
+  const { username, email, name, password, zip_code } = req.body;
   if (!username || !password) {
     return res.status(400).send({ message: 'Username, email, name, password, and zip_code required' });
   }
@@ -48,7 +48,6 @@ exports.loginUser = async (req, res) => {
   req.session.userId = user.id;
   res.send(user);
 };
-
 
 exports.showMe = async (req, res) => {
   // no cookie with an id => Not authenticated.

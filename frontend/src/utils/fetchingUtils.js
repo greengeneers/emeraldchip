@@ -47,6 +47,6 @@ export const fetchHandler = async (url, options = {}) => {
 };
 
 export const patchRequest = async (url, body) => {
-  const options = getPatchOptions(body);
-  return await fetchHandler(url, options);
+  const options = getPatchOptions(body); 
+  return await fetchHandler(url, options); 
 };

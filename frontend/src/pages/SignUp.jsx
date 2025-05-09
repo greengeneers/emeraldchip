@@ -3,26 +3,40 @@ import { useNavigate, Navigate, Link } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { registerUser } from "../adapters/auth-adapter";
 
-// Controlling the sign up form is a good idea because we want to add (eventually)
-// more validation and provide real time feedback to the user about usernames and passwords
 export default function SignUpPage() {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [errorText, setErrorText] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [zipCode, setZipCode] = useState('');
+  const [usernameWarning, setUsernameWarning] = useState('');
+  const [zipCodeWarning, setZipCodeWarning] = useState('');
+  const [passwordWarning, setPasswordWarning] = useState(''); 
 
-  // users shouldn't be able to see the sign up page if they are already logged in.
-  // if the currentUser exists in the context, navigate the user to 
-  // the /users/:id page for that user, using the currentUser.id value
   if (currentUser) return <Navigate to={`/users/${currentUser.id}`} />;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorText('');
-    if (!username || !password) return setErrorText('Missing username or password');
 
-    const [user, error] = await registerUser({ username, password });
+    if (!username || !password || !email || !name || !zipCode) {
+      return setErrorText('All fields are required');
+    }
+
+    if (usernameWarning || zipCodeWarning) {
+      return setErrorText('Please fix the validation errors before submitting');
+    }
+
+    const [user, error] = await registerUser({
+      username,
+      password,
+      email,
+      name,
+      zip_code: zipCode,
+    });
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
@@ -31,42 +45,109 @@ export default function SignUpPage() {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    if (name === 'username') setUsername(value);
+
+    if (name === 'username') {
+      if (value.length < 3) {
+        setUsernameWarning('Username must be at least 3 characters long');
+      } else if (value.length > 15) {
+        setUsernameWarning('Username must not exceed 15 characters');
+      } else {
+        setUsernameWarning('');
+      }
+      setUsername(value);
+    }
+
+    if (name === 'zipCode') {
+      if (!/^\d*$/.test(value)) {
+        setZipCodeWarning('ZIP code must contain only numbers');
+      } else if (value.length !== 5) {
+        setZipCodeWarning('ZIP code must be exactly 5 characters long');
+      } else {
+        setZipCodeWarning('');
+      }
+      setZipCode(value);
+    }
+    if (name === 'password') {
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(value)) {
+        setPasswordWarning(
+          'Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character'
+        );
+      } else {
+        setPasswordWarning('');
+      }
+      setPassword(value);
+    }
+
     if (name === 'password') setPassword(value);
+    if (name === 'email') setEmail(value);
+    if (name === 'name') setName(value);
   };
 
-  return <>
-    <h1>Sign Up</h1>
-    <form onSubmit={handleSubmit} onChange={handleChange} aria-labelledby="create-heading">
-      <h2 id="create-heading">Create New User</h2>
-      <label htmlFor="username">Username</label>
-      <input
-        autoComplete="off"
-        type="text"
-        id="username"
-        name="username"
-        onChange={handleChange}
-        value={username}
-      />
+  return (
+    <>
+      <h1>Sign Up</h1>
+      <form onSubmit={handleSubmit} aria-labelledby="create-heading">
+        <h2 id="create-heading">Create New User</h2>
+        
+        <label htmlFor="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value={username}
+          onChange={handleChange}
+          autoComplete="off"
+        />
+        {usernameWarning && <p style={{ color: 'red' }}>{usernameWarning}</p>}
 
-      <label htmlFor="password">Password</label>
-      <input
-        autoComplete="off"
-        type="password"
-        id="password"
-        name="password"
-        onChange={handleChange}
-        value={password}
-      />
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={email}
+          onChange={handleChange}
+        />
 
-      {/* In reality, we'd want a LOT more validation on signup, so add more things if you have time
-        <label htmlFor="password-confirm">Password Confirm</label>
-        <input autoComplete="off" type="password" id="password-confirm" name="passwordConfirm" />
-      */}
+        <label htmlFor="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={name}
+          onChange={handleChange}
+        />
 
-      <button>Sign Up Now!</button>
-    </form>
-    {!!errorText && <p>{errorText}</p>}
-    <p>Already have an account with us? <Link to="/login">Log in!</Link></p>
-  </>;
+        <label htmlFor="zipCode">ZIP Code</label>
+        <input
+          type="text"
+          id="zipCode"
+          name="zipCode"
+          value={zipCode}
+          onChange={handleChange}
+        />
+        {zipCodeWarning && <p style={{ color: 'red' }}>{zipCodeWarning}</p>}
+
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={password}
+          onChange={handleChange}
+          autoComplete="off"
+        />
+        {passwordWarning && <p style={{ color: 'red' }}>{passwordWarning}</p>}
+
+        <button type="submit" disabled={!!usernameWarning || !!zipCodeWarning || !!passwordWarning}>
+          Sign Up Now!
+        </button>
+      </form>
+
+      {!!errorText && <p>{errorText}</p>}
+
+      <p>Already have an account? <Link to="/login">Log in!</Link></p>
+    </>
+  );
 }
