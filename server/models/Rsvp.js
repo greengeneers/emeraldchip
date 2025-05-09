@@ -15,7 +15,8 @@ class Rsvp {
         const result = await knex.raw(query);
         return result.rows;
       } catch (error) {
-        next(error);
+        console.error("Error in route handler:", error);
+        res.status(500).json({ error: 'Failed to create event' });
       }
     }
 
@@ -39,7 +40,8 @@ class Rsvp {
       const success = result.rows[0];
       return success ? true : false;
     } catch(error) {
-      next(error);
+      console.error("Error in route handler:", error);
+      res.status(500).json({ error: 'Failed to create event' });
     }
   }
 
@@ -60,7 +62,8 @@ class Rsvp {
       const result = await knex.raw(query, [userId, eventId]);
       return result.rowCount > 0; // if any changes made
     } catch (error) {
-      next(error);
+      console.error("Error in route handler:", error);
+      res.status(500).json({ error: 'Failed to create event' });
     }
   }
 
@@ -68,7 +71,8 @@ class Rsvp {
     try {
       return knex('rsvp').del();
     } catch (error) {
-      next(error);
+      console.error("Error in route handler:", error);
+      res.status(500).json({ error: 'Failed to create event' });
     }
   }
 }

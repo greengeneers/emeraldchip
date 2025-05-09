@@ -43,12 +43,16 @@ exports.showOverview = async (req, res, next) => {
 
     const recentEventsResult = await knex.raw(
       `
-      SELECT *
-      FROM events
-      WHERE end_date > NOW()
-      ORDER BY start_date ASC
+      SELECT e.*, 
+            CASE WHEN r.donor_id IS NOT NULL THEN true ELSE false END AS is_user_registered
+      FROM events e
+      LEFT JOIN rsvp r 
+        ON e.id = r.event_id AND r.donor_id = ?
+      WHERE e.end_date > NOW()
+      ORDER BY e.start_date ASC
       LIMIT 2
-      `
+      `,
+      [user]
     );
     const recentEvents = recentEventsResult.rows;
 

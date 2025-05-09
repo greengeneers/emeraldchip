@@ -48,7 +48,7 @@ app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
 app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
 
 // EVENT ENDPOINTS:
-app.get('/api/events', checkAuthentication, eventControllers.listEvents);
+app.get('/api/events/:yearMonth', checkAuthentication, eventControllers.listEvents);
 app.get('/api/events/:id', checkAuthentication, eventControllers.showEventById);
 app.get('/api/events/:name', checkAuthentication, eventControllers.showEventByName);
 

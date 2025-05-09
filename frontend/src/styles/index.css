@@ -52,14 +52,15 @@ html {
   /* Global Colors */
   --text-dark-mode: #f5f5f5;
   --text-light-mode: #000000;
+  --success: #3da733;
+  --danger: #ee4b2b;
 
   /* Light Mode Colors */
   --text: var(--text-light-mode);
   --secondary-text: var(--text-dark-mode);
   --background: #f5f5f5;
-  --primary: linear-gradient(to bottom, #3c6765 0%, #c0f5a7 100%);
-  --secondary: #49756c;
-  --accent: #edeeef;
+  --primary: #49756c;
+  --accent: #c9c9c9;
   --border: rgba(0, 0, 0, 0.1);
 
   /* Initial value of gutters */
@@ -67,7 +68,7 @@ html {
 
   --opacity: 0.7;
   --underline-offset: 5px;
-  --desktop-max-width: 1200px;
+  --desktop-max-width: 1600px;
 }
 
 .dark {
@@ -75,10 +76,21 @@ html {
   --text: var(--text-dark-mode);
   --secondary-text: var(--text-light-mode);
   --background: #252525;
-  --primary: linear-gradient(to bottom, #3c6765 0%, #c0f5a7 100%);
-  --secondary: #69968c;
+  --primary: #69968c;
   --accent: #626262;
   --border: rgba(255, 255, 255, 0.1);
+}
+
+.success {
+  color: var(--success) !important;
+}
+
+.danger {
+  color: var(--danger) !important;
+}
+
+.colored-text {
+  color: var(--primary);
 }
 
 body {
@@ -89,23 +101,7 @@ body {
 }
 
 section {
-  border-top: 1px solid var(--border);
   gap: var(--gap-lg);
-}
-
-header {
-  border-bottom: 1px solid var(--accent);
-}
-
-footer {
-  border-top: 1px solid var(--accent);
-}
-
-.gradient-text {
-  background: var(--primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text; /* for future support in Firefox and others */
 }
 
 a {
@@ -128,6 +124,7 @@ header,
 section,
 footer {
   padding: var(--gutters);
+  max-width: var(--desktop-max-width);
 }
 
 /* Small devices and most phones */
