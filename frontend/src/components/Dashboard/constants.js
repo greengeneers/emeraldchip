@@ -23,11 +23,10 @@ export const links = [
     state: 'impact',
     icon: FaAward,
   },
-
-  {
-    title: 'My Profile',
-    state: 'profile',
-    icon: FaUser,
-  },
-
 ];
+
+export const profile = {
+  title: 'My Profile',
+  state: 'profile',
+  icon: FaUser,
+};

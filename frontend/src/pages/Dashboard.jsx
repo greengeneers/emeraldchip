@@ -35,7 +35,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <Sidebar currentTab={currentTab} setCurrentTab={handleTabChange} />
+      <Sidebar currentTab={currentTab} setCurrentTab={handleTabChange} setIsModalOpen={setIsModalOpen} />
       <Content currentTab={currentTab} />
 
       {/* Modal for profile update */}
