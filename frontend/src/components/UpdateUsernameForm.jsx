@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { patchRequest } from '../utils/fetchingUtils';
 
-const ProfileModal = ({ userId, onClose }) => {
+const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -11,9 +11,8 @@ const ProfileModal = ({ userId, onClose }) => {
     email: '',
     zipCode: '',
   });
-  const [zipCodeWarning, setZipCodeWarning] = useState(''); // warning message state
+  const [zipCodeWarning, setZipCodeWarning] = useState('');
 
-  // Fetch user data when the component mounts
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -38,18 +37,6 @@ const ProfileModal = ({ userId, onClose }) => {
 
     fetchUser();
   }, []);
-
-  // Sync formData with user state whenever user changes
-  useEffect(() => {
-    if (user) {
-      setFormData({
-        username: user.username || '',
-        name: user.name || '',
-        email: user.email || '',
-        zipCode: user.zipCode || '',
-      });
-    }
-  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -83,8 +70,8 @@ const ProfileModal = ({ userId, onClose }) => {
         throw new Error('Failed to update user data');
       }
 
-      // Update the user state with the new data
       setUser(data);
+      setCurrentUser(data); 
 
       // Exit editing mode
       setIsEditing(false);
@@ -103,57 +90,70 @@ const ProfileModal = ({ userId, onClose }) => {
         <h1>Profile</h1>
         {isEditing ? (
           <form onSubmit={handleSave}>
-            <label htmlFor="username">Username:</label>
-            <input
-              id="username"
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-            />
-            <label htmlFor="name">Name:</label>
-            <input
-              id="name"
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            <label htmlFor="email">Email:</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            <label htmlFor="zipCode">Zip Code:</label>
-            <input
-              id="zipCode"
-              type="text"
-              name="zipCode"
-              value={formData.zipCode}
-              onChange={handleChange}
-            />
-            {zipCodeWarning && <p style={{ color: 'red' }}>{zipCodeWarning}</p>}
-            <button type="submit" disabled={zipCodeWarning !== ''}>
-              Save
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setIsEditing(false);
-                setFormData({
-                  username: user.username || '',
-                  name: user.name || '',
-                  email: user.email || '',
-                  zipCode: user.zipCode || '',
-                });
-                setZipCodeWarning('');
-              }}
-            >
-              Cancel
-            </button>
+            <div className="modal-form-group">
+              <label htmlFor="username">Username:</label>
+              <input
+                id="username"
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                className="modal-input"
+              />
+            </div>
+            <div className="modal-form-group">
+              <label htmlFor="name">Name:</label>
+              <input
+                id="name"
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="modal-input"
+              />
+            </div>
+            <div className="modal-form-group">
+              <label htmlFor="email">Email:</label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="modal-input"
+              />
+            </div>
+            <div className="modal-form-group">
+              <label htmlFor="zipCode">Zip Code:</label>
+              <input
+                id="zipCode"
+                type="text"
+                name="zipCode"
+                value={formData.zipCode}
+                onChange={handleChange}
+                className="modal-input"
+              />
+              {zipCodeWarning && <p style={{ color: 'red' }}>{zipCodeWarning}</p>}
+            </div>
+            <div className="modal-footer">
+              <button type="submit" disabled={zipCodeWarning !== ''} className="modal-save">Save</button>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsEditing(false);
+                  setFormData({
+                    username: user.username || '',
+                    name: user.name || '',
+                    email: user.email || '',
+                    zipCode: user.zipCode || '',
+                  });
+                  setZipCodeWarning('');
+                }}
+                className="modal-edit"
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         ) : (
           <>
@@ -161,10 +161,31 @@ const ProfileModal = ({ userId, onClose }) => {
             <p>Name: {user.name}</p>
             <p>Email: {user.email}</p>
             <p>Zip Code: {user.zipCode}</p>
-            <button onClick={() => setIsEditing(true)}>Edit</button>
+            <div className="modal-footer">
+              <button onClick={() => setIsEditing(true)} className="modal-edit">
+                Edit
+              </button>
+            </div>
           </>
         )}
-        <button onClick={onClose}>Close</button>
+        {/* Logout button */}
+        <button
+          onClick={onLogout}
+          style={{
+            marginTop: '20px',
+            backgroundColor: 'red',
+            color: 'white',
+            padding: '5px 8px',
+            border: 'none',
+            borderRadius: '2px',
+            cursor: 'pointer',
+          }}
+        >
+          Log Out
+        </button>
+        <button onClick={onClose} style={{ marginTop: '10px' }}>
+          Close
+        </button>
       </div>
     </div>
   );
