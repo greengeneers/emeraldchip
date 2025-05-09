@@ -36,6 +36,12 @@
   height: 100%;
 }
 
+.sidebar-navigation {
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+}
+
 .sidebar-links {
   display: flex;
   flex-direction: column;
@@ -62,6 +68,13 @@
   background-color: var(--primary);
   color: var(--secondary-text);
   border: none;
+}
+
+.sidebar-profile-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex-grow: 1;
 }
 
 /* OVERVIEW TAB */
@@ -262,4 +275,116 @@
 
 .event-calendar-button {
   text-align: right;
+}
+/* ProfileModal.*/
+
+/* The modal background */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+/* The modal content box */
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.modal-close-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-label {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.modal-input {
+  padding: 12px;
+  border: 2px solid var(--border);
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: var(--background);
+  color: var(--text);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.modal-button {
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.25s ease;
+}
+
+.modal-save {
+  background-color: var(--primary);
+  color: var(--secondary-text);
+}
+
+.modal-edit {
+  background-color: var(--border);
+  color: var(--text);
+}
+
+.modal-logout {
+  background-color: var(--accent);
+  color: var(--text);
 }

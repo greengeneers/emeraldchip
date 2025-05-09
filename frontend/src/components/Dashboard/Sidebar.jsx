@@ -1,7 +1,11 @@
-import Logo from '../Logo.jsx';
-import { links } from './constants.js';
+import { useContext } from 'react';
+import CurrentUserContext from '../../contexts/current-user-context.js';
 
-const Sidebar = ({ currentTab, setCurrentTab }) => {
+import Logo from '../Logo.jsx';
+import { links, profile } from './constants.js';
+
+const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen }) => {
+  const { currentUser } = useContext(CurrentUserContext); // Access current user context
   return (
     <div className="dashboard-sidebar">
       <div className="sidebar-logo-container">
@@ -23,6 +27,16 @@ const Sidebar = ({ currentTab, setCurrentTab }) => {
           ))}
         </ul>
       </nav>
+      <div className='sidebar-profile-container'>
+        <button
+            className={`sidebar-button profile-button`}
+            onClick={() => setIsModalOpen(true)}
+            key={'profile'}
+        >
+          <span>{<profile.icon />}</span>
+          {currentUser.name.split(' ')[0]}
+        </button>
+      </div>
     </div>
   );
 };
