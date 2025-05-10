@@ -30,7 +30,13 @@ module.exports = {
     'no-alert': 'off',
     camelcase: 'off',
     'consistent-return': 'off',
-    'no-unused-expressions': ["error", { allowTernary: true }],
-    'no-unused-vars': ['error', { argsIgnorePattern: '_|(knex)', destructuredArrayIgnorePattern: '^_' }],
+    'no-unused-expressions': ['error', { allowTernary: true }],
+    'no-unused-vars': [
+      'error',
+      { argsIgnorePattern: '_|(knex)', destructuredArrayIgnorePattern: '^_' },
+    ],
+    'spaced-comment': 'off',
+    'comma-dangle': 'off',
+    'max-len': 'off',
   },
 };
