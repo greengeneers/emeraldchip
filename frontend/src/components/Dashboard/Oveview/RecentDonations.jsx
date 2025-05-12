@@ -4,7 +4,7 @@ const statusColor = {
   Pending: '#EE4B2B	',
 };
 
-const RecentDonations = ({ donations }) => {
+const RecentDonations = ({ donations, handleGetOverview }) => {
   return (
     <div id="recent-donations" className="donations-events">
       <div className="donations-events-heading">
