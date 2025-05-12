@@ -27,7 +27,7 @@ export default function SignUpPage() {
     }
 
     if (usernameWarning || zipCodeWarning) {
-      return setErrorText('Please fix the validation errors before submitting');
+      return setErrorText('Please fix fields before submitting');
     }
 
     const [user, error] = await registerUser({
@@ -67,6 +67,7 @@ export default function SignUpPage() {
       }
       setZipCode(value);
     }
+
     if (name === 'password') {
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       if (!passwordRegex.test(value)) {
@@ -79,18 +80,17 @@ export default function SignUpPage() {
       setPassword(value);
     }
 
-    if (name === 'password') setPassword(value);
     if (name === 'email') setEmail(value);
     if (name === 'name') setName(value);
   };
 
   return (
-    <>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit} aria-labelledby="create-heading">
-        <h2 id="create-heading">Create New User</h2>
+    <div className="signup-page">
+      <h1 className="signup-title">Sign Up</h1>
+      <form onSubmit={handleSubmit} aria-labelledby="create-heading" className="signup-form">
+        <h2 id="create-heading" className="signup-form-heading">Create New User</h2>
         
-        <label htmlFor="username">Username</label>
+        <label htmlFor="username" className="signup-label">Username</label>
         <input
           type="text"
           id="username"
@@ -98,38 +98,42 @@ export default function SignUpPage() {
           value={username}
           onChange={handleChange}
           autoComplete="off"
+          className="signup-input"
         />
-        {usernameWarning && <p style={{ color: 'red' }}>{usernameWarning}</p>}
+        {usernameWarning && <p className="signup-warning">{usernameWarning}</p>}
 
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email" className="signup-label">Email</label>
         <input
           type="email"
           id="email"
           name="email"
           value={email}
           onChange={handleChange}
+          className="signup-input"
         />
 
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name" className="signup-label">Name</label>
         <input
           type="text"
           id="name"
           name="name"
           value={name}
           onChange={handleChange}
+          className="signup-input"
         />
 
-        <label htmlFor="zipCode">ZIP Code</label>
+        <label htmlFor="zipCode" className="signup-label">ZIP Code</label>
         <input
           type="text"
           id="zipCode"
           name="zipCode"
           value={zipCode}
           onChange={handleChange}
+          className="signup-input"
         />
-        {zipCodeWarning && <p style={{ color: 'red' }}>{zipCodeWarning}</p>}
+        {zipCodeWarning && <p className="signup-warning">{zipCodeWarning}</p>}
 
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password" className="signup-label">Password</label>
         <input
           type="password"
           id="password"
@@ -137,17 +141,24 @@ export default function SignUpPage() {
           value={password}
           onChange={handleChange}
           autoComplete="off"
+          className="signup-input"
         />
-        {passwordWarning && <p style={{ color: 'red' }}>{passwordWarning}</p>}
+        {passwordWarning && <p className="signup-warning">{passwordWarning}</p>}
 
-        <button type="submit" disabled={!!usernameWarning || !!zipCodeWarning || !!passwordWarning}>
+        <button
+          type="submit"
+          className="signup-submit-btn"
+          disabled={!!usernameWarning || !!zipCodeWarning || !!passwordWarning}
+        >
           Sign Up Now!
-        </button>
+        </button> 
       </form>
 
-      {!!errorText && <p>{errorText}</p>}
+      {!!errorText && <p className="signup-error">{errorText}</p>}
 
-      <p>Already have an account? <Link to="/login">Log in!</Link></p>
-    </>
+      <p className="signup-login-link">
+        Already have an account? <Link to="/login" className="signup-login-anchor">Log in!</Link>
+      </p>
+    </div>
   );
 }
