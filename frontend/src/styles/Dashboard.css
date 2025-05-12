@@ -277,113 +277,140 @@
 }
 /* ProfileModal.*/
 
-/* The modal background */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 24, 39, 0.5); 
+  backdrop-filter: blur(10px);
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  backdrop-filter: blur(5px);
+  z-index: 9999;
 }
 
-/* The modal content box */
+
 .modal-content {
-  background-color: white;
-  padding: 30px;
-  border-radius: 10px;
-  max-width: 500px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
   width: 100%;
-  height: auto;
-  position: relative;
-  z-index: 1100;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* Modal Header */
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.modal-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--primary);
-}
-
-.modal-close-button {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: var(--text);
+  max-width: 440px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  transition: all 0.3s ease-in-out;
+  font-family: 'Inter', 'Helvetica Neue', sans-serif;
 }
 
 
-.modal-body {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.modal-content h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #1e293b;
 }
+
 
 .modal-form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  margin-bottom: 1.5rem;
 }
 
-.modal-label {
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--text);
+
+.modal-form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: #475569;
 }
+
 
 .modal-input {
-  padding: 12px;
-  border: 2px solid var(--border);
-  border-radius: 5px;
-  font-size: 16px;
-  background-color: var(--background);
-  color: var(--text);
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
 }
+
+.modal-input:focus {
+  outline: none;
+  border-color: #34d399;
+  background-color: #fff;
+  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.25);
+}
+
+
+.modal-form-group p {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  color: #ef4444;
+}
+
 
 .modal-footer {
   display: flex;
-  justify-content: flex-end;
-  gap: 15px;
-  margin-top: 20px;
+  justify-content: flex-start; 
+  gap: 0.75rem;
+  margin-top: 1.5rem;
 }
 
-.modal-button {
-  padding: 12px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  border: none;
-  transition: background 0.25s ease;
-}
-
-.modal-save {
-  background-color: var(--primary);
-  color: var(--secondary-text);
-}
-
+/* Button styling */
+.modal-save,
 .modal-edit {
-  background-color: var(--border);
-  color: var(--text);
+  background-color: #10b981; 
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.modal-logout {
-  background-color: var(--accent);
-  color: var(--text);
+.modal-save:hover,
+.modal-edit:hover {
+  background-color: #059669;
+}
+
+button[onClick]:not(.modal-save):not(.modal-edit) {
+  margin-top: 1.25rem;
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+button[onClick]:not(.modal-save):not(.modal-edit):hover {
+  color: #111827;
+}
+
+
+button[onClick][style*="red"] {
+  background-color: #ef4444;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  transition: background-color 0.3s;
+}
+
+button[onClick][style*="red"]:hover {
+  background-color: #dc2626;
+}
+
+.profile-label {
+  font-weight: bold;
+  margin-right: 8px;
+  display: inline-block;
+  min-width: 90px;
+}
+
+.profile-value {
+ display: inline;
 }
