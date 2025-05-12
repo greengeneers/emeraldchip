@@ -1,5 +1,5 @@
 import Overview from './Overview.jsx';
-import { FaAward, FaBox, FaCalendar, FaChartPie } from 'react-icons/fa6';
+import { FaAward, FaBox, FaCalendar, FaChartPie, FaUser } from 'react-icons/fa6';
 
 export const links = [
   {
@@ -24,3 +24,9 @@ export const links = [
     icon: FaAward,
   },
 ];
+
+export const profile = {
+  title: 'My Profile',
+  state: 'profile',
+  icon: FaUser,
+};
