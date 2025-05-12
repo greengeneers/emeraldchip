@@ -31,7 +31,6 @@ const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen }) => {
         <button
             className={`sidebar-button profile-button`}
             onClick={() => setIsModalOpen(true)}
-            key={'profile'}
         >
           <span>{<profile.icon />}</span>
           {currentUser.name.split(' ')[0]}
