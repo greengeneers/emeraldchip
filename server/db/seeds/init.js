@@ -1,4 +1,7 @@
 /* eslint-disable comma-dangle */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
+
 const User = require('../../models/User.js');
 
 /**
@@ -6,10 +9,12 @@ const User = require('../../models/User.js');
  * @returns { Promise<void> }
  */
 exports.seed = async (knex) => {
-  await knex('rsvp').del();
-  await knex('events').del();
-  await knex('donations').del();
-  await knex('users').del();
+  await Promise.all([
+    knex('rsvp').del(),
+    knex('events').del(),
+    knex('donations').del(),
+    knex('users').del(),
+  ]);
 
   // resets tables' id to 1 each time the seed file is executed.
   await knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 1');
@@ -17,131 +22,107 @@ exports.seed = async (knex) => {
   await knex.raw('ALTER SEQUENCE events_id_seq RESTART WITH 1');
 
   // Seed Users
-  const firstUser = await User.create(
-    'james.miller',
-    'james.miller@email.com',
-    'James Miller',
+
+  await User.create(
+    'johndoe',
+    'johndoe@email.com',
+    'John Doe',
     'securePass42',
     '10001'
-  ); // Manhattan
-  const secondUser = await User.create(
-    'sophia.lee',
-    'sophia.lee@email.com',
-    'Sophia Lee',
-    'sophiaRocks!',
-    '11215'
-  ); // Brooklyn
-  const thirdUser = await User.create(
-    'daniel.williams',
-    'daniel.williams@email.com',
-    'Daniel Williams',
-    'WilliamsPass99',
-    '11373'
-  ); // Queens
-  const fourthUser = await User.create(
-    'emily.jones',
-    'emily.jones@email.com',
-    'Emily Jones',
-    'emJ2025!',
-    '10458'
-  ); // Bronx
-  const fifthUser = await User.create(
-    'michael.smith',
-    'michael.smith@email.com',
-    'Michael Smith',
-    'mikeSecure88',
-    '10314'
-  ); // Staten Island
+  );
 
   // Create
 
   const donationsQuery = `
     INSERT INTO donations
-    (donor_id, title, image_url, description, status)
-    VALUES (?, ?, ?, ?, ?)
+    (donor_id, title, image_url, description, status, weight_lbs, co2_saved_kg)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
     RETURNING *
   `;
 
   const donationsData = [
     {
-      donor_id: firstUser.id,
+      donor_id: 1,
       title: 'Old Smartphone - Samsung Galaxy S8',
-      image_url: 'https://example.com/images/galaxy-s8.jpg',
+      image_url:
+        'https://external-preview.redd.it/found-my-old-s8-in-a-drawer-any-idea-what-i-can-do-with-it-v0-krAruytPlJ5eZJE-qUQC3sfrAqr6zpMc1mdQOi4utnw.png?width=640&crop=smart&format=pjpg&auto=webp&s=78f7a79eda1afd17ffa299ef232e3a3e881c542a',
       description:
         'Used Galaxy S8, screen cracked but still powers on. Ideal for parts or recycling.',
-      status: 'available',
+      status: 'recycled',
+      weight_lbs: 0.342,
     },
     {
-      donor_id: secondUser.id,
+      donor_id: 1,
       title: 'Broken Laptop - HP Pavilion',
-      image_url: 'https://example.com/images/hp-laptop.jpg',
+      image_url:
+        'https://guide-images.cdn.ifixit.com/igi/XtgiKQUFKIfkQ1Si.full',
       description: 'HP Pavilion with damaged motherboard. Hard drive removed.',
-      status: 'available',
+      status: 'In Process',
+      weight_lbs: 3.86,
     },
     {
-      donor_id: thirdUser.id,
+      donor_id: 1,
       title: 'CRT Monitor - 17 inch',
-      image_url: 'https://example.com/images/crt-monitor.jpg',
+      image_url: 'https://i.redd.it/txpcstcupwn91.jpg',
       description:
         'Heavy CRT monitor, works but outdated. Suitable for proper disposal.',
-      status: 'pending',
+      status: 'Pending',
+      weight_lbs: 34.1,
     },
     {
-      donor_id: fourthUser.id,
+      donor_id: 1,
       title: 'Old Printer - Canon Pixma',
-      image_url: 'https://example.com/images/canon-printer.jpg',
+      image_url: 'https://i.ebayimg.com/images/g/cKYAAOSw~mRknzQa/s-l1200.jpg',
       description:
-        'Canon Pixma printer, doesn’t power on. No ink cartridges included.',
-      status: 'available',
+        "Canon Pixma printer, doesn't power on. No ink cartridges included.",
+      status: 'Recycled',
+      weight_lbs: 19.0,
     },
     {
-      donor_id: fifthUser.id,
+      donor_id: 1,
       title: 'Box of Misc Electronic Cables',
-      image_url: 'https://example.com/images/cables.jpg',
+      image_url:
+        'https://i.ebayimg.com/00/s/MTIwMFgxNjAw/z/KOYAAOSwP5pjZppu/$_32.JPG?set_id=880000500F',
       description: 'Mix of HDMI, USB, power cords, and old charging cables.',
-      status: 'claimed',
+      status: 'Pending',
+      weight_lbs: 1.0,
     },
   ];
 
-  await knex.raw(donationsQuery, [
-    donationsData[0].donor_id,
-    donationsData[0].title,
-    donationsData[0].image_url,
-    donationsData[0].description,
-    donationsData[0].status,
-  ]);
+  const CO2_MULTIPLIER = 0.185; // kg CO₂e per lb (EPA/RecycleSmart)
 
-  await knex.raw(donationsQuery, [
-    donationsData[1].donor_id,
-    donationsData[1].title,
-    donationsData[1].image_url,
-    donationsData[1].description,
-    donationsData[1].status,
-  ]);
+  for (const donation of donationsData) {
+    const co2_saved_kg = +(donation.weight_lbs * CO2_MULTIPLIER).toFixed(2);
 
-  await knex.raw(donationsQuery, [
-    donationsData[2].donor_id,
-    donationsData[2].title,
-    donationsData[2].image_url,
-    donationsData[2].description,
-    donationsData[2].status,
-  ]);
+    await knex.raw(donationsQuery, [
+      donation.donor_id,
+      donation.title,
+      donation.image_url,
+      donation.description,
+      donation.status,
+      donation.weight_lbs,
+      co2_saved_kg,
+    ]);
+  }
 
-  await knex.raw(donationsQuery, [
-    donationsData[3].donor_id,
-    donationsData[3].title,
-    donationsData[3].image_url,
-    donationsData[3].description,
-    donationsData[3].status,
-  ]);
-
-  await knex.raw(donationsQuery, [
-    donationsData[4].donor_id,
-    donationsData[4].title,
-    donationsData[4].image_url,
-    donationsData[4].description,
-    donationsData[4].status,
-  ]);
+  const events = [
+    {
+      name: 'E-Waste Collection - Jamaica (Baisley Pond Park)',
+      event_url:
+        'https://www.lesecologycenter.org/calendar/jamaica-baisley-pond-park/',
+      address: 'Baisley Pond Park – 156-10 Baisley Blvd, Rochdale, NY 11434',
+      start_date: new Date('2025-06-23T10:00:00-04:00'),
+      end_date: new Date('2025-06-23T14:00:00-04:00'),
+    },
+    {
+      name: 'E-Waste Collection - Woodhaven (Forest Park)',
+      event_url:
+        'https://www.lesecologycenter.org/calendar/woodhaven-forest-park/',
+      address: 'Forest Park Bandshell Parking Lot, Woodhaven, NY 11421',
+      start_date: new Date('2025-06-01T10:00:00-04:00'),
+      end_date: new Date('2025-06-02T14:00:00-04:00'),
+    },
+  ];
 
   const eventsQuery = `
     INSERT INTO events
@@ -150,21 +131,15 @@ exports.seed = async (knex) => {
     RETURNING *
   `;
 
-  const firstEvent = await knex.raw(eventsQuery, [
-    'E-Waste Collection - Jamaica (Baisley Pond Park)',
-    'https://www.lesecologycenter.org/calendar/jamaica-baisley-pond-park/',
-    'Baisley Pond Park – 156-10 Baisley Blvd, Rochdale, NY 11434',
-    new Date('2025-05-03T10:00:00-04:00'),
-    new Date('2025-05-03T14:00:00-04:00'),
-  ]);
-
-  const secondEvent = await knex.raw(eventsQuery, [
-    'E-Waste Collection - Woodhaven (Forest Park)',
-    'https://www.lesecologycenter.org/calendar/woodhaven-forest-park/',
-    'Forest Park Bandshell Parking Lot, Woodhaven, NY 11421',
-    new Date('2025-05-04T10:00:00-04:00'),
-    new Date('2025-05-04T14:00:00-04:00'),
-  ]);
+  for (const event of events) {
+    await knex.raw(eventsQuery, [
+      event.name,
+      event.event_url,
+      event.address,
+      event.start_date,
+      event.end_date,
+    ]);
+  }
 
   const rsvpQuery = `
     INSERT INTO rsvp
@@ -173,9 +148,5 @@ exports.seed = async (knex) => {
     RETURNING *
   `;
 
-  await knex.raw(rsvpQuery, [firstUser.id, firstEvent.rows[0].id]);
-  await knex.raw(rsvpQuery, [firstUser.id, secondEvent.rows[0].id]);
-
-  await knex.raw(rsvpQuery, [secondUser.id, firstEvent.rows[0].id]);
-  await knex.raw(rsvpQuery, [secondUser.id, secondEvent.rows[0].id]);
+  await Promise.all([knex.raw(rsvpQuery, [1, 1]), knex.raw(rsvpQuery, [1, 2])]);
 };

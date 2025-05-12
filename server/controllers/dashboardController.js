@@ -35,11 +35,25 @@ exports.showOverview = async (req, res, next) => {
       FROM donations
       WHERE donor_id = ?
       ORDER BY created_at DESC
-      LIMIT 3
+      LIMIT 2
       `,
       [user]
     );
     const recentDonations = recentDonationsResult.rows;
+
+    const wasteAndCO2Result = await knex.raw(
+      `
+      SELECT 
+        COALESCE(SUM(weight_lbs), 0) AS total_weight_lbs,
+        COALESCE(SUM(co2_saved_kg), 0) AS total_co2_kg
+      FROM donations
+      WHERE donor_id = ?
+      `,
+      [user]
+    );
+
+    const { total_weight_lbs: totalWasteReduced, total_co2_kg: totalCO2Saved } =
+      wasteAndCO2Result.rows[0];
 
     const recentEventsResult = await knex.raw(
       `
@@ -60,6 +74,8 @@ exports.showOverview = async (req, res, next) => {
       pastEventsCount,
       donationsCount,
       recentDonations,
+      totalWasteReduced,
+      totalCO2Saved,
       recentEvents,
     });
   } catch (err) {

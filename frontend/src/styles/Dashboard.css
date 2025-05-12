@@ -56,6 +56,7 @@
   display: flex;
   align-items: center;
   gap: var(--gap-sm);
+  transition: 0.25s linear;
 }
 
 .sidebar-button svg {
@@ -67,7 +68,6 @@
 .sidebar-active-button {
   background-color: var(--primary);
   color: var(--secondary-text);
-  border: none;
 }
 
 .sidebar-profile-container {
@@ -111,7 +111,6 @@
 .overview-details {
   font-size: var(--font-xl);
   display: flex;
-  gap: var(--gap-md);
   flex-direction: column;
   justify-content: center;
   align-items: center;
