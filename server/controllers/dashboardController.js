@@ -35,7 +35,7 @@ exports.showOverview = async (req, res, next) => {
       FROM donations
       WHERE donor_id = ?
       ORDER BY created_at DESC
-      LIMIT 3
+      LIMIT 2
       `,
       [user]
     );
