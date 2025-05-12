@@ -1,4 +1,3 @@
-/* eslint-disable spaced-comment */
 ///////////////////////////////
 // Imports
 ///////////////////////////////
@@ -48,14 +47,26 @@ app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
 app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
 
 // EVENT ENDPOINTS:
-app.get('/api/events/:yearMonth', checkAuthentication, eventControllers.listEvents);
+app.get(
+  '/api/events/:yearMonth',
+  checkAuthentication,
+  eventControllers.listEvents
+);
 app.get('/api/events/:id', checkAuthentication, eventControllers.showEventById);
-app.get('/api/events/:name', checkAuthentication, eventControllers.showEventByName);
+app.get(
+  '/api/events/:name',
+  checkAuthentication,
+  eventControllers.showEventByName
+);
 
 // RSVP ENDPOINTS:
 app.get('/api/rsvp', checkAuthentication, rsvpControllers.listRsvp);
 app.post('/api/rsvp/:eventId', checkAuthentication, rsvpControllers.addRsvp);
-app.delete('/api/rsvp/:eventId', checkAuthentication, rsvpControllers.removeRsvp);
+app.delete(
+  '/api/rsvp/:eventId',
+  checkAuthentication,
+  rsvpControllers.removeRsvp
+);
 
 // Test Modal
 app.get('/api/test-modal', userControllers.testModal);
@@ -68,7 +79,7 @@ app.patch('/api/test-modal', userControllers.testModal);
 app.get(
   '/api/dashboard',
   checkAuthentication,
-  dashboardControllers.showOverview,
+  dashboardControllers.showOverview
 );
 
 ///////////////////////////////

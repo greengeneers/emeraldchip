@@ -13,12 +13,13 @@ const UpcomingEvents = ({ events }) => {
     <div id="upcoming-events" className="donations-events">
       <div className="donations-events-heading">
         <h1 className="donations-events-title">Upcoming Events</h1>
+
         <button className="donations-events-view-all">View All</button>
       </div>
 
       <ul className="donations-events-list">
         {events.map((event) => (
-          <li className="event-item">
+          <li className="event-item" key={event.id}>
             <div className="event-day-data-container">
               <div className="event-item-day">
                 {new Date(event['start_date']).getDate()}

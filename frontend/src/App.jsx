@@ -1,9 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import Home from './pages/Dashboard.jsx';
+import { Routes, Route } from 'react-router-dom';
 import SignUpPage from './pages/SignUp';
 import LoginPage from './pages/Login';
-import SiteHeadingAndNav from './components/SiteHeadingAndNav';
 import NotFoundPage from './pages/NotFound';
 import UserContext from './contexts/current-user-context';
 import { checkForLoggedInUser } from './adapters/auth-adapter';
@@ -17,7 +15,7 @@ import GuestRoutes from './components/GuestRoutes.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 
 export default function App() {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { setCurrentUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -40,9 +38,11 @@ export default function App() {
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path='/test-modal' element={<ProfileModal onClose={() => window.history.back()} />}
+            <Route
+              path="/test-modal"
+              element={<ProfileModal onClose={() => window.history.back()} />}
             />
-            <Route path='/events' element={<EventsTest />} />
+            <Route path="/events" element={<EventsTest />} />
           </Route>
 
           <Route element={<GuestRoutes />}>

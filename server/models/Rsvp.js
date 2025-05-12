@@ -1,4 +1,4 @@
-
+/* eslint-disable max-len */
 const knex = require('../db/knex');
 
 class Rsvp {
@@ -9,16 +9,20 @@ class Rsvp {
    * @sideEffects:
    *  - Executes a SQL query against the database via `knex.raw()`.
    */
-    static async list() {
-      try {
-        const query = `SELECT * FROM rsvp;`;
-        const result = await knex.raw(query);
-        return result.rows;
-      } catch (error) {
-        console.error("Error in route handler:", error);
-        res.status(500).json({ error: 'Failed to create event' });
-      }
+  static async list(userId) {
+    try {
+      const query = `
+        SELECT * FROM rsvp
+        WHERE donor_id = ?
+      `;
+
+      const result = await knex.raw(query, [userId]);
+
+      return result.rows;
+    } catch (error) {
+      console.error('Error in Rsvp.list():', error);
     }
+  }
 
   /**
    * Handles the logic to connect a user (donor) to an event in the `rsvp` linking table. It inserts a new record into the `rsvp` table, associating the user with the event.
@@ -36,12 +40,12 @@ class Rsvp {
         ON CONFLICT (donor_id, event_id) DO NOTHING
         RETURNING *;
       `;
+
       const result = await knex.raw(query, [userId, eventId]);
-      const success = result.rows[0];
-      return success ? true : false;
-    } catch(error) {
-      console.error("Error in route handler:", error);
-      res.status(500).json({ error: 'Failed to create event' });
+
+      return !!result.rows[0];
+    } catch (error) {
+      console.error('Error in Rsvp.add():', error.stack);
     }
   }
 
@@ -60,10 +64,9 @@ class Rsvp {
         RETURNING *;
       `;
       const result = await knex.raw(query, [userId, eventId]);
-      return result.rowCount > 0; // if any changes made
+      return !!result.rowCount;
     } catch (error) {
-      console.error("Error in route handler:", error);
-      res.status(500).json({ error: 'Failed to create event' });
+      console.error('Error in Rsvp.remove()', error);
     }
   }
 
@@ -71,8 +74,7 @@ class Rsvp {
     try {
       return knex('rsvp').del();
     } catch (error) {
-      console.error("Error in route handler:", error);
-      res.status(500).json({ error: 'Failed to create event' });
+      console.error('Error in Rsvp.deleteAll()', error);
     }
   }
 }
