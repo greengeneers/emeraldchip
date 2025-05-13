@@ -1,9 +1,10 @@
 import { useContext } from 'react';
 import CurrentUserContext from '../../contexts/current-user-context.js';
+// import { CiLogout } from 'react-icons/ci';
+import { RiLogoutBoxRLine } from "react-icons/ri";
 
 import Logo from '../Logo.jsx';
 import { links, profile } from './constants.js';
-import logout_icon from '../../assets/icons/logout_icon.svg';
 
 const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
   const { currentUser } = useContext(CurrentUserContext); // Access current user context
@@ -40,7 +41,7 @@ const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
           className='sidebar-button logout-button'
           onClick={onLogout}
         >
-          <img src={logout_icon} />
+          <RiLogoutBoxRLine />
         </button>
       </div>
     </div>
