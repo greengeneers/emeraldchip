@@ -44,7 +44,7 @@ const Dashboard = () => {
           currentUser={currentUser}
           setCurrentUser={setCurrentUser}
           onClose={handleCloseModal}
-          onLogout={handleLogout} // Pass logout logic
+          onLogout={handleLogout}
         />
       )}
     </div>

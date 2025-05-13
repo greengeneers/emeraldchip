@@ -1,3 +1,6 @@
+
+
+
 .dashboard {
   display: flex;
   gap: var(--gap-md);
@@ -276,114 +279,135 @@
   text-align: right;
 }
 /* ProfileModal.*/
-
-/* The modal background */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 24, 39, 0.5); 
+  backdrop-filter: blur(10px);
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  backdrop-filter: blur(5px);
+  z-index: 9999;
 }
 
-/* The modal content box */
 .modal-content {
-  background-color: white;
-  padding: 30px;
-  border-radius: 10px;
-  max-width: 500px;
+  background-color: #ffffff;
+  border-radius: var(--radius-xl);
+  padding: var(--padding-2xl) var(--padding-xl);
   width: 100%;
-  height: auto;
-  position: relative;
-  z-index: 1100;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  max-width: 440px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  transition: all 0.3s ease-in-out;
+
 }
 
-/* Modal Header */
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.modal-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--primary);
-}
-
-.modal-close-button {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
+.modal-content h1 {
+  font-size: var(--font-xl);
+  font-weight: 600;
+  margin-bottom: var(--gap-xl);
   color: var(--text);
 }
 
-
-.modal-body {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
 .modal-form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  margin-bottom: var(--gap-lg);
 }
 
-.modal-label {
-  font-size: 18px;
-  font-weight: 500;
+.modal-form-group label {
+  display: block;
+  margin-bottom: var(--gap-sm);
+  font-size: var(--font-sm);
   color: var(--text);
 }
 
 .modal-input {
-  padding: 12px;
-  border: 2px solid var(--border);
-  border-radius: 5px;
-  font-size: 16px;
-  background-color: var(--background);
-  color: var(--text);
+  width: 100%;
+  padding: 0.65rem 0.75rem; 
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-base);
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: #fff;
+  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.25);
+}
+
+.modal-form-group p {
+  margin-top: 0.4rem;
+  font-size: var(--font-xs);
+  color: var(--danger);
 }
 
 .modal-footer {
   display: flex;
-  justify-content: flex-end;
-  gap: 15px;
-  margin-top: 20px;
+  justify-content: flex-start;
+  gap: var(--gap-md);
+  margin-top: var(--gap-lg);
 }
 
-.modal-button {
-  padding: 12px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  border: none;
-  transition: background 0.25s ease;
-}
-
-.modal-save {
-  background-color: var(--primary);
-  color: var(--secondary-text);
-}
-
+/* Button styling */
+.modal-save,
 .modal-edit {
-  background-color: var(--border);
-  color: var(--text);
+  background-color: var(--primary);
+  color: white;
+  padding: var(--padding-sm) var(--padding-lg);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.modal-logout {
-  background-color: var(--accent);
-  color: var(--text);
+.modal-save:hover,
+.modal-edit:hover {
+  background-color: var(--primary); 
 }
+
+button[onClick]:not(.modal-save):not(.modal-edit) {
+  margin-top: var(--gap-lg);
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: var(--font-sm);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+button[onClick]:not(.modal-save):not(.modal-edit):hover {
+  color: #111827;
+}
+
+button[onClick][style*="red"] {
+  background-color: var(--danger);
+  color: #fff;
+  padding: var(--padding-sm) var(--padding-md);
+  border-radius: var(--radius-lg);
+  margin-top: var(--gap-lg);
+  transition: background-color 0.3s;
+}
+
+button[onClick][style*="red"]:hover {
+  background-color: #dc2626; 
+}
+
+.profile-label {
+  font-weight: bold;
+  margin-right: 8px;
+  display: inline-block;
+  min-width: 90px;
+}
+
+.profile-value {
+  display: inline;
+}
+
+
+ 
