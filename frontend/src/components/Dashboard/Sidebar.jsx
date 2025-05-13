@@ -3,8 +3,9 @@ import CurrentUserContext from '../../contexts/current-user-context.js';
 
 import Logo from '../Logo.jsx';
 import { links, profile } from './constants.js';
+import logout_icon from '../../assets/icons/logout_icon.svg';
 
-const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen }) => {
+const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
   const { currentUser } = useContext(CurrentUserContext); // Access current user context
   return (
     <div className="dashboard-sidebar">
@@ -29,11 +30,17 @@ const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen }) => {
       </nav>
       <div className='sidebar-profile-container'>
         <button
-            className={`sidebar-button profile-button`}
+            className='sidebar-button profile-button'
             onClick={() => setIsModalOpen(true)}
         >
           <span>{<profile.icon />}</span>
           {currentUser.name.split(' ')[0]}
+        </button>
+        <button
+          className='sidebar-button logout-button'
+          onClick={onLogout}
+        >
+          <img src={logout_icon} />
         </button>
       </div>
     </div>

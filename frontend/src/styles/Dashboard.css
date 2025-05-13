@@ -71,10 +71,25 @@
 }
 
 .sidebar-profile-container {
+  padding-top: var(--padding-md);
+  gap: var(--gap-sm);
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: flex-end;
   flex-grow: 1;
+}
+
+.profile-button {
+  width: 80%;
+  flex-shrink: 1;
+}
+
+.logout-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  flex-shrink: 1;
 }
 
 /* OVERVIEW TAB */

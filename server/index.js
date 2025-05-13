@@ -68,10 +68,6 @@ app.delete(
   rsvpControllers.removeRsvp
 );
 
-// Test Modal
-app.get('/api/test-modal', userControllers.testModal);
-app.patch('/api/test-modal', userControllers.testModal);
-
 ///////////////////////////////
 // Dashboard Routes
 ///////////////////////////////
