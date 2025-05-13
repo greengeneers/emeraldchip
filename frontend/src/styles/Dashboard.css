@@ -301,14 +301,14 @@
   max-width: 440px;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
   transition: all 0.3s ease-in-out;
-  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+
 }
 
 .modal-content h1 {
   font-size: var(--font-xl);
   font-weight: 600;
   margin-bottom: var(--gap-xl);
-  color: #1e293b;
+  color: var(--text);
 }
 
 .modal-form-group {
@@ -319,7 +319,7 @@
   display: block;
   margin-bottom: var(--gap-sm);
   font-size: var(--font-sm);
-  color: #475569;
+  color: var(--text);
 }
 
 .modal-input {
