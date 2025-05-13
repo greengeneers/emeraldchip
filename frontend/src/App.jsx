@@ -7,7 +7,6 @@ import UserContext from './contexts/current-user-context';
 import { checkForLoggedInUser } from './adapters/auth-adapter';
 import UsersPage from './pages/Users';
 import UserPage from './pages/User';
-// import ProfileModal from './components/profile-modal.jsx';
 import EventsTest from './pages/EventsTest';
 import Landing from './pages/Landing.jsx';
 import ProtectedRoutes from './components/ProtectedRoutes.jsx';
@@ -38,10 +37,6 @@ export default function App() {
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route path="/dashboard" element={<Dashboard />} />
-            {/* <Route
-              path="/test-modal"
-              element={<ProfileModal onClose={() => window.history.back()} />}
-            /> */}
             <Route path="/events" element={<EventsTest />} />
           </Route>
 
