@@ -1,3 +1,64 @@
+
+
+:root {
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-base: 1rem;
+  --font-lg: 1.125rem;
+  --font-xl: 1.25rem;
+  --font-2xl: 1.5rem;
+  --font-3xl: 1.875rem;
+  --font-4xl: 2.25rem;
+  --font-5xl: 3rem;
+
+  --line-height-base: 1.5;
+
+  --gap-sm: 0.5rem;
+  --gap-md: 1rem;
+  --gap-lg: 1.5rem;
+  --gap-xl: 2rem;
+  --gap-2xl: 3rem;
+
+  --padding-xs: 0.25rem;
+  --padding-sm: 0.5rem;
+  --padding-md: 1rem;
+  --padding-lg: 1.5rem;
+  --padding-xl: 2rem;
+  --padding-2xl: 3rem;
+  --padding-3xl: 4rem;
+
+  --radius-none: 0;
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Global Colors */
+  --text-dark-mode: #f5f5f5;
+  --text-light-mode: #000000;
+  --success: #3da733;
+  --danger: #ee4b2b;
+
+  /* Light Mode Colors */
+  --text: var(--text-light-mode);
+  --secondary-text: var(--text-dark-mode);
+  --background: #f5f5f5;
+  --primary: #49756c;
+  --accent: #c9c9c9;
+  --border: rgba(0, 0, 0, 0.1);
+
+  /* Initial value of gutters */
+  --gutters: 1rem;
+
+  --opacity: 0.7;
+  --underline-offset: 5px;
+  --desktop-max-width: 1600px;
+}
+
+
+
 .dashboard {
   display: flex;
   gap: var(--gap-md);
@@ -276,7 +337,6 @@
   text-align: right;
 }
 /* ProfileModal.*/
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -291,11 +351,10 @@
   z-index: 9999;
 }
 
-
 .modal-content {
   background-color: #ffffff;
-  border-radius: 16px;
-  padding: 2.5rem 2rem;
+  border-radius: var(--radius-xl);
+  padding: var(--padding-2xl) var(--padding-xl);
   width: 100%;
   max-width: 440px;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
@@ -303,69 +362,63 @@
   font-family: 'Inter', 'Helvetica Neue', sans-serif;
 }
 
-
 .modal-content h1 {
-  font-size: 1.4rem;
+  font-size: var(--font-xl);
   font-weight: 600;
-  margin-bottom: 2rem;
+  margin-bottom: var(--gap-xl);
   color: #1e293b;
 }
 
-
 .modal-form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--gap-lg);
 }
-
 
 .modal-form-group label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-size: 0.85rem;
+  margin-bottom: var(--gap-sm);
+  font-size: var(--font-sm);
   color: #475569;
 }
 
-
 .modal-input {
   width: 100%;
-  padding: 0.65rem 0.75rem;
+  padding: 0.65rem 0.75rem; 
   border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-base);
   background-color: #f8fafc;
   transition: all 0.2s ease;
 }
 
 .modal-input:focus {
   outline: none;
-  border-color: #34d399;
+  border-color: var(--primary);
   background-color: #fff;
   box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.25);
 }
 
-
 .modal-form-group p {
   margin-top: 0.4rem;
-  font-size: 0.75rem;
-  color: #ef4444;
+  font-size: var(--font-xs);
+  color: var(--danger);
 }
-
 
 .modal-footer {
   display: flex;
-  justify-content: flex-start; 
-  gap: 0.75rem;
-  margin-top: 1.5rem;
+  justify-content: flex-start;
+  gap: var(--gap-md);
+  margin-top: var(--gap-lg);
 }
 
 /* Button styling */
 .modal-save,
 .modal-edit {
-  background-color: #10b981; 
+  background-color: var(--primary);
   color: white;
-  padding: 0.5rem 1.2rem;
+  padding: var(--padding-sm) var(--padding-lg);
   border: none;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-sm);
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -373,15 +426,15 @@
 
 .modal-save:hover,
 .modal-edit:hover {
-  background-color: #059669;
+  background-color: var(--primary); 
 }
 
 button[onClick]:not(.modal-save):not(.modal-edit) {
-  margin-top: 1.25rem;
+  margin-top: var(--gap-lg);
   background: none;
   border: none;
   color: #6b7280;
-  font-size: 0.9rem;
+  font-size: var(--font-sm);
   cursor: pointer;
   transition: color 0.2s;
 }
@@ -390,18 +443,17 @@ button[onClick]:not(.modal-save):not(.modal-edit):hover {
   color: #111827;
 }
 
-
 button[onClick][style*="red"] {
-  background-color: #ef4444;
+  background-color: var(--danger);
   color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  margin-top: 1.5rem;
+  padding: var(--padding-sm) var(--padding-md);
+  border-radius: var(--radius-lg);
+  margin-top: var(--gap-lg);
   transition: background-color 0.3s;
 }
 
 button[onClick][style*="red"]:hover {
-  background-color: #dc2626;
+  background-color: #dc2626; 
 }
 
 .profile-label {
@@ -412,5 +464,8 @@ button[onClick][style*="red"]:hover {
 }
 
 .profile-value {
- display: inline;
+  display: inline;
 }
+
+
+ 

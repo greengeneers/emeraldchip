@@ -79,7 +79,7 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   return (
@@ -198,6 +198,7 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
               style={{
                 marginTop: '20px',
                 backgroundColor: '#ef4444', 
+                color: '#fff',
                 padding: '0.5rem 1.2rem',
                 border: 'none',
                 borderRadius: '8px', 
