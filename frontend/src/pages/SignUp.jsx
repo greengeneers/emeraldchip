@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { registerUser } from "../adapters/auth-adapter";
+import Logo from "../components/Logo";
+import "../styles/Login.css";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ export default function SignUpPage() {
   const [zipCode, setZipCode] = useState('');
   const [usernameWarning, setUsernameWarning] = useState('');
   const [zipCodeWarning, setZipCodeWarning] = useState('');
-  const [passwordWarning, setPasswordWarning] = useState(''); 
+  const [passwordWarning, setPasswordWarning] = useState('');
 
   if (currentUser) return <Navigate to={`/users/${currentUser.id}`} />;
 
@@ -26,7 +28,7 @@ export default function SignUpPage() {
       return setErrorText('All fields are required');
     }
 
-    if (usernameWarning || zipCodeWarning) {
+    if (usernameWarning || zipCodeWarning || passwordWarning) {
       return setErrorText('Please fix fields before submitting');
     }
 
@@ -37,6 +39,7 @@ export default function SignUpPage() {
       name,
       zip_code: zipCode,
     });
+
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
@@ -85,80 +88,86 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="signup-page">
-      <h1 className="signup-title">Sign Up</h1>
-      <form onSubmit={handleSubmit} aria-labelledby="create-heading" className="signup-form">
-        <h2 id="create-heading" className="signup-form-heading">Create New User</h2>
-        
-        <label htmlFor="username" className="signup-label">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={handleChange}
-          autoComplete="off"
-          className="signup-input"
-        />
-        {usernameWarning && <p className="signup-warning">{usernameWarning}</p>}
+    <div className="auth-page">
+      <div className="auth-left">
+        <div className="auth-header">
+          <Logo />
+          <h1 className="brand-name">Emerald Chip</h1>
+        </div>
 
-        <label htmlFor="email" className="signup-label">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={email}
-          onChange={handleChange}
-          className="signup-input"
-        />
+        <form onSubmit={handleSubmit} className="auth-form">
+          <input
+            type="text"
+            name="username"
+            placeholder="Username *"
+            autoComplete="off"
+            value={username}
+            onChange={handleChange}
+            required
+          />
+          {usernameWarning && <p className="error">{usernameWarning}</p>}
 
-        <label htmlFor="name" className="signup-label">Name</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={name}
-          onChange={handleChange}
-          className="signup-input"
-        />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email *"
+            autoComplete="email"
+            value={email}
+            onChange={handleChange}
+            required
+          />
 
-        <label htmlFor="zipCode" className="signup-label">ZIP Code</label>
-        <input
-          type="text"
-          id="zipCode"
-          name="zipCode"
-          value={zipCode}
-          onChange={handleChange}
-          className="signup-input"
-        />
-        {zipCodeWarning && <p className="signup-warning">{zipCodeWarning}</p>}
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name *"
+            autoComplete="name"
+            value={name}
+            onChange={handleChange}
+            required
+          />
 
-        <label htmlFor="password" className="signup-label">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={handleChange}
-          autoComplete="off"
-          className="signup-input"
-        />
-        {passwordWarning && <p className="signup-warning">{passwordWarning}</p>}
+          <input
+            type="text"
+            name="zipCode"
+            placeholder="ZIP Code *"
+            autoComplete="postal-code"
+            value={zipCode}
+            onChange={handleChange}
+            required
+          />
+          {zipCodeWarning && <p className="error">{zipCodeWarning}</p>}
 
-        <button
-          type="submit"
-          className="signup-submit-btn"
-          disabled={!!usernameWarning || !!zipCodeWarning || !!passwordWarning}
-        >
-          Sign Up Now!
-        </button> 
-      </form>
+          <input
+            type="password"
+            name="password"
+            placeholder="Password *"
+            autoComplete="new-password"
+            value={password}
+            onChange={handleChange}
+            required
+          />
+          {passwordWarning && <p className="error">{passwordWarning}</p>}
 
-      {!!errorText && <p className="signup-error">{errorText}</p>}
+          {!!errorText && <p className="error">{errorText}</p>}
 
-      <p className="signup-login-link">
-        Already have an account? <Link to="/login" className="signup-login-anchor">Log in!</Link>
-      </p>
+          <button
+            type="submit"
+            className="submit-btn"
+            disabled={!!usernameWarning || !!zipCodeWarning || !!passwordWarning}
+          >
+            Sign Up Now!
+          </button>
+
+          <p className="switch-auth">Already have an account? <Link to="/login">Log in</Link></p>
+        </form>
+
+       
+      </div>
+
+      <div className="auth-right">
+   
+      </div>
     </div>
   );
 }
