@@ -59,6 +59,12 @@
   transition: 0.25s linear;
 }
 
+.sidebar-button:hover,
+.sidebar-button:active,
+.sidebar-button:focus {
+  border-color: var(--primary);
+}
+
 .sidebar-button svg {
   display: flex;
   align-items: center;
@@ -207,7 +213,7 @@
 .recent-donation-image {
   width: 200px;
   height: 150px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .recent-donation-date {
@@ -476,7 +482,7 @@ button[onClick][style*='red']:hover {
 .donation-image {
   width: 100%;
   height: 300px;
-  object-fit: cover;
+  object-fit: contain;
   background-color: var(--background);
   border-radius: var(--radius-lg);
 }
