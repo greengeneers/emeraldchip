@@ -17,6 +17,7 @@ export default function SignUpPage() {
   const [usernameWarning, setUsernameWarning] = useState('');
   const [zipCodeWarning, setZipCodeWarning] = useState('');
   const [passwordWarning, setPasswordWarning] = useState('');
+  const [emailWarning, setEmailWarning] = useState('');
 
   if (currentUser) return <Navigate to={`/users/${currentUser.id}`} />;
 
@@ -28,7 +29,7 @@ export default function SignUpPage() {
       return setErrorText('All fields are required');
     }
 
-    if (usernameWarning || zipCodeWarning || passwordWarning) {
+    if (usernameWarning || zipCodeWarning || passwordWarning || emailWarning) {
       return setErrorText('Please fix fields before submitting');
     }
 
@@ -83,7 +84,18 @@ export default function SignUpPage() {
       setPassword(value);
     }
 
-    if (name === 'email') setEmail(value);
+    if (name === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(value)) {
+        setEmailWarning('Please enter a valid email address');
+      } else {
+        setEmailWarning('');
+      }
+
+      setEmail(value);
+    }
+
     if (name === 'name') setName(value);
   };
 
@@ -116,6 +128,7 @@ export default function SignUpPage() {
             onChange={handleChange}
             required
           />
+          {emailWarning && <p className="error">{emailWarning}</p>}
 
           <input
             type="text"
@@ -154,19 +167,24 @@ export default function SignUpPage() {
           <button
             type="submit"
             className="submit-btn"
-            disabled={!!usernameWarning || !!zipCodeWarning || !!passwordWarning}
+            disabled={
+              !!usernameWarning ||
+              !!zipCodeWarning ||
+              !!passwordWarning ||
+              !!emailWarning
+            }
           >
             Sign Up Now!
           </button>
 
-          <p className="switch-auth">Already have an account? <Link to="/login">Log in</Link></p>
+          <p className="switch-auth">
+            Already have an account? <Link to="/login">Log in</Link>
+          </p>
         </form>
-
-       
       </div>
 
       <div className="auth-right">
-   
+        {}
       </div>
     </div>
   );
