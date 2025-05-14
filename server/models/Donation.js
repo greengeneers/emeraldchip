@@ -25,15 +25,13 @@ class Donation {
     return result.rows[0];
   }
 
-  static async list(userId, limit, offset) {
+  static async list(userId) {
     const query = `
       SELECT title, image_url, status FROM donations
       WHERE donor_id = ?
-      LIMIT ?
-      OFFSET ?
     `;
 
-    const result = await knex.raw(query, [userId, limit, offset]);
+    const result = await knex.raw(query, [userId]);
 
     return result.rows;
   }
