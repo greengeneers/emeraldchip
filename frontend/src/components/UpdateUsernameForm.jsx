@@ -72,8 +72,6 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
 
       setUser(data);
       setCurrentUser(data); 
-
-      // Exit editing mode
       setIsEditing(false);
     } catch (error) {
       console.error('Error updating user:', error);
@@ -81,12 +79,30 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
+      <div className="modal-content" style={{ position: 'relative' }}>
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          style={{
+            position: 'absolute',
+            top: '10px',
+            right: '15px',
+            background: 'none',
+            border: 'none',
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            color: '#555',
+            cursor: 'pointer',
+          }}
+        >
+          &times;
+        </button>
+
         <h1>Profile</h1>
         {isEditing ? (
           <form onSubmit={handleSave}>
@@ -136,7 +152,13 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
               {zipCodeWarning && <p style={{ color: 'red' }}>{zipCodeWarning}</p>}
             </div>
             <div className="modal-footer">
-              <button type="submit" disabled={zipCodeWarning !== ''} className="modal-save">Save</button>
+              <button
+                type="submit"
+                disabled={zipCodeWarning !== ''}
+                className="modal-save"
+              >
+                Save
+              </button>
               <button
                 type="button"
                 onClick={() => {
@@ -157,10 +179,10 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
           </form>
         ) : (
           <>
-            <p>Username: {user.username}</p>
-            <p>Name: {user.name}</p>
-            <p>Email: {user.email}</p>
-            <p>Zip Code: {user.zipCode}</p>
+            <p><span className="profile-label">Username:</span> <span className="profile-value">{user.username}</span></p>
+            <p><span className="profile-label">Name:</span> <span className="profile-value">{user.name}</span></p>
+            <p><span className="profile-label">Email:</span> <span className="profile-value">{user.email}</span></p>
+            <p><span className="profile-label">Zip Code:</span> <span className="profile-value">{user.zipCode}</span></p>
             <div className="modal-footer">
               <button onClick={() => setIsEditing(true)} className="modal-edit">
                 Edit
@@ -168,24 +190,30 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
             </div>
           </>
         )}
-        {/* Logout button */}
-        <button
-          onClick={onLogout}
-          style={{
-            marginTop: '20px',
-            backgroundColor: 'red',
-            color: 'white',
-            padding: '5px 8px',
-            border: 'none',
-            borderRadius: '2px',
-            cursor: 'pointer',
-          }}
-        >
-          Log Out
-        </button>
-        <button onClick={onClose} style={{ marginTop: '10px' }}>
-          Close
-        </button>
+
+        {!isEditing && (
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <button
+              onClick={onLogout}
+              style={{
+                marginTop: '20px',
+                backgroundColor: '#ef4444', 
+                color: '#fff',
+                padding: '0.5rem 1.2rem',
+                border: 'none',
+                borderRadius: '8px', 
+                fontSize: '0.9rem', 
+                fontWeight: '500', 
+                cursor: 'pointer',
+                transition: 'background-color 0.3s', 
+              }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#dc2626'} 
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#ef4444'} 
+            >
+              Log Out
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

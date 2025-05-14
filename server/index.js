@@ -18,6 +18,7 @@ const userControllers = require('./controllers/userControllers');
 const eventControllers = require('./controllers/eventControllers');
 const rsvpControllers = require('./controllers/rsvpControllers');
 const dashboardControllers = require('./controllers/dashboardController.js');
+const donationControllers = require('./controllers/donationController.js');
 
 const app = express();
 
@@ -28,7 +29,7 @@ app.use(express.json()); // parse incoming request bodies as JSON
 app.use(express.static(path.join(__dirname, '../frontend/dist'))); // Serve static assets from the dist folder of the frontend
 
 ///////////////////////////////
-// Auth Routes
+// Auth Endpoints
 ///////////////////////////////
 
 app.post('/api/auth/register', authControllers.registerUser);
@@ -37,7 +38,7 @@ app.get('/api/auth/me', authControllers.showMe);
 app.delete('/api/auth/logout', authControllers.logoutUser);
 
 ///////////////////////////////
-// User Routes
+// User Endpoints
 ///////////////////////////////
 
 // These actions require users to be logged in (authentication)
@@ -46,7 +47,41 @@ app.get('/api/users', checkAuthentication, userControllers.listUsers);
 app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
 app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
 
-// EVENT ENDPOINTS:
+///////////////////////////////
+// Donations Endpoints
+///////////////////////////////
+
+app.post(
+  '/api/donations',
+  checkAuthentication,
+  donationControllers.createDonation
+);
+app.get(
+  '/api/donations',
+  checkAuthentication,
+  donationControllers.getDonations
+);
+
+app.get(
+  '/api/donations/:id',
+  checkAuthentication,
+  donationControllers.getDonation
+);
+app.delete(
+  '/api/donations/:id',
+  checkAuthentication,
+  donationControllers.deleteDonation
+);
+app.patch(
+  '/api/donations/:id',
+  checkAuthentication,
+  donationControllers.updateDonation
+);
+
+///////////////////////////////
+// Event Endpoints
+///////////////////////////////
+
 app.get(
   '/api/events/:yearMonth',
   checkAuthentication,
@@ -59,7 +94,9 @@ app.get(
   eventControllers.showEventByName
 );
 
-// RSVP ENDPOINTS:
+///////////////////////////////
+// RSVP Endpoints
+///////////////////////////////
 app.get('/api/rsvp', checkAuthentication, rsvpControllers.listRsvp);
 app.post('/api/rsvp/:eventId', checkAuthentication, rsvpControllers.addRsvp);
 app.delete(
@@ -69,6 +106,7 @@ app.delete(
 );
 
 // Test Modal
+// RSVP ENDPOINTS:
 app.get('/api/test-modal', userControllers.testModal);
 app.patch('/api/test-modal', userControllers.testModal);
 
