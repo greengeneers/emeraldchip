@@ -1,17 +1,15 @@
-import '../styles/Calendar.css';
-
 import {
   useState,
   useEffect
 } from "react";
-import CalendarNav from './CalendarNav';
-import CalendarView from './CalendarView';
-import CalendarFooter from './CalendarFooter';
+import CalendarNav from './Events/CalendarNav.jsx';
+import CalendarView from './Events/CalendarView.jsx';
+import CalendarFooter from './Events/CalendarFooter.jsx';
 
-import { listEvents, showEventById } from '../adapters/event-adapter.js';
+import { listEvents, showEventById } from '../../adapters/event-adapter.js';
 
 
-export default function Calendar() {
+export default function Events() {
 
   // not sure if this is the optimal approach but just for a dirty prototype this should be okay :sob:
   // also this is just the data for today's demo!!!
@@ -19,9 +17,11 @@ export default function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(5);
   const [currentWeek, setCurrentWeek] = useState(19);
   const [currentDay, setCurrentDay] = useState(7);
+
   const [events, setCurrentEvents] = useState(null);
 
-  const [viewMode, setViewMode] = useState('Month'); // day, week, month!
+  // 'All Events' or 'My Events'
+  const [viewMode, setViewMode] = useState('All Events');
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -33,7 +33,14 @@ export default function Calendar() {
         if (error) throw new Error(error);
         // get the day for each and add that to data
         const processedEvents = data.reduce((acc, event) => {
-          const date = new Date(event.startDate).getDate();
+          // convert all the start and end date in to Date()
+          const startDate = new Date(event.startDate);
+          const endDate = new Date(event.endDate);
+          event.startDate = startDate;
+          event.endDate = endDate;
+
+          const date = `${event.startDate.getFullYear()}_${event.startDate.getMonth()+1}_${event.startDate.getDate()}`;
+          console.log(date);
           if (!acc[date]) acc[date] = [];
           acc[date].push(event);
           return acc;
@@ -74,16 +81,43 @@ export default function Calendar() {
 
   }, [currentDay]);
 
+  const handlePrevMonth = () => {
+    console.log(currentMonth);
+    if (currentMonth === 1) {
+      setCurrentYear(currentYear-1);
+      setCurrentMonth(12);
+    } else {
+      setCurrentMonth(currentMonth-1);
+    }
+  }
 
+  const handleNextMonth = () => {
+    console.log(currentMonth);
+    if (currentMonth === 12) {
+      setCurrentYear(currentYear+1);
+      setCurrentMonth(1);
+    } else {
+      setCurrentMonth(currentMonth+1);
+    }
+  }
+
+  const handleViewModeChange = () => {
+    if (viewMode === 'All Events') setViewMode('My Events');
+    if (viewMode === 'My Events') setViewMode('All Events');
+  }
+
+  const handleJumpToday = () => {
+    // logic for jumping to today's date.
+  }
 
   return (<>
     <div className='calendar-container'>
       <CalendarNav props={{
-          currentYear, currentMonth, currentWeek, currentDay, viewMode
+          currentYear, currentMonth, currentWeek, currentDay, viewMode, handlePrevMonth, handleNextMonth, handleViewModeChange, handleJumpToday
         }}
       />
       <CalendarView props={{
-          events
+          currentYear, currentMonth, currentWeek, currentDay, viewMode, events
         }}
       />
       <CalendarFooter />

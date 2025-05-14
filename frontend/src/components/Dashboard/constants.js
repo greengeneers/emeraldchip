@@ -1,4 +1,5 @@
 import Overview from './Overview.jsx';
+import Events from './Events.jsx';
 import { FaAward, FaBox, FaCalendar, FaChartPie, FaUser } from 'react-icons/fa6';
 
 export const links = [
@@ -16,6 +17,7 @@ export const links = [
   {
     title: 'Events',
     state: 'events',
+    component: Events,
     icon: FaCalendar,
   },
   {

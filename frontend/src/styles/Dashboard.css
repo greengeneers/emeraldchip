@@ -388,3 +388,61 @@
   background-color: var(--accent);
   color: var(--text);
 }
+
+/* EVENTS TAB */
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.calendar-nav {
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.calendar-header-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+#header-month {
+  font-size: var(--font-5xl);
+  font-weight: bold;
+  padding-right: var(--padding-xs);
+}
+
+#header-year {
+  font-size: var(--font-5xl);
+  padding-right: var(--padding-sm);
+}
+
+#header-week {
+  font-size: var(--font-xl);
+  padding-bottom: 0.75rem;
+}
+
+.calendar-month-nav-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.weekdays-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.weekday-heading {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: calc(100%/7);
+}
+
+.middle-padding {
+  flex-grow: 1;
+}
