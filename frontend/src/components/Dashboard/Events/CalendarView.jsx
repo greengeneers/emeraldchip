@@ -6,16 +6,6 @@ import {
   useState
 } from 'react';
 
-const weekdaysNum = {
-  'Sunday': 0,
-  'Monday': 1,
-  'Tuesday': 2,
-  'Wednesday': 3,
-  'Thursday': 4,
-  'Friday': 5,
-  'Saturday': 6
-}
-
 export default function CalendarView({ props }) {
   const { currentYear, currentMonth, currentWeek, currentDay, viewMode, events } = props;
   const [today, setToday] = useState(null);
@@ -39,21 +29,38 @@ export default function CalendarView({ props }) {
 
   // IIFE to get days in month
   const daysInMonth = (() => new Date(currentYear, currentMonth, 0).getDate())();
+  console.log('days in may', daysInMonth);
 
-  const rows = [];
   // for the first row...
   // determine what the first day is
-  const firstWeekDay = (() => new Date(currentYear, currentMonth, 1).getDay())();
-  const padding = weekdaysNum[firstWeekDay];
-  while (padding > 0) {
-    rows.append()
-  }
-
-  while (daysInMonth > 0) {
-
-  }
-
-
+  const padding = new Date(currentYear, currentMonth-1, 1).getDay();
+  const rowCount = Math.ceil((padding + daysInMonth) / 7);
+  let date = 1;
+  const rows = [...Array(rowCount)].map((row, index, rows) => {
+    const buildRow = [];
+    if (index === 0) {
+      console.log('first row');
+      const prevMonth = (currentMonth === 1) ? 12 : currentMonth - 1;
+      const adjustedYear = (currentMonth === 1) ? currentYear - 1 : currentYear;
+      const daysInPrevMonth = (() => new Date(adjustedYear, prevMonth-1, 0).getDate())();
+      let startFrom = daysInPrevMonth - padding;
+      console.log('pre', prevMonth, adjustedYear, daysInPrevMonth, startFrom);
+      for (let i = 0; i < padding; i++) {
+        console.log('padding first row');
+        buildRow.push(startFrom++);
+      }
+    }
+    while (buildRow.length < 7 && date <= daysInMonth) {
+      buildRow.push(date++);
+    }
+    if (!rows[index+1]) {
+      let startFrom = 1;
+      while (buildRow.length < 7) {
+        buildRow.push(startFrom++)
+      }
+    }
+    return buildRow;
+  })
 
   return (<>
     {
@@ -87,6 +94,13 @@ export default function CalendarView({ props }) {
       </div>
     </div>
     <div className='main-grid'>
+      {
+        rows.map((cells) => {
+          cells.map((cell) => {
+
+          })
+        })
+      }
     </div>
     {/* <ol className='date-list'>
       {
