@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { logUserIn } from "../adapters/auth-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
+import Logo from "../components/Logo"; 
+import "../styles/Login.css"; 
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -10,7 +12,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
-  // users shouldn't be able to see the login page if they are already logged in.
   if (currentUser) return <Navigate to={`/users/${currentUser.id}`} />;
 
   const handleSubmit = async (event) => {
@@ -25,41 +26,50 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="login">
-      <h1 className="login-title">Login</h1>
-      <form onSubmit={handleSubmit} className="login-form" aria-labelledby="login-heading">
-        <h2 id="login-heading" className="login-heading">Log back in!</h2>
-
-        <div className="field">
-          <label htmlFor="username" className="label">Username</label>
-          <input
-            type="text"
-            autoComplete="username"
-            id="username"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="input"
-          />
+    <div className="auth-page">
+      <div className="auth-left">
+        <div className="auth-header">
+          <Logo />
+          <h1 className="brand-name">Emerald Chip</h1>
         </div>
 
-        <div className="field">
-          <label htmlFor="password" className="label">Password</label>
-          <input
-            type="password"
-            autoComplete="current-password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="input"
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="field">
+            <input
+              type="text"
+              id="username"
+              name="username"
+              autoComplete="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              placeholder="Username*" 
+            />
+          </div>
 
-        <button type="submit" className="submit-btn">Log in!</button>
-      </form>
+          <div className="field">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Password*" 
+            />
+          </div>
 
-      {!!errorText && <p className="error">{errorText}</p>}
+          {!!errorText && <p className="error">{errorText}</p>}
+
+          <button type="submit" className="submit-btn">Log in</button>
+          <p className="switch-auth">Ready to make a change? <a href="/sign-up">Sign up</a></p>
+        </form>
+      </div>
+
+      <div className="auth-right">
+        <div className="image-placeholder"></div>
+      </div>
     </div>
   );
 }
