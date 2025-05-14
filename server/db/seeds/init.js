@@ -48,7 +48,7 @@ exports.seed = async (knex) => {
         'https://external-preview.redd.it/found-my-old-s8-in-a-drawer-any-idea-what-i-can-do-with-it-v0-krAruytPlJ5eZJE-qUQC3sfrAqr6zpMc1mdQOi4utnw.png?width=640&crop=smart&format=pjpg&auto=webp&s=78f7a79eda1afd17ffa299ef232e3a3e881c542a',
       description:
         'Used Galaxy S8, screen cracked but still powers on. Ideal for parts or recycling.',
-      status: 'recycled',
+      status: 'Recycled',
       weight_lbs: 0.342,
     },
     {
@@ -86,6 +86,54 @@ exports.seed = async (knex) => {
       description: 'Mix of HDMI, USB, power cords, and old charging cables.',
       status: 'Pending',
       weight_lbs: 1.0,
+    },
+    {
+      donor_id: 1,
+      title: 'Old iPad 3rd Generation',
+      image_url: 'https://i.ebayimg.com/images/g/lo8AAOSwsPJkdUE9/s-l400.jpg',
+      description:
+        'iPad with cracked screen but functional. Battery holds about 2 hours of charge. 16GB model.',
+      status: 'In Process',
+      weight_lbs: 1.44,
+    },
+    {
+      donor_id: 1,
+      title: 'Dell XPS 13 Laptop (2017)',
+      image_url:
+        'https://www.cnet.com/a/img/resize/f567a00a6638424a1032d11be77c65cc10840bf6/hub/2017/11/03/2183d4d2-bc00-4711-9b16-5db02c5f477e/03-dell-xps-13-late-2017.jpg?auto=webp&fit=crop&height=360&width=640',
+      description:
+        'Dell XPS 13 with faulty keyboard. Otherwise in good condition. 8GB RAM, 256GB SSD.',
+      status: 'Pending',
+      weight_lbs: 2.7,
+    },
+    {
+      donor_id: 1,
+      title: 'Old Wireless Router - Netgear N300',
+      image_url: 'https://i.ebayimg.com/images/g/x64AAOSw0QpkbBy1/s-l400.jpg',
+      description:
+        'Working but outdated router. No longer needed after upgrade.',
+      status: 'Recycled',
+      weight_lbs: 0.75,
+    },
+    {
+      donor_id: 1,
+      title: 'PlayStation 3 Console',
+      image_url:
+        'https://u-mercari-images.mercdn.net/photos/m74402018389_1.jpg',
+      description:
+        'Original fat model PS3, turns on but disc drive not working. Includes power cable only.',
+      status: 'In Process',
+      weight_lbs: 11.0,
+    },
+    {
+      donor_id: 1,
+      title: 'Nokia 3310 Old Cell Phone',
+      image_url:
+        'https://i.ebayimg.com/00/s/MTYwMFgxMjAw/z/Y2UAAOSwspZniQ3V/$_57.PNG?set_id=880000500F',
+      description:
+        "Classic Nokia phone. Still works but battery doesn't hold charge well.",
+      status: 'Recycled',
+      weight_lbs: 0.3,
     },
   ];
 
