@@ -484,5 +484,4 @@ button[onClick][style*='red']:hover {
   height: 300px;
   object-fit: contain;
   background-color: var(--background);
-  border-radius: var(--radius-lg);
 }
