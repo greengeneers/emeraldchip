@@ -3,6 +3,7 @@ import { useNavigate, Navigate } from "react-router-dom";
 import { logUserIn } from "../adapters/auth-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
 import "../styles/Login.css";
+import img from "../styles/toinks.png";
 export default function LoginPage() {
   const navigate = useNavigate();
   const [errorText, setErrorText] = useState('');
@@ -26,12 +27,21 @@ export default function LoginPage() {
 
   return (
     <div className="login">
-      <h1 className="login-title">Login</h1>
+      {/* <h1 className="login-title">Login</h1> */}
       <form onSubmit={handleSubmit} className="login-form" aria-labelledby="login-heading">
-        <h2 id="login-heading" className="login-heading">Log back in!</h2>
-
-        <div className="field">
-          <label htmlFor="username" className="label">Username</label>
+        <div class= "logo-background"></div>
+        <div class= "image-placeholder"></div>
+        <div class= "login-form-container"></div>
+       
+        <div>
+          <div id="Emerald_Chip. logo">
+        <img src={img} alt="Emerald_Chip_logo"/>
+        </div>
+        <h3></h3>
+        <h2 id="login-heading" className="login-heading">Emerald Chip</h2>
+        </div>
+        <div className="field1">
+          <label htmlFor="username" className="label1">Username</label>
           <input
             type="text"
             autoComplete="username"
@@ -39,12 +49,12 @@ export default function LoginPage() {
             name="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="input"
+            className="input2"
           />
         </div>
 
-        <div className="field">
-          <label htmlFor="password" className="label">Password</label>
+        <div className="field2">
+          <label htmlFor="password" className="label2">Password</label>
           <input
             type="password"
             autoComplete="current-password"
@@ -57,9 +67,11 @@ export default function LoginPage() {
         </div>
 
         <button type="submit" className="submit-btn">Log in!</button>
+     
       </form>
 
       {!!errorText && <p className="error">{errorText}</p>}
     </div>
+    
   );
 }
