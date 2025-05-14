@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { updateUser } from '../adapters/user-adapter';
 import { useContext } from 'react';
 import UserContext from '../contexts/current-user-context';
@@ -6,8 +6,6 @@ import ErrorPage from '../pages/ErrorPage';
 
 const ProfileModal = ({ onClose }) => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
-  // const [user, setUser] = useState(null);
-  // const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     username: currentUser.username,
@@ -42,8 +40,9 @@ const ProfileModal = ({ onClose }) => {
       name: formData.name,
       zipCode: formData.zipCode,
     };
+
     // TODO: maybe add a loading here? for now can just skip
-    const [data, error] = await updateUser(currentUser.id, body)
+    const [data, error] = await updateUser(currentUser.id, body);
 
     if (error) {
       console.error('Server error details:', error);
@@ -57,14 +56,32 @@ const ProfileModal = ({ onClose }) => {
   };
 
   if (error) {
-    return <ErrorPage error={error} />
+    return <ErrorPage error={error} />;
   }
 
   // TODO: MAYBE add loading here to match line 45 above
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
+      <div className="modal-content" style={{ position: 'relative' }}>
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          style={{
+            position: 'absolute',
+            top: '10px',
+            right: '15px',
+            background: 'none',
+            border: 'none',
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            color: '#555',
+            cursor: 'pointer',
+          }}
+        >
+          &times;
+        </button>
+
         <h1>Profile</h1>
         {isEditing ? (
           <form onSubmit={handleSave}>
@@ -111,10 +128,18 @@ const ProfileModal = ({ onClose }) => {
                 onChange={handleChange}
                 className="modal-input"
               />
-              {zipCodeWarning && <p style={{ color: 'red' }}>{zipCodeWarning}</p>}
+              {zipCodeWarning && (
+                <p style={{ color: 'red' }}>{zipCodeWarning}</p>
+              )}
             </div>
             <div className="modal-footer">
-              <button type="submit" disabled={zipCodeWarning !== ''} className="modal-save">Save</button>
+              <button
+                type="submit"
+                disabled={zipCodeWarning !== ''}
+                className="modal-save"
+              >
+                Save
+              </button>
               <button
                 type="button"
                 onClick={() => {
