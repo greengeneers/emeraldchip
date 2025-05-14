@@ -5,10 +5,6 @@
   box-sizing: border-box;
 }
 
-::selection {
-  background: var(--secondary);
-}
-
 html {
   scroll-behavior: smooth;
   scrollbar-width: thin;
@@ -79,6 +75,10 @@ html {
   --primary: #69968c;
   --accent: #626262;
   --border: rgba(255, 255, 255, 0.1);
+}
+
+::selection {
+  background: var(--accent);
 }
 
 .success {
