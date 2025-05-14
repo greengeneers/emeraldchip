@@ -1,6 +1,3 @@
-
-
-
 .dashboard {
   display: flex;
   gap: var(--gap-md);
@@ -60,6 +57,12 @@
   align-items: center;
   gap: var(--gap-sm);
   transition: 0.25s linear;
+}
+
+.sidebar-button:hover,
+.sidebar-button:active,
+.sidebar-button:focus {
+  border-color: var(--primary);
 }
 
 .sidebar-button svg {
@@ -210,7 +213,7 @@
 .recent-donation-image {
   width: 200px;
   height: 150px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .recent-donation-date {
@@ -218,6 +221,7 @@
   font-size: var(--font-xl);
 }
 
+.donation-status,
 .recent-donation-status {
   font-weight: bold;
   font-size: var(--font-xl);
@@ -304,7 +308,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(17, 24, 39, 0.5); 
+  background-color: rgba(17, 24, 39, 0.5);
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
@@ -320,7 +324,6 @@
   max-width: 440px;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
   transition: all 0.3s ease-in-out;
-
 }
 
 .modal-content h1 {
@@ -343,7 +346,7 @@
 
 .modal-input {
   width: 100%;
-  padding: 0.65rem 0.75rem; 
+  padding: 0.65rem 0.75rem;
   border: 1px solid #cbd5e1;
   border-radius: var(--radius-lg);
   font-size: var(--font-base);
@@ -387,7 +390,7 @@
 
 .modal-save:hover,
 .modal-edit:hover {
-  background-color: var(--primary); 
+  background-color: var(--primary);
 }
 
 button[onClick]:not(.modal-save):not(.modal-edit) {
@@ -404,7 +407,7 @@ button[onClick]:not(.modal-save):not(.modal-edit):hover {
   color: #111827;
 }
 
-button[onClick][style*="red"] {
+button[onClick][style*='red'] {
   background-color: var(--danger);
   color: #fff;
   padding: var(--padding-sm) var(--padding-md);
@@ -413,8 +416,8 @@ button[onClick][style*="red"] {
   transition: background-color 0.3s;
 }
 
-button[onClick][style*="red"]:hover {
-  background-color: #dc2626; 
+button[onClick][style*='red']:hover {
+  background-color: #dc2626;
 }
 
 .profile-label {
@@ -428,5 +431,57 @@ button[onClick][style*="red"]:hover {
   display: inline;
 }
 
+/* Donations Tab */
 
- 
+#donations {
+  background-color: var(--background);
+  height: 100%;
+  border-radius: var(--radius-lg);
+  padding: var(--padding-md);
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+}
+
+.donations-container {
+  /* display: flex;
+  gap: var(--gap-md);
+  flex-wrap: wrap; */
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr;
+  gap: var(--gap-md);
+}
+
+.donation {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--padding-md);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+  transition: 0.25s linear;
+  cursor: pointer;
+}
+
+.donation:hover,
+.donation:focus,
+.donation:active {
+  background-color: var(--primary);
+  color: var(--secondary-text);
+}
+
+.donation-title {
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.donation-image {
+  width: 100%;
+  height: 300px;
+  object-fit: contain;
+  background-color: var(--background);
+}

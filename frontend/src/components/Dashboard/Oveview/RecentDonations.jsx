@@ -1,8 +1,4 @@
-const statusColor = {
-  Recycled: '#3DA733',
-  'In Process': '#BABA30',
-  Pending: '#EE4B2B	',
-};
+import { statusColor } from '../constants.js';
 
 const RecentDonations = ({ donations, handleGetOverview }) => {
   return (
@@ -23,7 +19,7 @@ const RecentDonations = ({ donations, handleGetOverview }) => {
               <p className="recent-donation-date">
                 Donated on {new Date(donation['created_at']).toDateString()}
               </p>
-              <p className="recent-donation-status">
+              <p className="donation-status">
                 <span>Status: </span>
                 <span style={{ color: statusColor[donation.status] }}>
                   {donation.status}

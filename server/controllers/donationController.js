@@ -8,15 +8,10 @@ const Donation = require('../models/Donation.js');
  */
 exports.getDonations = async (req, res, next) => {
   const { userId } = req.session;
-
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
-  const offset = (page - 1) * limit;
-
   try {
-    const data = await Donation.list(userId, limit, offset);
+    const data = await Donation.list(userId);
 
-    res.status(200).send({ data });
+    res.status(200).send(data);
   } catch (error) {
     next(error);
   }
@@ -35,7 +30,7 @@ exports.getDonation = async (req, res, next) => {
   try {
     const donation = await Donation.findById(userId, donationId);
 
-    return res.status(200).send({ donation });
+    return res.status(200).send(donation);
   } catch (error) {
     next(error);
   }
@@ -61,7 +56,7 @@ exports.createDonation = async (req, res, next) => {
       weightLbs
     );
 
-    res.status(201).send({ data });
+    res.status(201).send(data);
   } catch (error) {
     next(error);
   }
@@ -80,7 +75,7 @@ exports.deleteDonation = async (req, res, next) => {
   try {
     const data = await Donation.delete(userId, donationId);
 
-    res.status(204).send({ data });
+    res.status(204).send(data);
   } catch (error) {
     next(error);
   }
@@ -109,7 +104,7 @@ exports.updateDonation = async (req, res, next) => {
       weightLbs
     );
 
-    res.status(200).send({ data });
+    res.status(200).send(data);
   } catch (error) {
     next(error);
   }
