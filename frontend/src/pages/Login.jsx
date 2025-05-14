@@ -30,9 +30,10 @@ export default function LoginPage() {
       {/* <h1 className="login-title">Login</h1> */}
       <form onSubmit={handleSubmit} className="login-form" aria-labelledby="login-heading">
         <div class= "logo-background"></div>
-        <div class= "image-placeholder"></div>
+        <div className="login-wrapper">
         <div class= "login-form-container"></div>
-       
+        <div class= "image-placeholder"></div>
+       </div>
         <div>
           <div id="Emerald_Chip. logo">
         <img src={img} alt="Emerald_Chip_logo"/>
@@ -41,20 +42,22 @@ export default function LoginPage() {
         <h2 id="login-heading" className="login-heading">Emerald Chip</h2>
         </div>
         <div className="field1">
-          <label htmlFor="username" className="label1">Username</label>
-          <input
-            type="text"
-            autoComplete="username"
-            id="username"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="input2"
-          />
+        {/* <label htmlFor="username" className="label1">Username</label> */}
+        <input
+        type="text"
+        autoComplete="username"
+         id="username"
+         name="username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        placeholder="Username"
+        className="input"
+        />
         </div>
 
+
         <div className="field2">
-          <label htmlFor="password" className="label2">Password</label>
+          {/* <label htmlFor="password" className="label2">Password</label> */}
           <input
             type="password"
             autoComplete="current-password"
@@ -62,10 +65,22 @@ export default function LoginPage() {
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="input"
+            placeholder="Password"
+            className="input2"
           />
         </div>
-
+        <div className= "options">
+          <div id="option-link1">
+             <button type="button" className="option-link1">See Password</button>
+          </div>
+         <div id= "option-link2">
+                  <button type="submit" className="option-link2">Don't have an account sign up!</button>
+         </div>
+         <div id= "option-link3">
+                  <button type="submit" className="option-link3">Forgot Password: Click here!</button>
+         </div>
+        </div>
+        
         <button type="submit" className="submit-btn">Log in!</button>
      
       </form>
