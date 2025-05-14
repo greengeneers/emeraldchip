@@ -5,7 +5,6 @@ import Donation from './Donations/Donation.jsx';
 const Donations = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const donationsContainerRef = useRef(null);
 
   const handleFetchDonations = useCallback(async () => {
     !loading && setLoading(true);
@@ -32,7 +31,7 @@ const Donations = () => {
   return (
     <div id="donations">
       <h1 className="tab-title">Donations</h1>
-      <div className="donations-container" ref={donationsContainerRef}>
+      <div className="donations-container">
         {data.map((donation) => (
           <Donation data={donation} key={donation.title} />
         ))}
