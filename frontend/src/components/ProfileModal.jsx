@@ -1,42 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { patchRequest } from '../utils/fetchingUtils';
+import { useState } from 'react';
+import { updateUser } from '../adapters/user-adapter';
+import { useContext } from 'react';
+import UserContext from '../contexts/current-user-context';
+import ErrorPage from '../pages/ErrorPage';
 
-const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+const ProfileModal = ({ onClose }) => {
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    username: '',
-    name: '',
-    email: '',
-    zipCode: '',
+    username: currentUser.username,
+    email: currentUser.email,
+    name: currentUser.name,
+    zipCode: currentUser.zipCode,
   });
   const [zipCodeWarning, setZipCodeWarning] = useState('');
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(`/api/test-modal`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch user data');
-        }
-        const data = await response.json();
-        setUser(data);
-        setFormData({
-          username: data.username || '',
-          name: data.name || '',
-          email: data.email || '',
-          zipCode: data.zipCode || '',
-        });
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,37 +34,54 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    try {
-      const body = {
-        username: formData.username,
-        email: formData.email,
-        name: formData.name,
-        zip_code: formData.zipCode,
-      };
-      const [data, error] = await patchRequest(`/api/test-modal`, body);
+    const body = {
+      username: formData.username,
+      email: formData.email,
+      name: formData.name,
+      zipCode: formData.zipCode,
+    };
 
-      if (error) {
-        console.error('Server error details:', error);
-        throw new Error('Failed to update user data');
-      }
+    // TODO: maybe add a loading here? for now can just skip
+    const [data, error] = await updateUser(currentUser.id, body);
 
-      setUser(data);
-      setCurrentUser(data); 
-
-      // Exit editing mode
-      setIsEditing(false);
-    } catch (error) {
-      console.error('Error updating user:', error);
+    if (error) {
+      console.error('Server error details:', error);
+      setError(error);
+      return;
     }
+
+    // happy path
+    setCurrentUser(data);
+    setIsEditing(false);
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
+  if (error) {
+    return <ErrorPage error={error} />;
   }
+
+  // TODO: MAYBE add loading here to match line 45 above
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
+      <div className="modal-content" style={{ position: 'relative' }}>
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          style={{
+            position: 'absolute',
+            top: '10px',
+            right: '15px',
+            background: 'none',
+            border: 'none',
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            color: '#555',
+            cursor: 'pointer',
+          }}
+        >
+          &times;
+        </button>
+
         <h1>Profile</h1>
         {isEditing ? (
           <form onSubmit={handleSave}>
@@ -133,19 +128,27 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
                 onChange={handleChange}
                 className="modal-input"
               />
-              {zipCodeWarning && <p style={{ color: 'red' }}>{zipCodeWarning}</p>}
+              {zipCodeWarning && (
+                <p style={{ color: 'red' }}>{zipCodeWarning}</p>
+              )}
             </div>
             <div className="modal-footer">
-              <button type="submit" disabled={zipCodeWarning !== ''} className="modal-save">Save</button>
+              <button
+                type="submit"
+                disabled={zipCodeWarning !== ''}
+                className="modal-save"
+              >
+                Save
+              </button>
               <button
                 type="button"
                 onClick={() => {
                   setIsEditing(false);
                   setFormData({
-                    username: user.username || '',
-                    name: user.name || '',
-                    email: user.email || '',
-                    zipCode: user.zipCode || '',
+                    username: currentUser.username || '',
+                    name: currentUser.name || '',
+                    email: currentUser.email || '',
+                    zipCode: currentUser.zipCode || '',
                   });
                   setZipCodeWarning('');
                 }}
@@ -157,10 +160,10 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
           </form>
         ) : (
           <>
-            <p>Username: {user.username}</p>
-            <p>Name: {user.name}</p>
-            <p>Email: {user.email}</p>
-            <p>Zip Code: {user.zipCode}</p>
+            <p>Username: {currentUser.username}</p>
+            <p>Name: {currentUser.name}</p>
+            <p>Email: {currentUser.email}</p>
+            <p>Zip Code: {currentUser.zipCode}</p>
             <div className="modal-footer">
               <button onClick={() => setIsEditing(true)} className="modal-edit">
                 Edit
@@ -168,21 +171,6 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
             </div>
           </>
         )}
-        {/* Logout button */}
-        <button
-          onClick={onLogout}
-          style={{
-            marginTop: '20px',
-            backgroundColor: 'red',
-            color: 'white',
-            padding: '5px 8px',
-            border: 'none',
-            borderRadius: '2px',
-            cursor: 'pointer',
-          }}
-        >
-          Log Out
-        </button>
         <button onClick={onClose} style={{ marginTop: '10px' }}>
           Close
         </button>

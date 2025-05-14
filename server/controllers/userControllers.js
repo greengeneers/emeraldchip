@@ -29,75 +29,20 @@ PATCH /api/users/:id
 Updates a single user (if found) and only if authorized
 */
 exports.updateUser = async (req, res) => {
-  const { name, email, zipCode } = req.body;
-  if (!name || !email || !zipCode) {
+  const { username, name, email, zipCode } = req.body;
+  if (!username || !name || !email || !zipCode) {
     return res.status(400).send({ message: 'Name, email, and zipcode required for update.' });
   }
 
-  // A user is only authorized to modify their own user information
-  // e.g. User 5 sends a PATCH /api/users/5 request -> success!
-  // e.g. User 5 sends a PATCH /api/users/4 request -> 403!
-  const userToModify = Number(req.params.id);
-  const userRequestingChange = Number(req.session.userId);
-  if (userRequestingChange !== userToModify) {
+  const { id } = req.params;
+  const { userId } = req.session;
+  if (Number(id) !== Number(userId)) {
     return res.status(403).send({ message: "Unauthorized." });
   }
-
-  const updatedUser = await User.update(userToModify, name, email, zipCode);
+  const updatedUser = await User.update(id, username, email, name, zipCode);
   if (!updatedUser) {
     return res.status(404).send({ message: 'User not found.' });
   }
 
   res.send(updatedUser);
-};
-
-exports.testModal = async (req, res) => {
-  try {
-    // If the user is trying to access the GET route
-    if (req.method === 'GET') {
-      if (!req.session.userId) {
-        return res.status(401).json({ message: 'User not logged in.' });
-      }
-
-      const user = await User.find(req.session.userId); // Use userId from the session
-      if (!user) {
-        return res.status(404).json({ message: 'User not found.' });
-      }
-      return res.json(user);
-    }
-
-    // If the user is trying to access the PATCH route
-    if (req.method === 'PATCH') {
-      if (!req.session.userId) {
-        return res.status(401).json({ message: 'User not logged in.' });
-      }
-
-      const { username, name, email, zip_code } = req.body;
-      console.log("TESTING", username, name, email, zip_code)
-      if (!username || !name || !email || !zip_code) {
-        return res.status(400).json({ message: 'All fields are required.' });
-      }
-
-      const updatedUser = await User.update(
-        req.session.userId,
-        username,
-        email,
-        name,
-        zip_code,
-      );
-
-      if (!updatedUser) {
-        return res.status(404).json({ message: 'User not found.' });
-      }
-
-      return res.json(updatedUser);
-    }
-
-    // If the method is neither GET nor PATCH, return Method Not Allowed
-    res.setHeader('Allow', ['GET', 'PATCH']);
-    return res.status(405).json({ message: 'Method Not Allowed' });
-  } catch (error) {
-    console.error('Error handling /api/test-modal:', error);
-    res.status(500).json({ message: 'Internal server error.' });
-  }
 };
