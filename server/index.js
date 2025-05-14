@@ -105,13 +105,8 @@ app.delete(
   rsvpControllers.removeRsvp
 );
 
-// Test Modal
-// RSVP ENDPOINTS:
-app.get('/api/test-modal', userControllers.testModal);
-app.patch('/api/test-modal', userControllers.testModal);
-
 ///////////////////////////////
-// Dashboard Routes
+// Dashboard Endpoints
 ///////////////////////////////
 
 app.get(
@@ -121,7 +116,7 @@ app.get(
 );
 
 ///////////////////////////////
-// Fallback Routes
+// Fallback Endpoints
 ///////////////////////////////
 
 // Requests meant for the API will be sent along to the router.

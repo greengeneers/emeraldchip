@@ -1,42 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { patchRequest } from '../utils/fetchingUtils';
+import { useState } from 'react';
+import { updateUser } from '../adapters/user-adapter';
+import { useContext } from 'react';
+import UserContext from '../contexts/current-user-context';
+import ErrorPage from '../pages/ErrorPage';
 
-const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+const ProfileModal = ({ onClose }) => {
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    username: '',
-    name: '',
-    email: '',
-    zipCode: '',
+    username: currentUser.username,
+    email: currentUser.email,
+    name: currentUser.name,
+    zipCode: currentUser.zipCode,
   });
   const [zipCodeWarning, setZipCodeWarning] = useState('');
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(`/api/test-modal`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch user data');
-        }
-        const data = await response.json();
-        setUser(data);
-        setFormData({
-          username: data.username || '',
-          name: data.name || '',
-          email: data.email || '',
-          zipCode: data.zipCode || '',
-        });
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,31 +34,32 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    try {
-      const body = {
-        username: formData.username,
-        email: formData.email,
-        name: formData.name,
-        zip_code: formData.zipCode,
-      };
-      const [data, error] = await patchRequest(`/api/test-modal`, body);
+    const body = {
+      username: formData.username,
+      email: formData.email,
+      name: formData.name,
+      zipCode: formData.zipCode,
+    };
 
-      if (error) {
-        console.error('Server error details:', error);
-        throw new Error('Failed to update user data');
-      }
+    // TODO: maybe add a loading here? for now can just skip
+    const [data, error] = await updateUser(currentUser.id, body);
 
-      setUser(data);
-      setCurrentUser(data); 
-      setIsEditing(false);
-    } catch (error) {
-      console.error('Error updating user:', error);
+    if (error) {
+      console.error('Server error details:', error);
+      setError(error);
+      return;
     }
+
+    // happy path
+    setCurrentUser(data);
+    setIsEditing(false);
   };
 
-  if (loading) {
-    return null;
+  if (error) {
+    return <ErrorPage error={error} />;
   }
+
+  // TODO: MAYBE add loading here to match line 45 above
 
   return (
     <div className="modal-overlay">
@@ -149,7 +128,9 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
                 onChange={handleChange}
                 className="modal-input"
               />
-              {zipCodeWarning && <p style={{ color: 'red' }}>{zipCodeWarning}</p>}
+              {zipCodeWarning && (
+                <p style={{ color: 'red' }}>{zipCodeWarning}</p>
+              )}
             </div>
             <div className="modal-footer">
               <button
@@ -164,10 +145,10 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
                 onClick={() => {
                   setIsEditing(false);
                   setFormData({
-                    username: user.username || '',
-                    name: user.name || '',
-                    email: user.email || '',
-                    zipCode: user.zipCode || '',
+                    username: currentUser.username || '',
+                    name: currentUser.name || '',
+                    email: currentUser.email || '',
+                    zipCode: currentUser.zipCode || '',
                   });
                   setZipCodeWarning('');
                 }}
@@ -179,10 +160,10 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
           </form>
         ) : (
           <>
-            <p><span className="profile-label">Username:</span> <span className="profile-value">{user.username}</span></p>
-            <p><span className="profile-label">Name:</span> <span className="profile-value">{user.name}</span></p>
-            <p><span className="profile-label">Email:</span> <span className="profile-value">{user.email}</span></p>
-            <p><span className="profile-label">Zip Code:</span> <span className="profile-value">{user.zipCode}</span></p>
+            <p>Username: {currentUser.username}</p>
+            <p>Name: {currentUser.name}</p>
+            <p>Email: {currentUser.email}</p>
+            <p>Zip Code: {currentUser.zipCode}</p>
             <div className="modal-footer">
               <button onClick={() => setIsEditing(true)} className="modal-edit">
                 Edit
@@ -190,30 +171,9 @@ const ProfileModal = ({ currentUser, setCurrentUser, onClose, onLogout }) => {
             </div>
           </>
         )}
-
-        {!isEditing && (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <button
-              onClick={onLogout}
-              style={{
-                marginTop: '20px',
-                backgroundColor: '#ef4444', 
-                color: '#fff',
-                padding: '0.5rem 1.2rem',
-                border: 'none',
-                borderRadius: '8px', 
-                fontSize: '0.9rem', 
-                fontWeight: '500', 
-                cursor: 'pointer',
-                transition: 'background-color 0.3s', 
-              }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = '#dc2626'} 
-              onMouseLeave={(e) => e.target.style.backgroundColor = '#ef4444'} 
-            >
-              Log Out
-            </button>
-          </div>
-        )}
+        <button onClick={onClose} style={{ marginTop: '10px' }}>
+          Close
+        </button>
       </div>
     </div>
   );
