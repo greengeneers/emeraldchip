@@ -1,13 +1,16 @@
 import { useContext } from 'react';
 import CurrentUserContext from '../../contexts/current-user-context.js';
-// import { CiLogout } from 'react-icons/ci';
-import { RiLogoutBoxRLine } from "react-icons/ri";
+import { RiLogoutBoxRLine } from 'react-icons/ri';
 
 import Logo from '../Logo.jsx';
-import { links, profile } from './constants.js';
+import { links } from './constants.js';
 
 const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
   const { currentUser } = useContext(CurrentUserContext); // Access current user context
+
+  const pfpUrl =
+    currentUser.pfp || `https://robohash.org/${currentUser.email}?set=set1`;
+
   return (
     <div className="dashboard-sidebar">
       <div className="sidebar-logo-container">
@@ -29,18 +32,15 @@ const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
           ))}
         </ul>
       </nav>
-      <div className='sidebar-profile-container'>
+      <div className="sidebar-profile-container">
         <button
-            className='sidebar-button profile-button'
-            onClick={() => setIsModalOpen(true)}
+          className="sidebar-button profile-button"
+          onClick={() => setIsModalOpen(true)}
         >
-          <span>{<profile.icon />}</span>
+          <img src={pfpUrl} className="sidebar-pfp" />
           {currentUser.name.split(' ')[0]}
         </button>
-        <button
-          className='sidebar-button logout-button'
-          onClick={onLogout}
-        >
+        <button className="sidebar-button logout-button" onClick={onLogout}>
           <RiLogoutBoxRLine />
         </button>
       </div>

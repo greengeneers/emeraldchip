@@ -36,7 +36,6 @@ export const links = [
 export const profile = {
   title: 'My Profile',
   state: 'profile',
-  icon: FaUser,
 };
 
 export const statusColor = {
