@@ -440,7 +440,8 @@ button[onClick][style*='red']:hover {
 
 /* Donations Tab */
 
-#donations {
+#donations,
+#facilities {
   background-color: var(--background);
   height: 100%;
   border-radius: var(--radius-lg);
@@ -491,4 +492,9 @@ button[onClick][style*='red']:hover {
   height: 300px;
   object-fit: contain;
   background-color: var(--background);
+}
+
+#facilities-map {
+  width: 100%;
+  height: 100%;
 }
