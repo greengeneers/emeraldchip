@@ -3,10 +3,12 @@ import Overview from './Overview.jsx';
 import {
   FaAward,
   FaBox,
+  FaBuilding,
   FaCalendar,
   FaChartPie,
   FaUser,
 } from 'react-icons/fa6';
+import Facilities from './Facilities.jsx';
 
 export const links = [
   {
@@ -21,6 +23,13 @@ export const links = [
     component: Donations,
     icon: FaBox,
   },
+  {
+    title: 'Facilities',
+    state: 'facilities',
+    component: Facilities,
+    icon: FaBuilding,
+  },
+
   {
     title: 'Events',
     state: 'events',
