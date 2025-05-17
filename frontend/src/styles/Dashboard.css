@@ -57,6 +57,7 @@
   align-items: center;
   gap: var(--gap-sm);
   transition: 0.25s linear;
+  height: 65px;
 }
 
 .sidebar-button:hover,
@@ -77,7 +78,6 @@
 }
 
 .sidebar-profile-container {
-  padding-top: var(--padding-md);
   gap: var(--gap-sm);
   display: flex;
   justify-content: center;
@@ -85,21 +85,27 @@
   flex-grow: 1;
 }
 
-.profile-button {
-  width: 80%;
-  height: 10%;
+.profile-button,
+.logout-button {
+  width: 100%;
   flex-shrink: 1;
+  height: 75px;
 }
 
 .logout-button {
+  width: 25%;
   padding: 0;
   margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 20%;
-  height: 10%;
-  flex-shrink: 1;
+}
+
+.sidebar-user-pfp {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: var(--radius-full);
 }
 
 /* OVERVIEW TAB */
@@ -301,7 +307,24 @@
 .event-calendar-button {
   text-align: right;
 }
-/* ProfileModal.*/
+
+/* Profile Modal */
+
+.profile-details-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.profile-details-container {
+  font-size: var(--font-lg);
+  font-weight: 600;
+}
+
+.profile-details-container span {
+  font-weight: 500;
+}
+
+/* Profile Editing Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -317,47 +340,60 @@
 }
 
 .modal-content {
-  background-color: #ffffff;
+  background-color: var(--background);
+  color: var(--text);
   border-radius: var(--radius-xl);
   padding: var(--padding-2xl) var(--padding-xl);
   width: 100%;
   max-width: 440px;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
   transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
 }
 
 .modal-content h1 {
   font-size: var(--font-xl);
   font-weight: 600;
-  margin-bottom: var(--gap-xl);
-  color: var(--text);
+}
+
+.pfp-input-container {
+  display: flex;
+  gap: var(--gap-md);
+}
+
+.modal-form-pfp {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
 }
 
 .modal-form-group {
-  margin-bottom: var(--gap-lg);
+  margin-bottom: var(--gap-md);
+  font-weight: 500;
 }
 
 .modal-form-group label {
   display: block;
   margin-bottom: var(--gap-sm);
-  font-size: var(--font-sm);
-  color: var(--text);
+  font-size: var(--font-md);
 }
 
 .modal-input {
   width: 100%;
   padding: 0.65rem 0.75rem;
-  border: 1px solid #cbd5e1;
   border-radius: var(--radius-lg);
   font-size: var(--font-base);
-  background-color: #f8fafc;
+  background-color: var(--accent);
   transition: all 0.2s ease;
+  color: var(--text);
 }
 
 .modal-input:focus {
   outline: none;
   border-color: var(--primary);
-  background-color: #fff;
   box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.25);
 }
 
@@ -377,8 +413,7 @@
 /* Button styling */
 .modal-save,
 .modal-edit {
-  background-color: var(--primary);
-  color: white;
+  background-color: var(--accent);
   padding: var(--padding-sm) var(--padding-lg);
   border: none;
   border-radius: var(--radius-lg);
@@ -386,49 +421,13 @@
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s;
+  width: 100%;
 }
 
 .modal-save:hover,
 .modal-edit:hover {
   background-color: var(--primary);
-}
-
-button[onClick]:not(.modal-save):not(.modal-edit) {
-  margin-top: var(--gap-lg);
-  background: none;
-  border: none;
-  color: #6b7280;
-  font-size: var(--font-sm);
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-button[onClick]:not(.modal-save):not(.modal-edit):hover {
-  color: #111827;
-}
-
-button[onClick][style*='red'] {
-  background-color: var(--danger);
-  color: #fff;
-  padding: var(--padding-sm) var(--padding-md);
-  border-radius: var(--radius-lg);
-  margin-top: var(--gap-lg);
-  transition: background-color 0.3s;
-}
-
-button[onClick][style*='red']:hover {
-  background-color: #dc2626;
-}
-
-.profile-label {
-  font-weight: bold;
-  margin-right: 8px;
-  display: inline-block;
-  min-width: 90px;
-}
-
-.profile-value {
-  display: inline;
+  color: var(--secondary-text);
 }
 
 /* Donations Tab */
