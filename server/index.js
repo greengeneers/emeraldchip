@@ -123,7 +123,7 @@ app.get(
 ///////////////////////////////
 
 // Get Signature URL
-app.get('/api/s3', async (req, res) => {
+app.get('/api/s3', checkAuthentication, async (req, res) => {
   const url = await generateUploadURL();
   res.status(200).send({ url });
 });
