@@ -5,8 +5,6 @@ import LoginPage from './pages/Login';
 import NotFoundPage from './pages/NotFound';
 import UserContext from './contexts/user-context.jsx';
 import { checkForLoggedInUser } from './adapters/auth-adapter';
-import UsersPage from './pages/Users';
-import UserPage from './pages/User';
 import EventsTest from './pages/EventsTest';
 import Landing from './pages/Landing.jsx';
 import ProtectedRoutes from './components/ProtectedRoutes.jsx';
@@ -45,8 +43,6 @@ export default function App() {
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/sign-up" element={<SignUpPage />} />
-            <Route path="/users" element={<UsersPage />} />
-            <Route path="/users/:id" element={<UserPage />} />
           </Route>
 
           <Route path="*" element={<NotFoundPage />} />
