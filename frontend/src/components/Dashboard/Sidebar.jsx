@@ -33,7 +33,11 @@ const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
           className="sidebar-button profile-button"
           onClick={() => setIsModalOpen(true)}
         >
-          <span>{<profile.icon />}</span>
+          {currentUser.pfp ? (
+            <img src={currentUser.pfp} className="sidebar-user-pfp" />
+          ) : (
+            <profile.icon />
+          )}
           {currentUser.name.split(' ')[0]}
         </button>
         <button className="sidebar-button logout-button" onClick={onLogout}>

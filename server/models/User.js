@@ -8,13 +8,14 @@ class User {
 
   // Create a User instance with the password hidden
   // Instances of User can be sent to clients without exposing the password
-  constructor({ id, username, email, name, password_hash, zip_code }) {
+  constructor({ id, username, email, name, password_hash, zip_code, pfp }) {
     this.id = id;
     this.username = username;
     this.email = email;
     this.name = name;
     this.#passwordHash = password_hash;
     this.zipCode = zip_code;
+    this.pfp = pfp;
   }
 
   // Controllers can use this instance method to validate passwords prior to sending responses
@@ -70,14 +71,23 @@ class User {
 
   // Updates the user that matches the given id with a new username.
   // Returns the modified user, using the constructor to hide the passwordHash.
-  static async update(id, username, email, name, zipCode) {
+  static async update(id, username, email, name, zipCode, pfp = '') {
     const query = `
       UPDATE users
-      SET username=?, email=?, name=?, zip_code=?
+      SET username=?, email=?, name=?, zip_code=?, pfp=?
       WHERE id=?
       RETURNING *
     `;
-    const result = await knex.raw(query, [username, email, name, zipCode, id]);
+
+    const result = await knex.raw(query, [
+      username,
+      email,
+      name,
+      zipCode,
+      pfp,
+      id,
+    ]);
+
     const rawUpdatedUser = result.rows[0];
     return rawUpdatedUser ? new User(rawUpdatedUser) : null;
   }
@@ -88,7 +98,10 @@ class User {
     const rawUserData = result.rows[0];
     if (!rawUserData) return null;
 
-    const isPasswordValid = await bcrypt.compare(password, rawUserData.password_hash);
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      rawUserData.password_hash
+    );
     if (!isPasswordValid) return null;
 
     return new User(rawUserData);

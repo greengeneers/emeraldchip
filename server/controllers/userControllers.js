@@ -29,17 +29,29 @@ PATCH /api/users/:id
 Updates a single user (if found) and only if authorized
 */
 exports.updateUser = async (req, res) => {
-  const { username, name, email, zipCode } = req.body;
+  const { username, name, email, zipCode, pfp } = req.body;
+
   if (!username || !name || !email || !zipCode) {
-    return res.status(400).send({ message: 'Name, email, and zipcode required for update.' });
+    return res.status(400).send({
+      message: 'Name, email, and zipcode required for update.',
+    });
   }
 
   const { id } = req.params;
   const { userId } = req.session;
+
   if (Number(id) !== Number(userId)) {
-    return res.status(403).send({ message: "Unauthorized." });
+    return res.status(403).send({ message: 'Unauthorized.' });
   }
-  const updatedUser = await User.update(id, username, email, name, zipCode);
+  const updatedUser = await User.update(
+    id,
+    username,
+    email,
+    name,
+    zipCode,
+    pfp
+  );
+
   if (!updatedUser) {
     return res.status(404).send({ message: 'User not found.' });
   }
