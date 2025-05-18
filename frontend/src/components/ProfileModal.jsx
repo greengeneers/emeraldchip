@@ -3,6 +3,7 @@ import { updateUser } from '../adapters/user-adapter';
 import { useContext } from 'react';
 import UserContext from '../contexts/current-user-context';
 import ErrorPage from '../pages/ErrorPage';
+import handleUpload from '../utils/s3.js';
 
 const ProfileModal = ({ onClose }) => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -12,7 +13,9 @@ const ProfileModal = ({ onClose }) => {
     email: currentUser.email,
     name: currentUser.name,
     zipCode: currentUser.zipCode,
+    pfp: currentUser.pfp,
   });
+
   const [zipCodeWarning, setZipCodeWarning] = useState('');
   const [error, setError] = useState(null);
 
@@ -39,6 +42,7 @@ const ProfileModal = ({ onClose }) => {
       email: formData.email,
       name: formData.name,
       zipCode: formData.zipCode,
+      pfp: formData.pfp,
     };
 
     // TODO: maybe add a loading here? for now can just skip
@@ -58,6 +62,14 @@ const ProfileModal = ({ onClose }) => {
   if (error) {
     return <ErrorPage error={error} />;
   }
+
+  const handlePfpUpload = async (e) => {
+    const imageUrl = await handleUpload(e);
+
+    if (imageUrl) {
+      setFormData({ ...formData, pfp: imageUrl });
+    }
+  };
 
   // TODO: MAYBE add loading here to match line 45 above
 
@@ -85,6 +97,25 @@ const ProfileModal = ({ onClose }) => {
         <h1>Profile</h1>
         {isEditing ? (
           <form onSubmit={handleSave}>
+            <div className="modal-form-group">
+              <label htmlFor="pfp-input">Profile Picture:</label>
+              <div className="pfp-input-container">
+                {formData.pfp && (
+                  <img
+                    src={formData.pfp}
+                    alt="Profile Picture"
+                    className="modal-form-pfp"
+                  />
+                )}
+                <input
+                  type="file"
+                  name="pfp"
+                  id="pfp-input"
+                  className="modal-input"
+                  onChange={(e) => handlePfpUpload(e)}
+                />
+              </div>
+            </div>
             <div className="modal-form-group">
               <label htmlFor="username">Username:</label>
               <input
@@ -159,21 +190,32 @@ const ProfileModal = ({ onClose }) => {
             </div>
           </form>
         ) : (
-          <>
-            <p>Username: {currentUser.username}</p>
-            <p>Name: {currentUser.name}</p>
-            <p>Email: {currentUser.email}</p>
-            <p>Zip Code: {currentUser.zipCode}</p>
+          <div className="profile-modal">
+            <div className="profile-details-container">
+              {currentUser.pfp && (
+                <img src={currentUser.pfp} className="modal-form-pfp" />
+              )}
+
+              <div className="profile-details">
+                <p>{currentUser.name}</p>
+                <p>@{currentUser.username}</p>
+                <p>
+                  Email: <span>{currentUser.email}</span>
+                </p>
+                <p>
+                  Zip Code:
+                  <span> {currentUser.zipCode}</span>
+                </p>
+              </div>
+            </div>
+
             <div className="modal-footer">
               <button onClick={() => setIsEditing(true)} className="modal-edit">
                 Edit
               </button>
             </div>
-          </>
+          </div>
         )}
-        <button onClick={onClose} style={{ marginTop: '10px' }}>
-          Close
-        </button>
       </div>
     </div>
   );

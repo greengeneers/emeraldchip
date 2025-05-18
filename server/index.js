@@ -3,6 +3,7 @@
 ///////////////////////////////
 
 require('dotenv').config();
+
 const path = require('path');
 const express = require('express');
 
@@ -19,6 +20,8 @@ const eventControllers = require('./controllers/eventControllers');
 const rsvpControllers = require('./controllers/rsvpControllers');
 const dashboardControllers = require('./controllers/dashboardController.js');
 const donationControllers = require('./controllers/donationController.js');
+
+const { generateUploadURL } = require('./services/s3.js');
 
 const app = express();
 
@@ -114,6 +117,16 @@ app.get(
   checkAuthentication,
   dashboardControllers.showOverview
 );
+
+///////////////////////////////
+// S3 Endpoint
+///////////////////////////////
+
+// Get Signature URL
+app.get('/api/s3', checkAuthentication, async (req, res) => {
+  const url = await generateUploadURL();
+  res.status(200).send({ url });
+});
 
 ///////////////////////////////
 // Fallback Endpoints
