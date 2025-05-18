@@ -1,5 +1,5 @@
 import { getOverview } from '../../adapters/dashboard-adapter.js';
-import UserContext from '../../contexts/current-user-context.js';
+import UserContext from '../../contexts/user-context.jsx';
 import { useContext, useEffect, useState } from 'react';
 import Details from './Oveview/Details.jsx';
 import RecentDonations from './Oveview/RecentDonations.jsx';

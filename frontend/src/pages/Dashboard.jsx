@@ -5,7 +5,7 @@ import Sidebar from '../components/Dashboard/Sidebar.jsx';
 import Content from '../components/Dashboard/Content.jsx';
 import ProfileModal from '../components/ProfileModal.jsx';
 import { links } from '../components/Dashboard/constants.js';
-import CurrentUserContext from '../contexts/current-user-context';
+import CurrentUserContext from '../contexts/user-context.jsx';
 import { logUserOut } from '../adapters/auth-adapter';
 
 const Dashboard = () => {

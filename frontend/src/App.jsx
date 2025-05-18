@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import SignUpPage from './pages/SignUp';
 import LoginPage from './pages/Login';
 import NotFoundPage from './pages/NotFound';
-import UserContext from './contexts/current-user-context';
+import UserContext from './contexts/user-context.jsx';
 import { checkForLoggedInUser } from './adapters/auth-adapter';
 import UsersPage from './pages/Users';
 import UserPage from './pages/User';

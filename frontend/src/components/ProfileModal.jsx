@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { updateUser } from '../adapters/user-adapter';
 import { useContext } from 'react';
-import UserContext from '../contexts/current-user-context';
+import UserContext from '../contexts/user-context';
 import ErrorPage from '../pages/ErrorPage';
 
 const ProfileModal = ({ onClose }) => {
