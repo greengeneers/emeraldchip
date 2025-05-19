@@ -13,6 +13,7 @@ exports.up = function (knex) {
       table.string('name').notNullable();
       table.string('password_hash').notNullable();
       table.string('zip_code', 5).notNullable();
+      table.string('pfp');
     })
     .createTable('donations', (table) => {
       table.increments();
@@ -29,6 +30,8 @@ exports.up = function (knex) {
       table.string('image_url');
       table.string('description');
       table.string('status').notNullable();
+      table.float('weight_lbs').notNullable();
+      table.float('co2_saved_kg').notNullable();
     })
     .createTable('events', (table) => {
       table.increments();
@@ -55,8 +58,7 @@ exports.up = function (knex) {
         .references('id')
         .inTable('events')
         .onDelete('CASCADE');
-      table
-        .primary(['donor_id', 'event_id']);
+      table.primary(['donor_id', 'event_id']);
     });
 };
 

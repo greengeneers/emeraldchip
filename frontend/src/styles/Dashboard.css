@@ -56,6 +56,14 @@
   display: flex;
   align-items: center;
   gap: var(--gap-sm);
+  transition: 0.25s linear;
+  height: 65px;
+}
+
+.sidebar-button:hover,
+.sidebar-button:active,
+.sidebar-button:focus {
+  border-color: var(--primary);
 }
 
 .sidebar-button svg {
@@ -67,14 +75,37 @@
 .sidebar-active-button {
   background-color: var(--primary);
   color: var(--secondary-text);
-  border: none;
 }
 
 .sidebar-profile-container {
+  gap: var(--gap-sm);
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: flex-end;
   flex-grow: 1;
+}
+
+.profile-button,
+.logout-button {
+  width: 100%;
+  flex-shrink: 1;
+  height: 75px;
+}
+
+.logout-button {
+  width: 25%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar-user-pfp {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: var(--radius-full);
 }
 
 /* OVERVIEW TAB */
@@ -111,7 +142,6 @@
 .overview-details {
   font-size: var(--font-xl);
   display: flex;
-  gap: var(--gap-md);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -189,7 +219,7 @@
 .recent-donation-image {
   width: 200px;
   height: 150px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .recent-donation-date {
@@ -197,6 +227,7 @@
   font-size: var(--font-xl);
 }
 
+.donation-status,
 .recent-donation-status {
   font-weight: bold;
   font-size: var(--font-xl);
@@ -276,117 +307,190 @@
 .event-calendar-button {
   text-align: right;
 }
-/* ProfileModal.*/
 
-/* The modal background */
+/* Profile Modal */
+
+.profile-details-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.profile-details-container {
+  font-size: var(--font-lg);
+  font-weight: 600;
+}
+
+.profile-details-container span {
+  font-weight: 500;
+}
+
+/* Profile Editing Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 24, 39, 0.5);
+  backdrop-filter: blur(10px);
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  backdrop-filter: blur(5px);
+  z-index: 9999;
 }
 
-/* The modal content box */
 .modal-content {
-  background-color: white;
-  padding: 30px;
-  border-radius: 10px;
-  max-width: 500px;
-  width: 100%;
-  height: auto;
-  position: relative;
-  z-index: 1100;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* Modal Header */
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.modal-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--primary);
-}
-
-.modal-close-button {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
+  background-color: var(--background);
   color: var(--text);
-}
-
-
-.modal-body {
+  border-radius: var(--radius-xl);
+  padding: var(--padding-2xl) var(--padding-xl);
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  transition: all 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--gap-sm);
+}
+
+.modal-content h1 {
+  font-size: var(--font-xl);
+  font-weight: 600;
+}
+
+.pfp-input-container {
+  display: flex;
+  gap: var(--gap-md);
+}
+
+.modal-form-pfp {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
 }
 
 .modal-form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  margin-bottom: var(--gap-md);
+  font-weight: 500;
 }
 
-.modal-label {
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--text);
+.modal-form-group label {
+  display: block;
+  margin-bottom: var(--gap-sm);
+  font-size: var(--font-md);
 }
 
 .modal-input {
-  padding: 12px;
-  border: 2px solid var(--border);
-  border-radius: 5px;
-  font-size: 16px;
-  background-color: var(--background);
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-base);
+  background-color: var(--accent);
+  transition: all 0.2s ease;
   color: var(--text);
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.25);
+}
+
+.modal-form-group p {
+  margin-top: 0.4rem;
+  font-size: var(--font-xs);
+  color: var(--danger);
 }
 
 .modal-footer {
   display: flex;
-  justify-content: flex-end;
-  gap: 15px;
-  margin-top: 20px;
+  justify-content: flex-start;
+  gap: var(--gap-md);
+  margin-top: var(--gap-lg);
 }
 
-.modal-button {
-  padding: 12px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
+/* Button styling */
+.modal-save,
+.modal-edit {
+  background-color: var(--accent);
+  padding: var(--padding-sm) var(--padding-lg);
   border: none;
-  transition: background 0.25s ease;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
 }
 
-.modal-save {
+.modal-save:hover,
+.modal-edit:hover {
   background-color: var(--primary);
   color: var(--secondary-text);
 }
 
-.modal-edit {
-  background-color: var(--border);
-  color: var(--text);
+/* Donations Tab */
+
+#donations,
+#facilities {
+  background-color: var(--background);
+  height: 100%;
+  border-radius: var(--radius-lg);
+  padding: var(--padding-md);
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
 }
 
-.modal-logout {
-  background-color: var(--accent);
-  color: var(--text);
+.donations-container {
+  /* display: flex;
+  gap: var(--gap-md);
+  flex-wrap: wrap; */
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr;
+  gap: var(--gap-md);
+}
+
+.donation {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--padding-md);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+  transition: 0.25s linear;
+  cursor: pointer;
+}
+
+.donation:hover,
+.donation:focus,
+.donation:active {
+  background-color: var(--primary);
+  color: var(--secondary-text);
+}
+
+.donation-title {
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.donation-image {
+  width: 100%;
+  height: 300px;
+  object-fit: contain;
+  background-color: var(--background);
+}
+
+#facilities-map {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--primary);
 }
 
 /* EVENTS TAB */

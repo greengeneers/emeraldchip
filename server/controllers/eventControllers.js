@@ -5,21 +5,23 @@ GET /api/events
 Returns an array of all events in the database
 Optionally, if there is a body contained in the request, the returned events can be limited to the scope of a month/year, -/+ 1 month buffer
 */
-exports.listEvents = async (req, res) => {
+exports.listEvents = async (req, res, next) => {
   try {
-    let { yearMonth } = req.params;
+    const { yearMonth } = req.params;
     // split and convert
-    const [year, month] = [yearMonth.slice(0, 4), yearMonth.slice(4)].map((i) => Number(i));
+    const [year, month] = [yearMonth.slice(0, 4), yearMonth.slice(4)].map((i) =>
+      Number(i)
+    );
 
     const events = await Event.list(month, year);
     if (!events) {
       res.status(404).send({
-        message: 'Error fetching resource.'
-      })
+        message: 'Error fetching resource.',
+      });
     }
     res.send(events);
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
@@ -27,7 +29,7 @@ exports.listEvents = async (req, res) => {
 GET /api/events/:id
 Returns a single event (if found)
 */
-exports.showEventById = async (req, res) => {
+exports.showEventById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -46,7 +48,7 @@ exports.showEventById = async (req, res) => {
 GET /api/events/:name
 Returns a single event (if found)
 */
-exports.showEventByName = async (req, res) => {
+exports.showEventByName = async (req, res, next) => {
   try {
     const { name } = req.params;
 

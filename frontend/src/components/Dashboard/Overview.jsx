@@ -10,19 +10,19 @@ const Overview = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
 
+  const handleGetOverview = async () => {
+    const [overview, error] = await getOverview();
+
+    if (error) {
+      console.error('Error fetching overview');
+      return;
+    }
+
+    setData(overview);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    const handleGetOverview = async () => {
-      const [overview, error] = await getOverview();
-
-      if (error) {
-        console.error('Error fetching overview');
-        return;
-      }
-
-      setData(overview);
-      setLoading(false);
-    };
-
     handleGetOverview();
   }, []);
 
@@ -48,8 +48,14 @@ const Overview = () => {
       <Details data={data} />
 
       <div className="donations-events-container">
-        <RecentDonations donations={data.recentDonations} />
-        <UpcomingEvents events={data.recentEvents} />
+        <RecentDonations
+          donations={data.recentDonations}
+          handleGetOverview={handleGetOverview}
+        />
+        <UpcomingEvents
+          events={data.recentEvents}
+          handleGetOverview={handleGetOverview}
+        />
       </div>
     </div>
   );

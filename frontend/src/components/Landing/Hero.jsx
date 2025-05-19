@@ -25,7 +25,7 @@ const Hero = () => {
             Learn More
           </a>
 
-          <NavLink to={'/signup'} className={'hero-details-cta'}>
+          <NavLink to={'/sign-up'} className={'hero-details-cta'}>
             Get Involved
           </NavLink>
         </div>

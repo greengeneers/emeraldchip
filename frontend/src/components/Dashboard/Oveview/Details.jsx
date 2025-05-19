@@ -20,13 +20,13 @@ const Details = ({ data }) => {
 
       <div className="overview-details">
         <PiPlant />
-        <h1>45kg</h1>
+        <h1>{data.totalCO2Saved.toFixed(1)} kg</h1>
         <p>CO₂ Saved</p>
       </div>
 
       <div className="overview-details">
         <FaRecycle />
-        <h1>8.2kg </h1>
+        <h1>{data.totalWasteReduced.toFixed(1)} lbs</h1>
         <p>Waste Reduced</p>
       </div>
     </div>
