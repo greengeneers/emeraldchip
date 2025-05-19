@@ -1,6 +1,7 @@
 import {
   useState,
-  useEffect
+  useEffect,
+  useCallback
 } from "react";
 import CalendarNav from './Events/CalendarNav.jsx';
 import CalendarView from './Events/CalendarView.jsx';
@@ -23,34 +24,35 @@ export default function Events() {
   // 'Monthly' or 'Weekly'
   const [viewMode, setViewMode] = useState('Monthly');
 
+  const fetchEvents = useCallback(async () => {
+    try {
+      let data, error;
+      if (whichEvents === 'ALL') [data,error] = await listEvents(`${currentYear}${currentMonth}`);
+      else [data, error] = await listRsvp();
+
+      if (error) throw new Error(error);
+      // get the day for each and add that to data
+      const processedEvents = data.reduce((acc, event) => {
+        // convert all the start and end date in to Date()
+        const startDate = new Date(event.startDate);
+        const endDate = new Date(event.endDate);
+        event.startDate = startDate;
+        event.endDate = endDate;
+
+        const date = `${event.startDate.getFullYear()}_${event.startDate.getMonth()}_${event.startDate.getDate()}`;
+        console.log(date);
+        if (!acc[date]) acc[date] = [];
+        acc[date].push(event);
+        return acc;
+      }, {});
+      console.log('processed:', processedEvents);
+      setCurrentEvents(processedEvents);
+    } catch (error) {
+      return <><h1>nvm it broke!</h1></>
+    }
+  });
+
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        let data, error;
-        if (whichEvents === 'ALL') [data,error] = await listEvents(`${currentYear}${currentMonth}`);
-        else [data, error] = await listRsvp();
-
-        if (error) throw new Error(error);
-        // get the day for each and add that to data
-        const processedEvents = data.reduce((acc, event) => {
-          // convert all the start and end date in to Date()
-          const startDate = new Date(event.startDate);
-          const endDate = new Date(event.endDate);
-          event.startDate = startDate;
-          event.endDate = endDate;
-
-          const date = `${event.startDate.getFullYear()}_${event.startDate.getMonth()}_${event.startDate.getDate()}`;
-          console.log(date);
-          if (!acc[date]) acc[date] = [];
-          acc[date].push(event);
-          return acc;
-        }, {});
-        console.log('processed:', processedEvents);
-        setCurrentEvents(processedEvents);
-      } catch (error) {
-        return <><h1>nvm it broke!</h1></>
-      }
-    };
     fetchEvents();
   }, [currentMonth, whichEvents]);
 

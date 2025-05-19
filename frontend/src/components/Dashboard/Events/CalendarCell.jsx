@@ -29,11 +29,10 @@ export default function CalendarCell({ currentMonth, date, dailyEvents, openEven
           <ol className='calendar-cell-events'>
             {
               dailyEvents.map((event, eventIndex) => {
-                const key = `${event.name}_${event.startDate.getFullYear()}_${event.startDate.getMonth()+1}_${event.startDate.getDate()}_${event.startDate.getHours()}_${event.startDate.getMinutes()}_${event.startDate.getSeconds()}`;
 
                 return (
                   <li
-                    key={key}
+                    key={event.name}
                     className='calendar-cell-events-li'
                     data-event-index={eventIndex}
                   >

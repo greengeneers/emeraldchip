@@ -1,4 +1,3 @@
-import Day from './Day.jsx';
 import EventModal from './EventModal.jsx';
 import CalendarCell from './CalendarCell.jsx';
 import { weekdays } from '../constants.js'
