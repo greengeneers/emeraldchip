@@ -6,27 +6,25 @@ const Details = ({ data }) => {
     <div className="overview-details-container">
       <div className="overview-details">
         <FaBox />
-        <h1>{data.donationsCount}</h1>
+        <h1>{data.donationsCount ?? 0}</h1>
         <p>Devices Donated</p>
       </div>
 
       <div className="overview-details">
         <FaCalendar />
-        <h1>{data.pastEventsCount}</h1>
+        <h1>{data.pastEventsCount ?? 0}</h1>
         <p>Events Attended</p>
       </div>
 
-      {/* CO₂ Saved and Waste Reduced Currently Hard-coded*/}
-
       <div className="overview-details">
         <PiPlant />
-        <h1>{data.totalCO2Saved.toFixed(1)} kg</h1>
+        <h1>{(data.totalCO2Saved ?? 0).toFixed(1)} kg</h1>
         <p>CO₂ Saved</p>
       </div>
 
       <div className="overview-details">
         <FaRecycle />
-        <h1>{data.totalWasteReduced.toFixed(1)} lbs</h1>
+        <h1>{(data.totalWasteReduced ?? 0).toFixed(1)} lbs</h1>
         <p>Waste Reduced</p>
       </div>
     </div>

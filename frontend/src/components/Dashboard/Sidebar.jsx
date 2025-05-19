@@ -6,7 +6,7 @@ import Logo from '../Logo.jsx';
 import { links } from './constants.js';
 
 const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
-  const { currentUser } = useContext(CurrentUserContext); // Access current user context
+  const { currentUser } = useContext(CurrentUserContext);
 
   const pfpUrl =
     currentUser.pfp || `https://robohash.org/${currentUser.email}?set=set1`;
@@ -21,7 +21,7 @@ const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
           {links.map((link) => (
             <button
               className={`sidebar-button ${
-                currentTab.state === link.state ? 'sidebar-active-button' : null
+                currentTab.state === link.state ? 'sidebar-active-button' : ''
               }`}
               onClick={() => setCurrentTab(link)}
               key={link.state}
@@ -33,11 +33,12 @@ const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
         </ul>
       </nav>
       <div className="sidebar-profile-container">
+       
         <button
           className="sidebar-button profile-button"
           onClick={() => setIsModalOpen(true)}
         >
-          <img src={pfpUrl} className="sidebar-pfp" />
+          <img src={pfpUrl} className="sidebar-pfp" alt="Profile" />
           {currentUser.name.split(' ')[0]}
         </button>
         <button className="sidebar-button logout-button" onClick={onLogout}>

@@ -41,7 +41,7 @@ const ProfileModal = ({ onClose }) => {
       zipCode: formData.zipCode,
     };
 
-    // TODO: maybe add a loading here? for now can just skip
+
     const [data, error] = await updateUser(currentUser.id, body);
 
     if (error) {
@@ -50,7 +50,7 @@ const ProfileModal = ({ onClose }) => {
       return;
     }
 
-    // happy path
+
     setCurrentUser(data);
     setIsEditing(false);
   };
@@ -59,7 +59,7 @@ const ProfileModal = ({ onClose }) => {
     return <ErrorPage error={error} />;
   }
 
-  // TODO: MAYBE add loading here to match line 45 above
+
 
   return (
     <div className="modal-overlay">

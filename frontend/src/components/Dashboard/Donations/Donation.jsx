@@ -1,10 +1,10 @@
 import { statusColor } from '../constants.js';
 
-const Donation = ({ data }) => {
+const Donation = ({ data, onClick }) => {
   return (
-    <div className="donation">
+    <div className="donation" onClick={onClick} style={{ cursor: 'pointer' }}>
       <img
-        src={data['image_url']}
+        src={data['imageUrl']}
         className="donation-image"
         alt={`Image of ${data.title}`}
       />

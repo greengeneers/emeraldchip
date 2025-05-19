@@ -1,7 +1,16 @@
-const Content = ({ currentTab }) => {
+const Content = ({ currentTab, onViewAllDonations, onOpenDonationModal, onAddDonation, donations }) => {
+  const Component = currentTab.component;
+
   return (
     <div className="dashboard-content">
-      {currentTab.component && <currentTab.component />}
+      {Component && (
+        <Component
+          donations={donations}
+          onViewAllDonations={onViewAllDonations}
+          onOpenDonationModal={onOpenDonationModal}
+          onAddDonation={onAddDonation}  
+        />
+      )}
     </div>
   );
 };
