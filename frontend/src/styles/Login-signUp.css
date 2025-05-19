@@ -123,6 +123,8 @@
   height: 92%;
   border-radius: var(--radius-md);
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .slideshow {
