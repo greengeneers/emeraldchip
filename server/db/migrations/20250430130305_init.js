@@ -13,6 +13,7 @@ exports.up = function (knex) {
       table.string('name').notNullable();
       table.string('password_hash').notNullable();
       table.string('zip_code', 5).notNullable();
+      table.string('pfp');
     })
     .createTable('donations', (table) => {
       table.increments();

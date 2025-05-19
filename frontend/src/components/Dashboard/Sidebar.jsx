@@ -1,8 +1,6 @@
 import { useContext } from 'react';
 import CurrentUserContext from '../../contexts/current-user-context.js';
-// import { CiLogout } from 'react-icons/ci';
-import { RiLogoutBoxRLine } from "react-icons/ri";
-
+import { RiLogoutBoxRLine } from 'react-icons/ri';
 import Logo from '../Logo.jsx';
 import { links, profile } from './constants.js';
 
@@ -29,18 +27,19 @@ const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
           ))}
         </ul>
       </nav>
-      <div className='sidebar-profile-container'>
+      <div className="sidebar-profile-container">
         <button
-            className='sidebar-button profile-button'
-            onClick={() => setIsModalOpen(true)}
+          className="sidebar-button profile-button"
+          onClick={() => setIsModalOpen(true)}
         >
-          <span>{<profile.icon />}</span>
+          {currentUser.pfp ? (
+            <img src={currentUser.pfp} className="sidebar-user-pfp" />
+          ) : (
+            <profile.icon />
+          )}
           {currentUser.name.split(' ')[0]}
         </button>
-        <button
-          className='sidebar-button logout-button'
-          onClick={onLogout}
-        >
+        <button className="sidebar-button logout-button" onClick={onLogout}>
           <RiLogoutBoxRLine />
         </button>
       </div>
