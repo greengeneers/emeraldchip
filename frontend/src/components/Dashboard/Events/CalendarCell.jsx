@@ -1,36 +1,49 @@
 
-export default function CalendarCell({ props }) {
-  const { date, events, openEventModal } = props;
-  const hasEvents = (events) ? true : false;
+export default function CalendarCell({ date, dailyEvents, openEventModal }) {
+  // console.log('date', date);
+  // console.log('dailyEvents', dailyEvents);
+  const dateObj = new Date(date.year, date.month, date.day);
+  const today = new Date();
+  const isToday =
+    dateObj.getDate() === today.getDate() &&
+    dateObj.getMonth() === today.getMonth() &&
+    dateObj.getFullYear() === today.getFullYear();
+
+  const formattedMonth = dateObj.toLocaleString('default', { month: 'long' })
   return (<>
     <div className='calendar-cell'>
-      <div className='calendar-cell-header'>
-        <p>{date}</p>
+      <div className={`calendar-cell-header`}>
+        <span className={(isToday) ? 'today' : ''}>
+          {
+            (date.day === 1)
+            ? `${formattedMonth} ${date.day}`
+            : date.day
+          }
+        </span>
       </div>
       <div className='calendar-cell-body'>
       {
-        hasEvents &&
+        dailyEvents &&
           <>
               <ol className='calendar-cell-events'>
                 {
-                  events.map((event, eventIndex) => {
+                  dailyEvents.map((event, eventIndex) => {
                     const key = `${event.name}_${event.startDate.getFullYear()}_${event.startDate.getMonth()+1}_${event.startDate.getDate()}_${event.startDate.getHours()}_${event.startDate.getMinutes()}_${event.startDate.getSeconds()}`;
 
-                    console.log('key', key);
-                    return <>
+                    return (
                       <li
                         key={key}
-                        className='date-events-li'
+                        className='calendar-cell-events-li'
                         data-event-index={eventIndex}
                       >
                         <button
-                          className='date-events-button'
+                          className='calendar-cell-events-button'
                           onClick={openEventModal}
                         >
-                          <p>{event.name}</p>
+                          <div className='calendar-cell-events-title'>{event.name}</div>
                         </button>
                       </li>
-                    </>
+                    )
                   })
                 }
               </ol>

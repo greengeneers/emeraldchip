@@ -395,6 +395,13 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
+  background-color: var(--background);
+  border-radius: var(--radius-lg);
+  padding: var(--padding-md);
+}
+
+.calendar-container ol {
+  list-style-type: none;
 }
 
 .calendar-nav {
@@ -431,6 +438,31 @@
   justify-content: center;
 }
 
+.calendar-side-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.side-label-heading {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.side-label-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--accent);
+}
+
+.side-label-item {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: var(--padding-xs);
+  flex-grow: 1;
+}
+
 .weekdays-container {
   display: flex;
   justify-content: space-between;
@@ -441,6 +473,95 @@
   justify-content: center;
   align-items: flex-end;
   width: calc(100%/7);
+}
+
+.calendar-body {
+  display: flex;
+  height: 100%;
+}
+
+.calendar-side-label {
+  width: 5%;
+}
+
+.calendar-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.weekdays-row {
+  display: flex;
+}
+
+.main-grid {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.grid-row {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  height: calc(100%/6); /* 6 rows per month */
+  border-bottom: 1px solid var(--accent);
+}
+
+.grid-row:first-child {
+  border-top: 1px solid var(--accent);
+}
+
+.calendar-cell {
+  width: calc(100%/7); /* 7 days per week */
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--accent);
+}
+
+.calendar-cell:first-child {
+  border-left: 1px solid var(--accent);
+}
+
+.calendar-cell-header {
+  /* date number styling */
+  height: 30%;
+  padding-top: var(--padding-xs);
+  padding-right: var(--padding-xs);
+  padding-bottom: var(--padding-sm);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.calendar-cell-header>span {
+  padding: 0 var(--padding-xs);
+  border-radius: var(--radius-md);
+}
+
+.today {
+  color: var(--text-dark-mode);
+  background-color: var(--danger);
+}
+
+.calendar-cell-body {
+  display: flex;
+  height: 70%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellips;
+  /* probably some overflow styles here for scrollable events if there's too many in a day  or maybe in the list itself??? i don't fucking know man */
+}
+
+.calendar-cell-events-li {
+  display: flex;
+  max-height: var(--font-base);
+}
+
+.calendar-cell-events-button {
+  display: flex;
+}
+
+.calendar-cell-events-title {
 }
 
 .middle-padding {

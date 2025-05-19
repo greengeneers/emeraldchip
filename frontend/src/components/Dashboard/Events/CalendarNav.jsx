@@ -3,17 +3,18 @@ export default function CalendarNav({ props }) {
   const {
     currentYear,
     currentMonth,
+    whichEvents,
     viewMode,
     handlePrevMonth,
     handleNextMonth,
+    handleWhichEventsChange,
     handleViewModeChange,
     handleJumpToday,
     // pending use
     currentWeek,
     currentDay
   } = props;
-  // TODO: please be mindful of currentMonth-1 here
-  const date = new Date(currentYear, currentMonth-1, 1);
+  const date = new Date(currentYear, currentMonth, 1);
   const formattedMonth = date.toLocaleString('default', { month: 'long' })
 
   return (<>
@@ -35,12 +36,17 @@ export default function CalendarNav({ props }) {
       <div className='calendar-header-container'>
         <span id='header-month'>{formattedMonth}</span>
         <span id='header-year'>{currentYear}</span>
-        {/* <span id='header-week'>Week {currentWeek}</span> */}
       </div>
       <div className='middle-padding'></div>
       <div className='calendar-view-controls'>
         <button
-          className='view-change'
+          className='which-events-change'
+          onClick={handleWhichEventsChange}
+        >
+          {whichEvents}
+        </button>
+        <button
+          className='view-mode-change'
           onClick={handleViewModeChange}
         >
           {viewMode}
