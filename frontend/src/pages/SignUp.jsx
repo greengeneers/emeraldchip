@@ -3,7 +3,8 @@ import { useNavigate, Navigate, Link } from 'react-router-dom';
 import CurrentUserContext from '../contexts/current-user-context';
 import { registerUser } from '../adapters/auth-adapter';
 import Logo from '../components/Logo';
-import '../styles/signUp.css';
+import '../styles/index.css';
+import '../styles/Login-signUp.css';
 
 export default function SignUpPage() {
   const navigate = useNavigate();

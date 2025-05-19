@@ -3,8 +3,8 @@ import { useNavigate, Navigate } from 'react-router-dom';
 import { logUserIn } from '../adapters/auth-adapter';
 import CurrentUserContext from '../contexts/current-user-context';
 import Logo from '../components/Logo';
-import loginImg1 from '..//assets/images/recycled-tech-facilty-4.jpg';
-import '../styles/Login.css';
+import '../styles/index.css';
+import '../styles/Login-signUp.css';
 
 export default function LoginPage() {
   const navigate = useNavigate();

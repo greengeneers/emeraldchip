@@ -1,8 +1,29 @@
+:root {
+  --primary: var(--primary); /* #49756c */
+  --secondary: #7bbfa8;
+  --accent: var(--accent); /* #c9c9c9 */
+  --danger: var(--danger); /* #ee4b2b */
+  --text: var(--text); /* #000000 */
+  --border: var(--border); /* rgba(0, 0, 0, 0.1) */
+  --background: var(--background); /* #f5f5f5 */
+  --radius-md: var(--radius-md); /* 0.25rem */
+  --gap-sm: var(--gap-sm); /* 0.5rem */
+  --gap-md: var(--gap-md); /* 1rem */
+  --gap-xl: var(--gap-xl); /* 2rem */
+  --padding-sm: var(--padding-sm); /* 0.5rem */
+  --padding-2xl: var(--padding-2xl); /* 3rem */
+  --padding-3xl: var(--padding-3xl); /* 4rem */
+  --font-xs: var(--font-xs); /* 0.75rem */
+  --font-base: var(--font-base); /* 1rem */
+  --font-sm: var(--font-sm); /* 0.875rem */
+  --underline-offset: var(--underline-offset); /* 5px */
+  --opacity: var(--opacity); /* 0.7 */
+}
+
 .auth-page {
   display: flex;
   height: 100vh;
-  font-family: Helvetica, sans-serif;
-  background-color: var(--background);
+  background-color: var(--background); /* from :root in index.css */
 }
 
 .auth-left {
@@ -12,7 +33,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--background);
+  background-color: #fff;
+  position: relative;
 }
 
 .auth-header {
@@ -24,43 +46,50 @@
 
 .brand-name {
   font-family: 'Helvetica Neue', sans-serif;
-  font-size: 24px;
+  font-size: 200%;
   font-weight: 500;
   color: var(--primary);
 }
 
 .auth-form {
   width: 100%;
-  max-width: 300px;
+  max-width: 350px;
   display: flex;
   flex-direction: column;
   gap: var(--gap-md);
+  z-index: 2;
 }
 
-.field {
+.auth-form .field {
   display: flex;
   flex-direction: column;
 }
 
-.label {
+.auth-form .label {
   font-size: var(--font-sm);
   margin-bottom: var(--gap-sm);
   color: var(--text);
 }
 
-input {
+.auth-form input {
   padding: var(--padding-sm);
   font-size: var(--font-base);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: white;
+  color: var(--text);
 }
 
-input:focus {
-  outline: 2px solid var(--primary);
+.auth-form input:focus {
+  outline: 2px solid var(--secondary);
 }
 
-.submit-btn {
+.auth-form input::placeholder {
+  font-size: var(--font-xs);
+  color: rgba(0, 0, 0, var(--opacity));
+}
+
+.auth-form .submit-btn {
   background-color: var(--primary);
   color: white;
   padding: var(--padding-sm);
@@ -68,39 +97,40 @@ input:focus {
   border-radius: var(--radius-md);
   cursor: pointer;
   font-weight: bold;
-  margin-top: var(--gap-md);
   transition: background-color 0.3s ease;
+  margin-top: var(--gap-md);
 }
 
-.submit-btn:hover {
-  background-color: #3d5f58;
+.auth-form .submit-btn:hover {
+  background-color: var(--secondary);
 }
 
-.switch-auth {
+.auth-form .options {
   font-size: var(--font-xs);
   margin-top: var(--gap-sm);
   color: var(--text);
-}
-
-.switch-auth a {
-  color: var(--primary);
-  text-decoration: underline;
-  text-underline-offset: var(--underline-offset);
-}
-
-.footer-note {
-  font-size: var(--font-xs);
-  margin-top: var(--gap-xl);
-  opacity: var(--opacity);
   text-align: center;
 }
 
-.auth-right {
-  width: 50%;
-  background: linear-gradient(to right, #49756c, #a8d5a2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.auth-form .options button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: var(--underline-offset);
+  padding: 0;
+}
+
+.auth-form .options button:hover {
+  color: var(--secondary);
+}
+
+.auth-form .error {
+  color: var(--danger);
+  font-size: var(--font-xs);
+  margin-top: var(--gap-sm);
+  text-align: center;
 }
 
 .auth-right {
@@ -112,7 +142,6 @@ input:focus {
 }
 
 .image-placeholder {
-  /* background-color: #ffffff; */
   width: 92%;
   height: 92%;
   border-radius: var(--radius-md);
@@ -148,14 +177,12 @@ input:focus {
   animation-delay: 0s;
 }
 .s2 {
-  /* background: var(--bg-image) center/cover no-repeat; */
   background-image: url('../assets/images/recycled-tech3.jpg');
   background-position: center;
   background-repeat: no-repeat;
   animation-delay: 3s;
 }
 .s3 {
-  /* background: var(--bg-image) center/cover no-repeat; */
   background-image: url('../assets/images/recycled-tech9.jpg');
   background-position: center;
   background-repeat: no-repeat;
@@ -178,21 +205,4 @@ input:focus {
   100% {
     opacity: 0;
   }
-}
-
-.image-placeholder {
-  font-weight: bold;
-  color: black;
-  font-size: var(--font-base);
-}
-
-.error {
-  color: var(--danger);
-  font-size: var(--font-xs);
-  margin-top: var(--gap-sm);
-}
-
-input::placeholder {
-  font-size: var(--font-xs);
-  color: rgba(0, 0, 0, 0.6);
 }
