@@ -22,7 +22,7 @@ export default function LoginPage() {
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
-    navigate(`/users/${user.id}`);
+    navigate(`/dashboard`);
   };
 
   return (
