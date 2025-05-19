@@ -1,0 +1,198 @@
+.auth-page {
+  display: flex;
+  height: 100vh;
+  font-family: Helvetica, sans-serif;
+  background-color: var(--background);
+}
+
+.auth-left {
+  width: 50%;
+  padding: var(--padding-3xl) var(--padding-2xl);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background);
+}
+
+.auth-header {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+  margin-bottom: var(--gap-xl);
+}
+
+.brand-name {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--primary);
+}
+
+.auth-form {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: var(--font-sm);
+  margin-bottom: var(--gap-sm);
+  color: var(--text);
+}
+
+input {
+  padding: var(--padding-sm);
+  font-size: var(--font-base);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: white;
+}
+
+input:focus {
+  outline: 2px solid var(--primary);
+}
+
+.submit-btn {
+  background-color: var(--primary);
+  color: white;
+  padding: var(--padding-sm);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: var(--gap-md);
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #3d5f58;
+}
+
+.switch-auth {
+  font-size: var(--font-xs);
+  margin-top: var(--gap-sm);
+  color: var(--text);
+}
+
+.switch-auth a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: var(--underline-offset);
+}
+
+.footer-note {
+  font-size: var(--font-xs);
+  margin-top: var(--gap-xl);
+  opacity: var(--opacity);
+  text-align: center;
+}
+
+.auth-right {
+  width: 50%;
+  background: linear-gradient(to right, #49756c, #a8d5a2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-right {
+  width: 56%;
+  background: linear-gradient(to right, #3c6765, #c0f5a7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-placeholder {
+  /* background-color: #ffffff; */
+  width: 92%;
+  height: 92%;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-base);
+  font-weight: bold;
+  color: #000;
+}
+
+.slideshow {
+  position: relative;
+  width: 750px;
+  height: 690px;
+  object-fit: contain;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  animation: fade 9s infinite;
+}
+
+.s1 {
+  background-image: url('../assets/images/recycled-tech2.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  animation-delay: 0s;
+}
+.s2 {
+  /* background: var(--bg-image) center/cover no-repeat; */
+  background-image: url('../assets/images/recycled-tech3.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  animation-delay: 3s;
+}
+.s3 {
+  /* background: var(--bg-image) center/cover no-repeat; */
+  background-image: url('../assets/images/recycled-tech9.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  animation-delay: 6s;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.image-placeholder {
+  font-weight: bold;
+  color: black;
+  font-size: var(--font-base);
+}
+
+.error {
+  color: var(--danger);
+  font-size: var(--font-xs);
+  margin-top: var(--gap-sm);
+}
+
+input::placeholder {
+  font-size: var(--font-xs);
+  color: rgba(0, 0, 0, 0.6);
+}
