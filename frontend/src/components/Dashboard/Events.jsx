@@ -91,7 +91,8 @@ export default function Events() {
     const today = new Date();
     setCurrentYear(today.getFullYear());
     setCurrentMonth(today.getMonth());
-    setCurrentWeek(getWeekNumber(today));
+    const { weekNumber } = getWeekNumber(today);
+    setCurrentWeek(weekNumber);
   }
 
 

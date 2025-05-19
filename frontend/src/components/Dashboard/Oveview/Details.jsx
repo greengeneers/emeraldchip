@@ -2,6 +2,7 @@ import { FaBox, FaCalendar, FaRecycle } from 'react-icons/fa6';
 import { PiPlant } from 'react-icons/pi';
 
 const Details = ({ data }) => {
+  console.log(data);
   return (
     <div className="overview-details-container">
       <div className="overview-details">

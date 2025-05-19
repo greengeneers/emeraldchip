@@ -59,15 +59,32 @@ export const buildMonthMatrix = (currentYear, currentMonth) => {
 
 
 export const getWeekNumber = (date) => {
-  // copy date (need to change later in computing week #)
-  const target = new Date(date.valueOf());
+  const targetDate = new Date(date.valueOf());
+  const startOfYear = new Date(targetDate.getFullYear(), 0, 1);
+  const endOfYear = new Date(targetDate.getFullYear(), 11, 31);
 
-  // iso week starts on monday, so adjust the day number. set to first day of the week.
-  const dayNr = (date.getDay() + 6) % 7;
-  target.setDate(target.getDate() - dayNr + 3);
+  // on border-weeks (last week of dec, first week of jan)
+  const isDecemberEnd = targetDate.getMonth() === 11 && targetDate.getDate() >= 29;
+  if (isDecemberEnd) {
+    // check if this week extends into the next year
+    // if it does, this is week 1 of the next year
+    const dayOfWeek = targetDate.getDay();
+    const daysUntilEndOfYear = endOfYear.getDate() - targetDate.getDate();
+    if (daysUntilEndOfYear < (6 - dayOfWeek)) {
+      return {
+        week: 1,
+        year: targetDate.getFullYear() + 1
+      };
+    }
+  }
 
-  // get the first thursday, and calculate the number of weeks from the base day onto it
-  const firstThursday = new Date(target.getFullYear(), 0, 4);
-  const weekNr = 1 + Math.ceil((target - firstThursday) / (7 * 24 * 60 * 60 * 1000));
-  return weekNr;
+  // on non border-weeks, calc the week number since the start of the year / 7 (round up)
+  const daysSinceStartOfYear = Math.floor((targetDate - startOfYear) / (24 * 60 * 60 * 1000));
+  const firstDayOfWeek = startOfYear.getDay() || 7;
+  const weekNumber = Math.floor((daysSinceStartOfYear + firstDayOfWeek + 1) / 7) + 1;
+
+  return {
+    week: weekNumber,
+    year: targetDate.getFullYear()
+  };
 };

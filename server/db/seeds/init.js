@@ -155,7 +155,7 @@ exports.seed = async (knex) => {
 
   const events = [
     {
-      name: 'E-Waste Collection - Jamaica (Baisley Pond Park)',
+      name: 'Jamaica (Baisley Pond Park)',
       event_url:
         'https://www.lesecologycenter.org/calendar/jamaica-baisley-pond-park/',
       address: 'Baisley Pond Park – 156-10 Baisley Blvd, Rochdale, NY 11434',
@@ -163,7 +163,7 @@ exports.seed = async (knex) => {
       end_date: new Date('2025-06-23T14:00:00-04:00'),
     },
     {
-      name: 'E-Waste Collection - Woodhaven (Forest Park)',
+      name: 'Woodhaven (Forest Park)',
       event_url:
         'https://www.lesecologycenter.org/calendar/woodhaven-forest-park/',
       address: 'Forest Park Bandshell Parking Lot, Woodhaven, NY 11421',

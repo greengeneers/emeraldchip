@@ -48,7 +48,8 @@ export default function CalendarView({ props }) {
               <ol className='side-label-content'>
                 {
                   weekNumbers.map((number) => {
-                    return <li key={number} className='side-label-item'>{number}</li>
+                    console.log(number);
+                    return <li key={`${number.year}_${number.week}`} className='side-label-item'>{number.week}</li>
                   })
                 }
               </ol>
