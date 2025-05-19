@@ -23,7 +23,6 @@
 }
 
 .brand-name {
-  font-family: var(--font-family);
   font-size: 200%;
   font-weight: 500;
   color: var(--primary);
