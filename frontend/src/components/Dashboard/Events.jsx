@@ -8,6 +8,7 @@ import CalendarFooter from './Events/CalendarFooter.jsx';
 
 import { listEvents, showEventById } from '../../adapters/event-adapter.js';
 import { getWeekNumber } from "../../utils/calendarUtils.js";
+import { listRsvp } from "../../adapters/rsvp-adapter.js";
 
 
 export default function Events() {
@@ -56,7 +57,7 @@ export default function Events() {
       }
     };
     fetchEvents();
-  }, [currentMonth]);
+  }, [currentMonth, whichEvents]);
 
   const handlePrevMonth = () => {
     let monthToSet = currentMonth-1;
