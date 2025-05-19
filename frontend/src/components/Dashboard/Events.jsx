@@ -18,13 +18,9 @@ export default function Events() {
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth()); // months are 0-indexed
   const [currentWeek, setCurrentWeek] = useState(getWeekNumber(currentDate));
-  // const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
-  // const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth()); // months are 0-indexed
-
   const [events, setCurrentEvents] = useState(null);
-
-  // 'All Events' or 'My Events'
-  const [whichEvents, setWhichEvents] = useState('All Events');
+  // 'ALL' or 'RSVP'
+  const [whichEvents, setWhichEvents] = useState('ALL');
   // 'Monthly' or 'Weekly'
   const [viewMode, setViewMode] = useState('Monthly');
 
@@ -32,7 +28,7 @@ export default function Events() {
     const fetchEvents = async () => {
       try {
         let data, error;
-        if (whichEvents === 'All Events') [data,error] = await listEvents(`${currentYear}${currentMonth}`);
+        if (whichEvents === 'ALL') [data,error] = await listEvents(`${currentYear}${currentMonth}`);
         else [data, error] = await listRsvp();
 
         if (error) throw new Error(error);
@@ -78,8 +74,8 @@ export default function Events() {
   }
 
   const handleWhichEventsChange = () => {
-    if (whichEvents === 'All Events') setWhichEvents('My Events');
-    else setWhichEvents('All Events');
+    if (whichEvents === 'ALL') setWhichEvents('RSVP');
+    else setWhichEvents('ALL');
   }
 
   const handleViewModeChange = () => {
@@ -90,9 +86,9 @@ export default function Events() {
 
   const handleJumpToday = () => {
     const today = new Date();
+    const { weekNumber } = getWeekNumber(today);
     setCurrentYear(today.getFullYear());
     setCurrentMonth(today.getMonth());
-    const { weekNumber } = getWeekNumber(today);
     setCurrentWeek(weekNumber);
   }
 

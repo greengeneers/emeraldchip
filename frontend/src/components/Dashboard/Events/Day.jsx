@@ -27,7 +27,7 @@ export default function Day({ props }) {
                       className='date-events-button'
                       onClick={openEventModal}
                     >
-                      <p>{ event.name }</p>
+                      <p>{event.name}</p>
                     </button>
                   </li>
                 </>

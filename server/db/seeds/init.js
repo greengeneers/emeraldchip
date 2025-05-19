@@ -155,7 +155,7 @@ exports.seed = async (knex) => {
 
   const events = [
     {
-      name: 'Jamaica (Baisley Pond Park)',
+      name: 'E-Waste Disposal: Jamaica (Baisley Pond Park)',
       event_url:
         'https://www.lesecologycenter.org/calendar/jamaica-baisley-pond-park/',
       address: 'Baisley Pond Park – 156-10 Baisley Blvd, Rochdale, NY 11434',

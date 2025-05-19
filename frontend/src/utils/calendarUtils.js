@@ -12,7 +12,7 @@ export const buildMonthMatrix = (currentYear, currentMonth) => {
   // 1. year corresponding to next month
   // 2. month bound to 0-11
   // 3. start date for next month
-  const nextAdjustedYear = (currentMonth === 0) ? currentYear + 1 : currentYear;
+  const nextAdjustedYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
   const nextMonth = (currentMonth+1 > 11) ? 0 : currentMonth+1;
   let nextMonthDay = 1;
 
@@ -35,6 +35,8 @@ export const buildMonthMatrix = (currentYear, currentMonth) => {
       }
     }
 
+    console.log('prepad:', buildRow);
+
     // build the current month dates
     while (buildRow.length < 7) {
       if (currMonthDate <= daysInMonth) {
@@ -52,6 +54,8 @@ export const buildMonthMatrix = (currentYear, currentMonth) => {
       }
     }
 
+    console.log('post:', buildRow);
+
     // return the week
     return buildRow;
   })
@@ -64,11 +68,12 @@ export const getWeekNumber = (date) => {
   const endOfYear = new Date(targetDate.getFullYear(), 11, 31);
 
   // on border-weeks (last week of dec, first week of jan)
-  const isDecemberEnd = targetDate.getMonth() === 11 && targetDate.getDate() >= 29;
+  const isDecemberEnd = targetDate.getMonth() === 11 && targetDate.getDate() >= 25;
   if (isDecemberEnd) {
     // check if this week extends into the next year
     // if it does, this is week 1 of the next year
     const dayOfWeek = targetDate.getDay();
+    console.log('date:', date);
     const daysUntilEndOfYear = endOfYear.getDate() - targetDate.getDate();
     if (daysUntilEndOfYear < (6 - dayOfWeek)) {
       return {
@@ -78,6 +83,7 @@ export const getWeekNumber = (date) => {
     }
   }
 
+  console.log('date:', date);
   // on non border-weeks, calc the week number since the start of the year / 7 (round up)
   const daysSinceStartOfYear = Math.floor((targetDate - startOfYear) / (24 * 60 * 60 * 1000));
   const firstDayOfWeek = startOfYear.getDay() || 7;

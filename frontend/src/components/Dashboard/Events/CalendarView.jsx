@@ -29,6 +29,7 @@ export default function CalendarView({ props }) {
   }
 
   const monthMatrix = buildMonthMatrix(currentYear, currentMonth);
+  console.log(monthMatrix);
   const weekNumbers = monthMatrix.map((week) => getWeekNumber(new Date(week[0].year, week[0].month, week[0].day)));
 
   return (<>
@@ -55,6 +56,7 @@ export default function CalendarView({ props }) {
               </ol>
             </>
           ) : (
+          // ignore this for now
           <>
             <div className='side-label-heading'>H</div>
             <div className='side-label-content'>
@@ -85,7 +87,7 @@ export default function CalendarView({ props }) {
                     let dailyEvents = null;
                     if (events) dailyEvents = events[dateString];
                     return (
-                      <CalendarCell key={dateString} date={date} dailyEvents={dailyEvents} openEventModal={openEventModal} />
+                      <CalendarCell key={dateString} currentMonth={currentMonth}  date={date} dailyEvents={dailyEvents} openEventModal={openEventModal} />
                     )
                   })
                 }
