@@ -4,7 +4,6 @@ import {
 } from "react";
 import CalendarNav from './Events/CalendarNav.jsx';
 import CalendarView from './Events/CalendarView.jsx';
-import CalendarFooter from './Events/CalendarFooter.jsx';
 
 import { listEvents, showEventById } from '../../adapters/event-adapter.js';
 import { getWeekNumber } from "../../utils/calendarUtils.js";
@@ -103,7 +102,6 @@ export default function Events() {
           currentYear, currentMonth, currentWeek, whichEvents, viewMode, events
         }}
       />
-      <CalendarFooter />
     </div>
   </>)
 }
