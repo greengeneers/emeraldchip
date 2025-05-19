@@ -36,12 +36,10 @@ export default function Events() {
         event.endDate = endDate;
 
         const date = `${event.startDate.getFullYear()}_${event.startDate.getMonth()}_${event.startDate.getDate()}`;
-        console.log(date);
         if (!acc[date]) acc[date] = [];
         acc[date].push(event);
         return acc;
       }, {});
-      console.log("processed:", processedEvents);
       setCurrentEvents(processedEvents);
     } catch (error) {
       return (
