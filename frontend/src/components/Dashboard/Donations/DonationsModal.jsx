@@ -1,18 +1,18 @@
 import { useState } from 'react';
 
 const DonationModal = ({ donation, onSave, onClose }) => {
-  const [formData, setFormData] = useState({ 
+  const [formData, setFormData] = useState({
     id: donation.id || '',
     title: donation.title || '',
-  imageUrl: donation.imageUrl || '',
-  description: donation.description || '',
-  status: donation.status || 'Pending',
-  weightLbs: donation.weightLbs || 0,
+    imageUrl: donation['image_url'] || '',
+    description: donation.description || '',
+    status: donation.status || 'Pending',
+    weightLbs: donation.weightLbs || 0,
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -60,8 +60,16 @@ const DonationModal = ({ donation, onSave, onClose }) => {
             </select>
           </label>
 
-          <button type="submit" className="modal-submit-button">Save</button>
-          <button type="button" className="modal-cancel-button" onClick={onClose}>Cancel</button>
+          <button type="submit" className="modal-submit-button">
+            Save
+          </button>
+          <button
+            type="button"
+            className="modal-cancel-button"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
         </form>
       </div>
     </div>

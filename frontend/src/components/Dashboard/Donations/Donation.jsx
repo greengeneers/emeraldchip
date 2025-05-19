@@ -4,7 +4,7 @@ const Donation = ({ data, onClick }) => {
   return (
     <div className="donation" onClick={onClick} style={{ cursor: 'pointer' }}>
       <img
-        src={data['imageUrl']}
+        src={data['image_url']}
         className="donation-image"
         alt={`Image of ${data.title}`}
       />
