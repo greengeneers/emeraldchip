@@ -12,6 +12,16 @@ export default function CalendarCell({
     dateObj.getFullYear() === today.getFullYear();
 
   const formattedMonth = dateObj.toLocaleString("default", { month: "long" });
+
+  const handleOpenEventModal = (e) => {
+    const position = {
+      x: e.clientX,
+      y: e.clientY,
+    };
+    const li = e.target.closest("li");
+    openEventModal(dailyEvents[li.dataset.eventIndex], position);
+  };
+
   return (
     <>
       <div className="calendar-cell">
@@ -40,7 +50,7 @@ export default function CalendarCell({
                   >
                     <button
                       className="calendar-cell-events-button"
-                      onClick={openEventModal}
+                      onClick={handleOpenEventModal}
                     >
                       <div className="calendar-cell-events-title">
                         {event.name}

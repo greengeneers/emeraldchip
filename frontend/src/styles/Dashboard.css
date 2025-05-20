@@ -617,7 +617,7 @@
 .jump-today:hover {
   color: var(--text-dark-mode);
   background-color: var(--danger);
-  border: 2px solid var(--danger);
+  border: 1.5px solid var(--danger);
 }
 
 .calendar-side-label {
@@ -781,13 +781,13 @@
 
 /* ANIMATION CLASSES */
 
-.slide-animation {
+.slide-from-left-animation {
   animation: slideFromLeft 0.2s ease-out forwards;
 }
 
 @keyframes slideFromLeft {
   0% {
-    transform: translateX(-5%);
+    transform: translateX(-10px);
     opacity: 0;
   }
   100% {
@@ -796,15 +796,17 @@
   }
 }
 
-.tab-slide-animation {
-  animation: tabSlideFromLeft 0.2s ease-out forwards;
+.slide-from-right-animation {
+  animation: slideFromRight 0.2s ease-out forwards;
 }
 
-@keyframes tabSlideFromLeft {
+@keyframes slideFromRight {
   0% {
-    transform: translateX(-5px);
+    transform: translateX(10px);
+    opacity: 0;
   }
   100% {
     transform: translateX(0);
+    opacity: 1;
   }
 }

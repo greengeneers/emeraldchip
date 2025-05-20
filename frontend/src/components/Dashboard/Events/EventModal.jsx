@@ -1,4 +1,4 @@
-export default function EventModal({ eventData, closeEventModal }) {
+export default function EventModal({ eventData, closeEventModal, position }) {
   return (
     <>
       <div className="event-modal-overlay">
@@ -12,8 +12,8 @@ export default function EventModal({ eventData, closeEventModal }) {
           <div className="event-modal-content">
             <p>{eventData.eventUrl}</p>
             <p>{eventData.address}</p>
-            <p>{eventData.startDate}</p>
-            <p>{eventData.endDate}</p>
+            <p>{eventData.startDate.toString()}</p>
+            <p>{eventData.endDate.toString()}</p>
           </div>
         </div>
       </div>

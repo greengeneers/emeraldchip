@@ -25,9 +25,9 @@ export default function CalendarNav({ props }) {
     // trigger animation
     const button = whichEventsButtonRef.current;
     if (button) {
-      button.classList.remove("slide-animation");
+      button.classList.remove("slide-from-left-animation");
       void button.offsetWidth; // Force reflow
-      button.classList.add("slide-animation");
+      button.classList.add("slide-from-left-animation");
     }
     // call the actual handler
     handleWhichEventsChange(e);

@@ -6,22 +6,21 @@ import {
   getWeekNumber,
 } from "../../../utils/calendarUtils.js";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function CalendarView({ props }) {
   const { currentYear, currentMonth, currentWeek, viewMode, events } = props;
-  const [todayEvents, setTodayEvents] = useState(null);
-  const [expandedEvent, setExpandedEvent] = useState(null);
+  const [modalEvent, setModalEvent] = useState(null);
+  const [modalPosition, setModalPosition] = useState(null);
 
-  const openEventModal = (event) => {
-    event.preventDefault();
-    const eventIndex = event.target.closest("li").dataset.eventIndex;
-    setExpandedEvent(eventIndex);
+  const openEventModal = (event, position) => {
+    setModalEvent(event);
+    setModalPosition(position);
   };
 
   // could be a handler on a click anywhere outside the rendered modal
-  const closeEventModal = (event) => {
-    event.preventDefault();
+  const closeEventModal = (e) => {
+    e.preventDefault();
   };
 
   const monthMatrix = buildMonthMatrix(currentYear, currentMonth);
@@ -31,11 +30,8 @@ export default function CalendarView({ props }) {
 
   return (
     <>
-      {expandedEvent && (
-        <EventModal
-          eventData={todayEvents[expandedEvent]}
-          closeEventModal={closeEventModal}
-        />
+      {modalPosition && (
+        <EventModal eventData={modalEvent} closeEventModal={closeEventModal} />
       )}
       <div className="calendar-body">
         <div className="calendar-side-label">
