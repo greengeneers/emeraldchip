@@ -60,8 +60,8 @@ const DonationModal = ({ donation = {}, onSave, onClose }) => {
               onChange={handleChange}
             >
               <option>Pending</option>
-              <option>In Process</option>
-              <option>Recycled</option>
+              <option>In Transit</option>
+              <option>Donated</option>
             </select>
           </label>
           <button type="submit">Save</button>

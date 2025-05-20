@@ -1,19 +1,25 @@
-import { statusColor } from '../constants.js';
+import { statusColor, links } from '../constants.js';
 
 const RecentDonations = ({
   donations,
-  onViewAllDonations,
   onOpenDonationModal,
-  onAddDonation,  
+  onAddDonation,
+  setCurrentTab,
 }) => {
-  console.log('RecentDonations: onAddDonation:', onAddDonation);
+  const handleViewAll = () => {
+    const donationsTab = links.find((link) => link.state === 'donations');
+    if (donationsTab) {
+      setCurrentTab(donationsTab);
+    }
+  };
+
   return (
     <div id="recent-donations" className="donations-events">
       <div className="donations-events-heading">
         <h1 className="donations-events-title">Recent Donations</h1>
         <button
           className="donations-events-view-all"
-          onClick={onViewAllDonations}
+          onClick={handleViewAll}
         >
           View All
         </button>

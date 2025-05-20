@@ -1,73 +1,39 @@
-import { useCallback, useEffect, useState } from 'react';
-import { listDonations, updateDonation } from '../../adapters/donation-adapter.js';
+import { useContext } from 'react';
+import DonationsContext from '../../contexts/donation-context';
 import Donation from './Donations/Donation.jsx';
 import DonationModal from './Donations/DonationsModal.jsx';
 import '../../styles/Donations.css';
 
 const Donations = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedDonation, setSelectedDonation] = useState(null);
+  const {
+    donations,
+    isModalOpen,
+    selectedDonation,
+    openDonationModal,
+    closeModal,
+    saveDonation,
+    showAll,
+  } = useContext(DonationsContext);
 
-  const handleFetchDonations = useCallback(async () => {
-    setLoading(true);
-    const [results, error] = await listDonations();
 
-    if (error) {
-      console.error('Error fetching donations');
-      setLoading(false);
-      return;
-    }
-
-    console.log('Fetched donations:', results);
-    setData(results);
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    handleFetchDonations();
-  }, [handleFetchDonations]);
-
-  const openModal = (donation) => setSelectedDonation(donation);
-  const closeModal = () => setSelectedDonation(null);
-
-  const handleSave = async (updatedDonation) => {
-    console.log('')
-    const [result, error] = await updateDonation(updatedDonation.id, updatedDonation);
-
-    if (error) {
-      console.error('Failed to save donation', error);
-      return;
-    }
-
-    setData(prevData =>
-      prevData.map(d =>
-        d.id === result.id ? result : d
-      )
-    );
-
-    closeModal();
-  };
-
-  if (loading) return <p>Loading donations...</p>;
 
   return (
     <div id="donations">
       <h1 className="tab-title">Donations</h1>
       <div className="donations-container">
-        {data.map(donation => (
+        {donations.map((donation) => (
           <Donation
             data={donation}
             key={donation.id}
-            onClick={() => openModal(donation)}
+            onClick={() => openDonationModal(donation)}
           />
         ))}
       </div>
 
-      {selectedDonation && (
+      {isModalOpen && selectedDonation && (
         <DonationModal
           donation={selectedDonation}
-          onSave={handleSave}
+          onSave={saveDonation}
           onClose={closeModal}
         />
       )}

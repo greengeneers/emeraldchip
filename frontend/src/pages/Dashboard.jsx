@@ -1,106 +1,32 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Dashboard.css';
 import Sidebar from '../components/Dashboard/Sidebar.jsx';
 import Content from '../components/Dashboard/Content.jsx';
 import ProfileModal from '../components/ProfileModal.jsx';
-import DonationModal from '../components/Dashboard/Donations/DonationsModal.jsx'; 
+import DonationModal from '../components/Dashboard/Donations/DonationsModal.jsx';
 import { links } from '../components/Dashboard/constants.js';
 import CurrentUserContext from '../contexts/current-user-context';
+import DonationsContext from '../contexts/donation-context.js';
 import { logUserOut } from '../adapters/auth-adapter';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [currentTab, setCurrentTab] = useState(links[0]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDonation, setSelectedDonation] = useState(null);
-  const [donations, setDonations] = useState([]); 
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
-
-  useEffect(() => {
-    if (currentUser) {
-      fetch(`/api/donations?donor_id=${currentUser.id}`)
-        .then(res => res.json())
-        .then(data => setDonations(data))
-        .catch(console.error);
-    }
-  }, [currentUser]);
+  const {
+    isModalOpen,
+    selectedDonation,
+    closeModal,
+    saveDonation,
+    createDonation,
+    donations,
+  } = useContext(DonationsContext);
 
   const handleTabChange = (tab) => {
-    console.log('Tab changed:', tab.state);
     setCurrentTab(tab);
-    setIsModalOpen(false);
-    setSelectedDonation(null);
-  };
-
-  const handleViewAllDonations = () => {
-    const donationsTab = links.find(link => link.state === 'donations');
-    if (donationsTab) {
-      setCurrentTab(donationsTab);
-      setIsModalOpen(false);
-      setSelectedDonation(null);
-    }
-  };
-
-  const handleOpenDonationModal = (donation) => {
-    setSelectedDonation(donation);
-    setIsModalOpen(true);
-  };
-
-  // add a new donation
-  const handleAddDonation = () => {
-    console.log('handleAddDonation called');
-    setSelectedDonation({}); 
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedDonation(null);
-  };
-
-
-  const handleSaveDonation = async (updatedDonation) => {
-    try {
-      const response = await fetch(`/api/donations/${updatedDonation.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedDonation),
-      });
-
-      if (!response.ok) throw new Error('Failed to update donation');
-
-      const savedDonation = await response.json();
-
-      setDonations((prevDonations) =>
-        prevDonations.map((d) =>
-          d.id === savedDonation.id ? savedDonation : d
-        )
-      );
-
-      handleCloseModal();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // create a new donation
-  const handleCreateDonation = async (newDonation) => {
-    try {
-      const response = await fetch(`/api/donations`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...newDonation, donor_id: currentUser.id }),
-      });
-
-      if (!response.ok) throw new Error('Failed to create donation');
-
-      const createdDonation = await response.json();
-      setDonations((prev) => [createdDonation, ...prev]); 
-      handleCloseModal();
-    } catch (error) {
-      console.error(error);
-    }
+    setIsProfileModalOpen(false);
   };
 
   const handleLogout = () => {
@@ -114,31 +40,25 @@ const Dashboard = () => {
       <Sidebar
         currentTab={currentTab}
         setCurrentTab={handleTabChange}
-        setIsModalOpen={setIsModalOpen} 
+        setIsModalOpen={setIsProfileModalOpen}
         onLogout={handleLogout}
       />
 
-      <Content
-        currentTab={currentTab}
-        donations={donations}  
-        onViewAllDonations={handleViewAllDonations}
-        onOpenDonationModal={handleOpenDonationModal}
-        onAddDonation={handleAddDonation}
-      />
+      <Content currentTab={currentTab} setCurrentTab={setCurrentTab} />
 
-      {isModalOpen && !selectedDonation && (
+      {isProfileModalOpen && (
         <ProfileModal
           currentUser={currentUser}
           setCurrentUser={setCurrentUser}
-          onClose={handleCloseModal}
+          onClose={() => setIsProfileModalOpen(false)}
         />
       )}
 
       {isModalOpen && selectedDonation && (
         <DonationModal
           donation={selectedDonation}
-          onSave={selectedDonation.id ? handleSaveDonation : handleCreateDonation}
-          onClose={handleCloseModal}
+          onSave={selectedDonation.id ? saveDonation : createDonation}
+          onClose={closeModal}
         />
       )}
     </div>

@@ -6,7 +6,6 @@ import {
   FaBox,
   FaCalendar,
   FaChartPie,
-  FaUser,
 } from 'react-icons/fa6';
 
 export const links = [
@@ -21,6 +20,7 @@ export const links = [
     state: 'donations',
     component: Donations,
     icon: FaBox,
+    
   },
   {
     title: 'Events',
@@ -40,7 +40,7 @@ export const profile = {
 };
 
 export const statusColor = {
-  Recycled: '#3DA733',
-  'In Process': '#BABA30',
-  Pending: '#EE4B2B	',
+  'Donated': '#3DA733',
+  'In Transit': '#BABA30',
+  'Pending': '#EE4B2B	',
 };

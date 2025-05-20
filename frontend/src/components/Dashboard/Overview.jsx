@@ -5,7 +5,7 @@ import Details from './Oveview/Details.jsx';
 import RecentDonations from './Oveview/RecentDonations.jsx';
 import UpcomingEvents from './Oveview/UpcomingEvents.jsx';
 
-const Overview = ({ onViewAllDonations, onOpenDonationModal }) => {
+const Overview = ({ onViewAllDonations, onOpenDonationModal, setCurrentTab }) => {
   const { currentUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
@@ -51,7 +51,9 @@ const Overview = ({ onViewAllDonations, onOpenDonationModal }) => {
           donations={data.recentDonations}
           handleGetOverview={handleGetOverview}
           onViewAllDonations={onViewAllDonations}
-          onOpenDonationModal={onOpenDonationModal} 
+          onAddDonation={onOpenDonationModal} 
+          onOpenDonationModal={onOpenDonationModal}
+          setCurrentTab={setCurrentTab}
         />
         <UpcomingEvents
           events={data.recentEvents}

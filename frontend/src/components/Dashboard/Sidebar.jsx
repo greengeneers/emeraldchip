@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import CurrentUserContext from '../../contexts/current-user-context.js';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
-
 import Logo from '../Logo.jsx';
 import { links } from './constants.js';
 

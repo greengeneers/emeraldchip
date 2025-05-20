@@ -1,5 +1,14 @@
-const Content = ({ currentTab, onViewAllDonations, onOpenDonationModal, onAddDonation, donations }) => {
-  console.log('Content: onAddDonation:', onAddDonation);
+import { useContext } from 'react';
+import DonationsContext from '../../contexts/donation-context';
+
+const Content = ({ currentTab, setCurrentTab }) => {
+  const {
+    donations,
+    addDonation,
+    openDonationModal,
+    onViewAllDonations,
+  } = useContext(DonationsContext);
+
   const Component = currentTab.component;
 
   return (
@@ -7,9 +16,10 @@ const Content = ({ currentTab, onViewAllDonations, onOpenDonationModal, onAddDon
       {Component && (
         <Component
           donations={donations}
+          onAddDonation={addDonation}
+          onOpenDonationModal={openDonationModal}
           onViewAllDonations={onViewAllDonations}
-          onOpenDonationModal={onOpenDonationModal}
-          onAddDonation={onAddDonation}  
+          setCurrentTab={setCurrentTab}
         />
       )}
     </div>
