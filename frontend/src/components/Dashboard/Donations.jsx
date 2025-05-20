@@ -1,8 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import {
-  listDonations,
-  updateDonation,
-} from '../../adapters/donation-adapter.js';
+import { listDonations, updateDonation } from '../../adapters/donation-adapter.js';
 import Donation from './Donations/Donation.jsx';
 import DonationModal from './Donations/DonationsModal.jsx';
 import '../../styles/Donations.css';
@@ -22,6 +19,7 @@ const Donations = () => {
       return;
     }
 
+    console.log('Fetched donations:', results);
     setData(results);
     setLoading(false);
   }, []);
@@ -34,18 +32,18 @@ const Donations = () => {
   const closeModal = () => setSelectedDonation(null);
 
   const handleSave = async (updatedDonation) => {
-    const [result, error] = await updateDonation(
-      updatedDonation.id,
-      updatedDonation
-    );
+    console.log('')
+    const [result, error] = await updateDonation(updatedDonation.id, updatedDonation);
 
     if (error) {
       console.error('Failed to save donation', error);
       return;
     }
 
-    setData((prevData) =>
-      prevData.map((d) => (d.id === result.id ? result : d))
+    setData(prevData =>
+      prevData.map(d =>
+        d.id === result.id ? result : d
+      )
     );
 
     closeModal();
@@ -57,7 +55,7 @@ const Donations = () => {
     <div id="donations">
       <h1 className="tab-title">Donations</h1>
       <div className="donations-container">
-        {data.map((donation) => (
+        {data.map(donation => (
           <Donation
             data={donation}
             key={donation.id}

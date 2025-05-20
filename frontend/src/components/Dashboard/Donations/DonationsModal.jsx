@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-const DonationModal = ({ donation, onSave, onClose }) => {
+const DonationModal = ({ donation = {}, onSave, onClose }) => {
+
+
   const [formData, setFormData] = useState({
     id: donation.id || '',
     title: donation.title || '',
-    imageUrl: donation['image_url'] || '',
+    imageUrl: donation.image_url || '',
     description: donation.description || '',
     status: donation.status || 'Pending',
     weightLbs: donation.weightLbs || 0,
@@ -17,39 +19,42 @@ const DonationModal = ({ donation, onSave, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Data Submitted:', formData);
+    console.log('Form submitted with data:', formData); 
     onSave(formData);
   };
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h2>Edit Donation</h2>
+        <h2>{formData.id ? 'Edit Donation' : 'Add New Donation'}</h2>
         <form onSubmit={handleSubmit}>
           <label>
             Title:
             <input
-              className="modal-input"
               name="title"
               value={formData.title}
               onChange={handleChange}
             />
           </label>
-
           <label>
             Image URL:
             <input
-              className="modal-input"
               name="imageUrl"
               value={formData.imageUrl}
               onChange={handleChange}
             />
           </label>
-
+          <label>
+            Description:
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+            />
+          </label>
           <label>
             Status:
             <select
-              className="modal-input"
               name="status"
               value={formData.status}
               onChange={handleChange}
@@ -59,15 +64,8 @@ const DonationModal = ({ donation, onSave, onClose }) => {
               <option>Recycled</option>
             </select>
           </label>
-
-          <button type="submit" className="modal-submit-button">
-            Save
-          </button>
-          <button
-            type="button"
-            className="modal-cancel-button"
-            onClick={onClose}
-          >
+          <button type="submit">Save</button>
+          <button type="button" className="modal-cancel-button" onClick={onClose}>
             Cancel
           </button>
         </form>

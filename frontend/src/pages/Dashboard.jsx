@@ -29,7 +29,6 @@ const Dashboard = () => {
   const handleTabChange = (tab) => {
     console.log('Tab changed:', tab.state);
     setCurrentTab(tab);
-
     setIsModalOpen(false);
     setSelectedDonation(null);
   };
@@ -48,10 +47,18 @@ const Dashboard = () => {
     setIsModalOpen(true);
   };
 
+  // add a new donation
+  const handleAddDonation = () => {
+    console.log('handleAddDonation called');
+    setSelectedDonation({}); 
+    setIsModalOpen(true);
+  };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedDonation(null);
   };
+
 
   const handleSaveDonation = async (updatedDonation) => {
     try {
@@ -77,6 +84,25 @@ const Dashboard = () => {
     }
   };
 
+  // create a new donation
+  const handleCreateDonation = async (newDonation) => {
+    try {
+      const response = await fetch(`/api/donations`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...newDonation, donor_id: currentUser.id }),
+      });
+
+      if (!response.ok) throw new Error('Failed to create donation');
+
+      const createdDonation = await response.json();
+      setDonations((prev) => [createdDonation, ...prev]); 
+      handleCloseModal();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleLogout = () => {
     logUserOut();
     setCurrentUser(null);
@@ -88,7 +114,7 @@ const Dashboard = () => {
       <Sidebar
         currentTab={currentTab}
         setCurrentTab={handleTabChange}
-        setIsModalOpen={setIsModalOpen}
+        setIsModalOpen={setIsModalOpen} 
         onLogout={handleLogout}
       />
 
@@ -97,8 +123,8 @@ const Dashboard = () => {
         donations={donations}  
         onViewAllDonations={handleViewAllDonations}
         onOpenDonationModal={handleOpenDonationModal}
+        onAddDonation={handleAddDonation}
       />
-
 
       {isModalOpen && !selectedDonation && (
         <ProfileModal
@@ -111,7 +137,7 @@ const Dashboard = () => {
       {isModalOpen && selectedDonation && (
         <DonationModal
           donation={selectedDonation}
-          onSave={handleSaveDonation}
+          onSave={selectedDonation.id ? handleSaveDonation : handleCreateDonation}
           onClose={handleCloseModal}
         />
       )}

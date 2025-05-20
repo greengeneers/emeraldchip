@@ -6,6 +6,7 @@ const RecentDonations = ({
   onOpenDonationModal,
   onAddDonation,  
 }) => {
+  console.log('RecentDonations: onAddDonation:', onAddDonation);
   return (
     <div id="recent-donations" className="donations-events">
       <div className="donations-events-heading">
@@ -27,7 +28,7 @@ const RecentDonations = ({
             style={{ cursor: 'pointer' }}
           >
             <img
-              src={donation.imageUrl}
+              src={donation.image_url}
               className="recent-donation-image"
               alt={`${donation.title} thumbnail`}
             />

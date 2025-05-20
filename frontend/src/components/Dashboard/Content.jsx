@@ -1,4 +1,5 @@
 const Content = ({ currentTab, onViewAllDonations, onOpenDonationModal, onAddDonation, donations }) => {
+  console.log('Content: onAddDonation:', onAddDonation);
   const Component = currentTab.component;
 
   return (

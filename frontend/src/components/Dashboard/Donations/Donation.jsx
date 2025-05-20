@@ -21,3 +21,4 @@ const Donation = ({ data, onClick }) => {
 };
 
 export default Donation;
+
