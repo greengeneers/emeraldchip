@@ -1,8 +1,17 @@
-const knex = require('../db/knex');
+const knex = require("../db/knex");
 
 class Event {
   // Create an Event instance with all the required details
-  constructor({ id, created_at, updated_at, name, event_url, address, start_date, end_date}) {
+  constructor({
+    id,
+    created_at,
+    updated_at,
+    name,
+    event_url,
+    address,
+    start_date,
+    end_date,
+  }) {
     this.id = id;
     this.createdAt = created_at;
     this.updatedAt = updated_at;
@@ -22,18 +31,28 @@ class Event {
    *  - None
    */
   static toUTCDate(date) {
-    return new Date(Date.UTC(
-      date.getUTCFullYear(),
-      date.getUTCMonth(),
-      date.getUTCDate(),
-      date.getUTCHours(),
-      date.getUTCMinutes(),
-      date.getUTCSeconds(),
-      date.getUTCMilliseconds()
-    ));
+    return new Date(
+      Date.UTC(
+        date.getUTCFullYear(),
+        date.getUTCMonth(),
+        date.getUTCDate(),
+        date.getUTCHours(),
+        date.getUTCMinutes(),
+        date.getUTCSeconds(),
+        date.getUTCMilliseconds(),
+      ),
+    );
   }
 
-  static async create(createdAt, updatedAt, name, eventUrl, address, startDate, endDate) {
+  static async create(
+    createdAt,
+    updatedAt,
+    name,
+    eventUrl,
+    address,
+    startDate,
+    endDate,
+  ) {
     try {
       const query = `
         INSERT INTO events (created_at, updated_at, name, eventUrl, address, startDate, endDate)
@@ -41,34 +60,31 @@ class Event {
         RETURNING *;
       `;
       const result = await knex.raw(query, [
-        createdAt, updatedAt, name, eventUrl, address, startDate, endDate
+        createdAt,
+        updatedAt,
+        name,
+        eventUrl,
+        address,
+        startDate,
+        endDate,
       ]);
 
       const rawEventData = result.rows[0];
       return new Event(rawEventData);
     } catch (error) {
-      console.error('Error in Event.create():', error);
+      console.error("Error in Event.create():", error);
     }
   }
 
-  // static async list(month, year) {
-  //   try {
-  //     const query = `SELECT * FROM events;`;
-  //     const result = await knex.raw(query);
-  //     return result.rows.map((rawEventData) => new Event(rawEventData));
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
-
   static async list(month, year) {
     try {
-      const startOfMonth = new Date(Date.UTC(year, month - 1, 1)); // Note: month is 0-indexed in JavaScript Dates
-      const endOfMonth = new Date(Date.UTC(year, month, 1)); // First day of the next month
+      // we are getting events from the currentmonth +/- 1 as well
+      const startOfMonth = new Date(Date.UTC(year, month - 1, 1));
+      const endOfMonth = new Date(Date.UTC(year, month, 1));
       const startWithBuffer = new Date(startOfMonth);
-      startWithBuffer.setUTCMonth(startWithBuffer.getUTCMonth() - 1); // Subtract 1 month (buffer)
+      startWithBuffer.setUTCMonth(startWithBuffer.getUTCMonth() - 1);
       const endWithBuffer = new Date(endOfMonth);
-      endWithBuffer.setUTCMonth(endWithBuffer.getUTCMonth() + 1); // Add 1 month (buffer)
+      endWithBuffer.setUTCMonth(endWithBuffer.getUTCMonth() + 1);
       const startDateString = startWithBuffer.toISOString();
       const endDateString = endWithBuffer.toISOString();
 
@@ -80,7 +96,7 @@ class Event {
       const result = await knex.raw(query);
       return result.rows.map((rawEventData) => new Event(rawEventData));
     } catch (error) {
-      console.error('Error in Event.list():', error);
+      console.error("Error in Event.list():", error);
     }
   }
 
@@ -101,7 +117,7 @@ class Event {
       const rawEventData = result.rows[0];
       return rawEventData ? new Event(rawEventData) : null;
     } catch (error) {
-      console.error('Error in Event.findBy():', error);
+      console.error("Error in Event.findBy():", error);
     }
   }
 
@@ -120,16 +136,15 @@ class Event {
       // TODO: Scrape event.eventUrl in order to grab
       // the latest information. This is periodic, probably once every
       // week or every day, to make sure that all event data is accurate.
-
       // TODO: Push changes into DB.
     }
   }
 
   static async deleteAll() {
     try {
-      return knex('events').del();
+      return knex("events").del();
     } catch (error) {
-      console.error('Error in Event.deleteAll():', error);
+      console.error("Error in Event.deleteAll():", error);
     }
   }
 }

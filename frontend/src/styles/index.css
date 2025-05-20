@@ -51,6 +51,8 @@ html {
   --text-light-mode: #000000;
   --success: #3da733;
   --danger: #ee4b2b;
+  --href: #658efc;
+  --href-alt: #98b4ff;
 
   /* Light Mode Colors */
   --text: var(--text-light-mode);

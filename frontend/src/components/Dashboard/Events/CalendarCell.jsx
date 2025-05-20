@@ -14,17 +14,26 @@ export default function CalendarCell({
   const formattedMonth = dateObj.toLocaleString("default", { month: "long" });
 
   const handleOpenEventModal = (e) => {
-    const position = {
-      x: e.clientX,
-      y: e.clientY,
-    };
+    // // sending pointer position
+    // const position = {
+    //   x: e.clientX,
+    //   y: e.clientY,
+    // };
+    // sending top right position
+    const button = e.target.closest("button");
+    const rect = button.getBoundingClientRect();
+    const buttonWidth = rect.width;
+    let x = rect.right + 5;
+    let y = rect.top;
     const li = e.target.closest("li");
-    openEventModal(dailyEvents[li.dataset.eventIndex], position);
+    openEventModal(dailyEvents[li.dataset.eventIndex], { x, y, buttonWidth });
   };
 
   return (
     <>
-      <div className="calendar-cell">
+      <div
+        className={`calendar-cell ${currentMonth === dateObj.getMonth() ? "" : "pointer-none"}`}
+      >
         <div
           className={`calendar-cell-header ${currentMonth === dateObj.getMonth() ? "" : "not-current-month"}`}
         >

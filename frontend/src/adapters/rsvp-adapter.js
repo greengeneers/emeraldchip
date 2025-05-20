@@ -4,7 +4,7 @@ import {
   deleteOptions,
 } from "../utils/fetchingUtils";
 
-const baseUrl = '/api/rsvp';
+const baseUrl = "/api/rsvp";
 
 export const listRsvp = async () => {
   return await fetchHandler(baseUrl);
@@ -16,4 +16,8 @@ export const addRsvp = async (eventId) => {
 
 export const removeRsvp = async (eventId) => {
   return await fetchHandler(`${baseUrl}/${eventId}`, deleteOptions);
+};
+
+export const checkRsvp = async (eventId) => {
+  return await fetchHandler(`${baseUrl}/${eventId}`);
 };

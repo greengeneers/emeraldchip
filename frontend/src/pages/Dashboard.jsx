@@ -10,7 +10,7 @@ import { logUserOut } from "../adapters/auth-adapter";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [currentTab, setCurrentTab] = useState(links[3]); // Default to the first tab
+  const [currentTab, setCurrentTab] = useState(links[0]); // Default to the first tab
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext); // Access current user context
 
