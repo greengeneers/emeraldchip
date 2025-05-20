@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
-import { logUserIn } from "../adapters/auth-adapter";
-import CurrentUserContext from "../contexts/current-user-context";
-import Logo from "../components/Logo"; 
-import "../styles/Login.css"; 
+import { useContext, useState } from 'react';
+import { useNavigate, Navigate } from 'react-router-dom';
+import { logUserIn } from '../adapters/auth-adapter';
+import CurrentUserContext from '../contexts/current-user-context';
+import Logo from '../components/Logo';
+import '../styles/index.css';
+import '../styles/Login-signUp.css';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ export default function LoginPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              placeholder="Username*" 
+              placeholder="Username*"
             />
           </div>
 
@@ -56,19 +57,33 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              placeholder="Password*" 
+              placeholder="Password*"
             />
           </div>
 
           {!!errorText && <p className="error">{errorText}</p>}
 
-          <button type="submit" className="submit-btn">Log in</button>
-          <p className="switch-auth">Ready to make a change? <a href="/sign-up">Sign up</a></p>
+          <button type="submit" className="submit-btn">
+            Log in
+          </button>
+          <p className="switch-auth">
+            Ready to make a change? <a href="/sign-up">Sign up</a>
+          </p>
         </form>
       </div>
 
       <div className="auth-right">
-        <div className="image-placeholder"></div>
+        <div className="image-placeholder">
+          <div className="slideshow">
+            {/* <div className="slide s1">
+              <img src={loginImg1} alt="" />
+            </div> */}
+            <div className="slide s1"></div>
+            <div className="slide s2"></div>
+            <div className="slide s3"></div>
+            {/* <div className="slide s4"></div> */}
+          </div>
+        </div>
       </div>
     </div>
   );
