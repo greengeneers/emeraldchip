@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import CalendarNav from "./Events/CalendarNav.jsx";
 import CalendarView from "./Events/CalendarView.jsx";
 
@@ -18,6 +18,7 @@ export default function Events() {
   const [whichEvents, setWhichEvents] = useState("ALL");
   // 'Monthly' or 'Weekly'
   const [viewMode, setViewMode] = useState("Monthly");
+  const calendarContainerRef = useRef(null);
 
   const fetchEvents = useCallback(async () => {
     try {
@@ -53,6 +54,16 @@ export default function Events() {
   useEffect(() => {
     fetchEvents();
   }, [currentMonth, whichEvents]);
+
+  // // initial component render animation
+  // useEffect(() => {
+  //   const calendarContainer = calendarContainerRef.current;
+  //   if (calendarContainer) {
+  //     calendarContainer.classList.remove("slide-animation");
+  //     void calendarContainer.offsetWidth;
+  //     calendarContainer.classList.add("slide-animation");
+  //   }
+  // }, []);
 
   const handlePrevMonth = () => {
     let monthToSet = currentMonth - 1;
@@ -92,7 +103,7 @@ export default function Events() {
 
   return (
     <>
-      <div className="calendar-container">
+      <div className="calendar-container tab-slide-animation">
         <CalendarNav
           props={{
             currentYear,

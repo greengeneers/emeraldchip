@@ -1,4 +1,5 @@
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+import { useRef } from "react";
 
 export default function CalendarNav({ props }) {
   const {
@@ -15,8 +16,22 @@ export default function CalendarNav({ props }) {
     currentWeek,
     currentDay,
   } = props;
+  const whichEventsButtonRef = useRef(null);
+
   const date = new Date(currentYear, currentMonth, 1);
   const formattedMonth = date.toLocaleString("default", { month: "long" });
+
+  const whichEventsTrigger = (e) => {
+    // trigger animation
+    const button = whichEventsButtonRef.current;
+    if (button) {
+      button.classList.remove("slide-animation");
+      void button.offsetWidth; // Force reflow
+      button.classList.add("slide-animation");
+    }
+    // call the actual handler
+    handleWhichEventsChange(e);
+  };
 
   return (
     <>
@@ -35,8 +50,9 @@ export default function CalendarNav({ props }) {
             <span id="header-year">{currentYear}</span>
           </div>
           <button
+            ref={whichEventsButtonRef}
             className="which-events-change"
-            onClick={handleWhichEventsChange}
+            onClick={whichEventsTrigger}
           >
             {whichEvents}
           </button>

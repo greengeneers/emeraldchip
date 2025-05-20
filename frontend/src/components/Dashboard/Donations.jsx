@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { listDonations } from '../../adapters/donation-adapter.js';
-import Donation from './Donations/Donation.jsx';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { listDonations } from "../../adapters/donation-adapter.js";
+import Donation from "./Donations/Donation.jsx";
 
 const Donations = () => {
   const [data, setData] = useState(null);
@@ -12,7 +12,7 @@ const Donations = () => {
     const [results, error] = await listDonations();
 
     if (error) {
-      console.error('Error fetching donations');
+      console.error("Error fetching donations");
       return;
     }
 
@@ -32,9 +32,10 @@ const Donations = () => {
     <div id="donations">
       <h1 className="tab-title">Donations</h1>
       <div className="donations-container">
-        {data.map((donation) => (
-          <Donation data={donation} key={donation.title} />
-        ))}
+        {!loading &&
+          data.map((donation) => (
+            <Donation data={donation} key={donation.title} />
+          ))}
       </div>
     </div>
   );
