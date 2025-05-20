@@ -86,13 +86,15 @@
 }
 
 .profile-button,
-.logout-button {
+.logout-button,
+.theme-button {
   width: 100%;
   flex-shrink: 1;
   height: 75px;
 }
 
-.logout-button {
+.logout-button,
+.theme-button {
   width: 25%;
   padding: 0;
   margin: 0;
