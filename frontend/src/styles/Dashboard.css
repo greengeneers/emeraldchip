@@ -532,6 +532,7 @@
 }
 
 .calendar-month-nav-container>button {
+  color: var(--text);
   display: flex;
   align-items: center;
   height: 100%;
@@ -544,12 +545,12 @@
 
 .calendar-month-prev:hover {
   color: var(--primary);
-  transform: translateX(-5px);
+  transform: translateX(-2px);
 }
 
 .calendar-month-next:hover {
   color: var(--primary);
-  transform: translateX(5px);
+  transform: translateX(2px);
 }
 
 .calendar-header-container {
@@ -603,6 +604,7 @@
 }
 
 .jump-today {
+  color: var(--text);
   background-color: var(--background);
   border: 2px solid var(--text);
   border-radius: var(--radius-full);
@@ -612,7 +614,7 @@
 }
 
 .jump-today:hover {
-  color: var(--background);
+  color: var(--text);
   background-color: var(--danger);
   border: 2px solid var(--danger);
 }
@@ -724,7 +726,7 @@
 }
 
 .today {
-  color: var(--background);
+  color: var(--text-dark-mode);
   background-color: var(--danger);
 }
 
@@ -747,7 +749,7 @@
 }
 
 .calendar-cell-events-button {
-  color: var(--background);
+  color: var(--text-dark-mode);
   background-color: var(--primary);
   display: flex;
   width: 100%;
