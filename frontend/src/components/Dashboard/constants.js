@@ -1,5 +1,7 @@
 import Donations from './Donations.jsx';
 import Overview from './Overview.jsx';
+import Events from './Events.jsx';
+import Facilities from './Facilities.jsx';
 import {
   FaAward,
   FaBox,
@@ -8,7 +10,6 @@ import {
   FaChartPie,
   FaUser,
 } from 'react-icons/fa6';
-import Facilities from './Facilities.jsx';
 
 export const links = [
   {
@@ -33,6 +34,7 @@ export const links = [
   {
     title: 'Events',
     state: 'events',
+    component: Events,
     icon: FaCalendar,
   },
   {
@@ -47,6 +49,37 @@ export const profile = {
   state: 'profile',
   icon: FaUser,
 };
+
+export const weekdays = [
+  {
+    full: 'Sunday',
+    short: 'SUN',
+  },
+  {
+    full: 'Monday',
+    short: 'MON',
+  },
+  {
+    full: 'Tuesday',
+    short: 'TUE',
+  },
+  {
+    full: 'Wednesday',
+    short: 'WED',
+  },
+  {
+    full: 'Thursday',
+    short: 'THU',
+  },
+  {
+    full: 'Friday',
+    short: 'FRI',
+  },
+  {
+    full: 'Saturday',
+    short: 'SAT',
+  },
+]
 
 export const statusColor = {
   Recycled: '#3DA733',

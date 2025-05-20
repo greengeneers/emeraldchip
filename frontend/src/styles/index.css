@@ -11,6 +11,7 @@ html {
 }
 
 :root {
+  --alt-font-family: monospace;
   --font-xs: 0.75rem;
   --font-sm: 0.875rem;
   --font-base: 1rem;

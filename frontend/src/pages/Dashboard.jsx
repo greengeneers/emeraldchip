@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useRef, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Dashboard.css';
 import Sidebar from '../components/Dashboard/Sidebar.jsx';
