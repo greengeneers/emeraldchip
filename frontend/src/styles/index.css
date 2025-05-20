@@ -107,7 +107,7 @@ section {
 
 a {
   text-decoration: none;
-  color: var(--text);
+  color: var(--primary);
   transition: opacity 0.25s linear;
 }
 
