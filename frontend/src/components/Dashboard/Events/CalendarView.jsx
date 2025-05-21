@@ -31,7 +31,7 @@ export default function CalendarView({ props }) {
 
   return (
     <>
-      {expandedEvent && (
+      {expandedEvent && todayEvents && (
         <EventModal
           eventData={todayEvents[expandedEvent]}
           closeEventModal={closeEventModal}

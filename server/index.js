@@ -147,9 +147,8 @@ app.use(logErrors);
 ///////////////////////////////
 // Schedule the event update job
 ///////////////////////////////
-// Run immediately on start and then every 10 minutes
+// cron job that runs immediately on server restart, and then every 10 mins
 async function runEventUpdate() {
-  // Define a function
   console.log("Running event update job...");
   try {
     await Event.updateAllEvents(
@@ -160,10 +159,8 @@ async function runEventUpdate() {
     console.error("Error running event update job:", error);
   }
 }
-// Run the job immediately
 runEventUpdate();
-// Then schedule it to run every 10 minutes
-cron.schedule("*/10 * * * *", runEventUpdate); // Use the function name
+cron.schedule("*/10 * * * *", runEventUpdate);
 
 ///////////////////////////////
 // Start Listening

@@ -1,14 +1,6 @@
 const knex = require("../db/knex");
 const { getRequest } = require("../services/htmlGet");
-
-// dynamic import for google/genai
-let ai;
-let type;
-async function loadGenAI() {
-  const { GoogleGenAI, Type } = await import("@google/genai");
-  ai = new GoogleGenAI({ apiKey: process.env.EMERALDCHIP_API_KEY });
-  type = Type;
-}
+const { loadGenAI } = require("../services/gemini");
 
 class Event {
   // Create an Event instance with all the required details
@@ -76,16 +68,6 @@ class Event {
     }
   }
 
-  // static async list(month, year) {
-  //   try {
-  //     const query = `SELECT * FROM events;`;
-  //     const result = await knex.raw(query);
-  //     return result.rows.map((rawEventData) => new Event(rawEventData));
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
-
   static async list(month, year) {
     try {
       const startOfMonth = new Date(Date.UTC(year, month - 1, 1)); // Note: month is 0-indexed in JavaScript Dates
@@ -140,90 +122,88 @@ class Event {
    *  - Modifies event data by scraping and updating information from external URLs.
    */
   static async updateAllEvents(url) {
-    const htmlBody = await getRequest(url);
-    await loadGenAI();
-    console.log("generating...");
-    const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash-001",
-      contents: `
-        Scrape all the event URLs from this htmlBody
-        ${htmlBody}
-      `,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: type.ARRAY,
-          description: "Array of links.",
-          items: {
-            type: type.STRING,
-          },
-        },
-      },
-    });
+    try {
+      const [ai, type] = await loadGenAI();
+      const htmlBody = await getRequest(url);
 
-    const responseJSON = JSON.parse(
-      response.candidates[0].content.parts[0].text,
-    );
-    console.log(responseJSON);
-    console.log(typeof responseJSON);
-
-    const eventDataArray = [];
-    for (let i = 0; i < responseJSON.length; i++) {
-      console.log(`doing the ${i + 1}st one`);
-      const eventHtmlBody = await getRequest(responseJSON[i]);
+      console.log(`Parsing list of URLs from ${url}...`);
       const response = await ai.models.generateContent({
         model: "gemini-2.0-flash-001",
-        // model: "gemini-2.5-flash-preview-04-17",
         contents: `
-          Find the following:
-            1. name
-            2. address
-            3. startDate
-            4. endDate
-          Use this htmlBody: ${eventHtmlBody}
+          Scrape all the event URLs from this htmlBody
+          ${htmlBody}
         `,
         config: {
           responseMimeType: "application/json",
           responseSchema: {
-            type: type.OBJECT,
-            properties: {
-              name: { type: type.STRING },
-              address: { type: type.STRING },
-              startDate: { type: type.STRING },
-              endDate: { type: type.STRING },
+            type: type.ARRAY,
+            description: "Array of links.",
+            items: {
+              type: type.STRING,
             },
-            propertyOrdering: ["name", "address", "startDate", "endDate"],
           },
         },
       });
-      const eventResponseJSON = JSON.parse(
+
+      // scraped list of URLs
+      const responseJSON = JSON.parse(
         response.candidates[0].content.parts[0].text,
       );
-      eventResponseJSON["eventUrl"] = responseJSON[i];
-      eventDataArray.push(eventResponseJSON);
-      console.log(eventResponseJSON);
-      console.log(typeof eventResponseJSON);
+      console.log(`List of parsed URLs: ${responseJSON}`);
 
-      setTimeout(() => {}, 2000);
-    }
+      console.log(`Scraping event data from the URL list...`);
+      const eventDataArray = [];
+      for (let i = 0; i < responseJSON.length; i++) {
+        const eventHtmlBody = await getRequest(responseJSON[i]);
+        const response = await ai.models.generateContent({
+          model: "gemini-2.0-flash-001",
+          contents: `
+            Find the following:
+              1. name
+              2. address
+              3. startDate
+              4. endDate
+            Use this htmlBody: ${eventHtmlBody}
+          `,
+          config: {
+            responseMimeType: "application/json",
+            responseSchema: {
+              type: type.OBJECT,
+              properties: {
+                name: { type: type.STRING },
+                address: { type: type.STRING },
+                startDate: { type: type.STRING },
+                endDate: { type: type.STRING },
+              },
+              propertyOrdering: ["name", "address", "startDate", "endDate"],
+            },
+          },
+        });
+        // taking the scraped data from a single URL
+        const eventResponseJSON = JSON.parse(
+          response.candidates[0].content.parts[0].text,
+        );
+        eventResponseJSON["eventUrl"] = responseJSON[i];
+        eventDataArray.push(eventResponseJSON);
+        setTimeout(() => {}, 2000); // timeout to make sure we don't go over API request limits
+      }
 
-    console.log(eventDataArray);
-    // name,
-    // eventUrl,
-    // address,
-    // startDate,
-    // endDate,
-    for (let i = 0; i < eventDataArray.length; i++) {
-      try {
-        console.log(`inserting into db... ${i + 1}th`);
+      console.log(
+        `Resulting array of Event objects: ${JSON.stringify(eventDataArray)}`,
+      );
+      console.log("Saving Events into the database...");
+      // looping through the scraped data to finally add it in the database
+      for (let i = 0; i < eventDataArray.length; i++) {
         const { name, eventUrl, startDate, address, endDate } =
           eventDataArray[i];
         const event = await Event.findBy("event_url", eventUrl);
         if (!event)
           await Event.create(name, eventUrl, address, startDate, endDate);
-      } catch (error) {
-        console.error("Error in Event.updateAll()");
       }
+      // this will be invoked through a cron job so no need to return anything.
+      console.log("Finished scraping and saving Events data in the database!");
+    } catch (error) {
+      console.error("Error in Event.updateAllEvents():", error);
     }
   }
 
