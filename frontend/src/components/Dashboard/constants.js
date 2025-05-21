@@ -1,5 +1,6 @@
 import Donations from './Donations.jsx';
 import Overview from './Overview.jsx';
+
 import Events from './Events.jsx';
 import Facilities from './Facilities.jsx';
 import {
@@ -36,11 +37,6 @@ export const links = [
     state: 'events',
     component: Events,
     icon: FaCalendar,
-  },
-  {
-    title: 'My Impact',
-    state: 'impact',
-    icon: FaAward,
   },
 ];
 
@@ -79,10 +75,10 @@ export const weekdays = [
     full: 'Saturday',
     short: 'SAT',
   },
-]
+];
 
 export const statusColor = {
-  Recycled: '#3DA733',
-  'In Process': '#BABA30',
+  Donated: '#3DA733',
+  'In Transit': '#BABA30',
   Pending: '#EE4B2B	',
 };

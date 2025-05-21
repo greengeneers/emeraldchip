@@ -19,7 +19,7 @@ const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
           {links.map((link) => (
             <button
               className={`sidebar-button ${
-                currentTab.state === link.state ? 'sidebar-active-button' : null
+                currentTab.state === link.state ? 'sidebar-active-button' : ''
               }`}
               onClick={() => setCurrentTab(link)}
               key={link.state}

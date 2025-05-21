@@ -94,6 +94,7 @@ exports.updateDonation = async (req, res, next) => {
   const { title, imageUrl, description, status, weightLbs } = req.body;
 
   try {
+
     const data = await Donation.update(
       userId,
       donationId,
@@ -104,7 +105,13 @@ exports.updateDonation = async (req, res, next) => {
       weightLbs
     );
 
-    res.status(200).send(data);
+
+    const response = {
+      ...data,
+      imageUrl: data.image_url, 
+    };
+
+    res.status(200).send(response);
   } catch (error) {
     next(error);
   }
