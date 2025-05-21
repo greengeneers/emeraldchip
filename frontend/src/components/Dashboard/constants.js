@@ -9,6 +9,7 @@ import {
   FaBuilding,
   FaCalendar,
   FaChartPie,
+  FaUser,
 } from 'react-icons/fa6';
 
 export const links = [
@@ -23,13 +24,12 @@ export const links = [
     state: 'donations',
     component: Donations,
     icon: FaBox,
-    
   },
   {
     title: 'Facilities',
     state: 'facilities',
     component: Facilities,
-    icon: FaBuilding
+    icon: FaBuilding,
   },
 
   {
@@ -38,7 +38,6 @@ export const links = [
     component: Events,
     icon: FaCalendar,
   },
-
 ];
 
 export const profile = {
@@ -76,10 +75,10 @@ export const weekdays = [
     full: 'Saturday',
     short: 'SAT',
   },
-]
+];
 
 export const statusColor = {
-  'Donated': '#3DA733',
+  Donated: '#3DA733',
   'In Transit': '#BABA30',
-  'Pending': '#EE4B2B	',
+  Pending: '#EE4B2B	',
 };

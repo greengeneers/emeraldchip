@@ -1,8 +1,6 @@
-import { useState, useEffect, useContext} from 'react';
+import { useState, useEffect, useContext } from 'react';
 import CurrentUserContext from './current-user-context';
 import DonationsContext from './donation-context';
-
-
 
 export const DonationsProvider = ({ children }) => {
   const { currentUser } = useContext(CurrentUserContext);
