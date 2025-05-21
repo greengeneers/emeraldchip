@@ -214,11 +214,13 @@ class Event {
     // startDate,
     // endDate,
     for (let i = 0; i < eventDataArray.length; i++) {
-      console.log(`inserting into db... ${i + 1}th`);
       try {
+        console.log(`inserting into db... ${i + 1}th`);
         const { name, eventUrl, startDate, address, endDate } =
           eventDataArray[i];
-        await Event.create(name, eventUrl, address, startDate, endDate);
+        const event = await Event.findBy("event_url", eventUrl);
+        if (!event)
+          await Event.create(name, eventUrl, address, startDate, endDate);
       } catch (error) {
         console.error("Error in Event.updateAll()");
       }
