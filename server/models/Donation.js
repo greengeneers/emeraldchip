@@ -1,5 +1,5 @@
 const knex = require("../db/knex.js");
-const calcCO2Saved = require("../services/co2Calc.js");
+const { calcCO2Saved } = require("../services/co2Calc.js");
 
 class Donation {
   static async create(userId, title, imageUrl, description, status, weightLbs) {

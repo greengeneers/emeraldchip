@@ -3,6 +3,7 @@
 /* eslint-disable no-restricted-syntax */
 
 const User = require("../../models/User.js");
+const { calcCO2Saved } = require("../services/co2Calc.js");
 
 /**
  * @param { import("knex").Knex } knex
@@ -137,10 +138,8 @@ exports.seed = async (knex) => {
     },
   ];
 
-  const CO2_MULTIPLIER = 0.185; // kg CO₂e per lb (EPA/RecycleSmart)
-
   for (const donation of donationsData) {
-    const co2_saved_kg = +(donation.weight_lbs * CO2_MULTIPLIER).toFixed(2);
+    const co2_saved_kg = calcCO2Saved(donation.weight_lbs);
 
     await knex.raw(donationsQuery, [
       donation.donor_id,
