@@ -849,14 +849,14 @@
 
 .event-modal-rsvp-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   padding-top: var(--padding-xs);
 }
 
 .rsvp-button {
   border: none;
-  padding: 0 var(--padding-sm);
-  border-radius: var(--radius-full);
+  padding: var(--padding-sm);
+  border-radius: var(--radius-lg);
 }
 
 /* ANIMATION CLASSES */

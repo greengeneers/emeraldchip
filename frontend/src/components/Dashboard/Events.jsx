@@ -36,8 +36,19 @@ export default function Events() {
     setModalEvent(event);
   };
 
-  // could be a handler on a click anywhere outside the rendered modal
+  // please i am so cooked do not say anything about this
   const closeEventModal = (e) => {
+    let flags = 0;
+    const divClassList = e.target.closest("div").classList;
+    if (!divClassList.contains("event-modal-frame")) flags++;
+    const isCloseButton = e.target.closest("button");
+    if (
+      isCloseButton &&
+      !isCloseButton.classList.contains("event-modal-exit")
+    ) {
+      flags++;
+    }
+    if (flags >= 2) return;
     setModalEvent(null);
     setModalPosition(null);
   };
