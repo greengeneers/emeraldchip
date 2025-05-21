@@ -1,8 +1,8 @@
 import { statusColor } from '../constants.js';
 
-const Donation = ({ data }) => {
+const Donation = ({ data, onClick }) => {
   return (
-    <div className="donation">
+    <div className="donation" onClick={onClick} style={{ cursor: 'pointer' }}>
       <img
         src={data['image_url']}
         className="donation-image"
@@ -21,3 +21,4 @@ const Donation = ({ data }) => {
 };
 
 export default Donation;
+

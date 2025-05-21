@@ -27,7 +27,7 @@ class Donation {
 
   static async list(userId) {
     const query = `
-      SELECT title, image_url, status FROM donations
+      SELECT id, title, image_url, status FROM donations
       WHERE donor_id = ?
     `;
 

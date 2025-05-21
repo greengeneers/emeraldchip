@@ -8,6 +8,7 @@ export default function CurrentUserContextProvider({ children }) {
   return (
     <CurrentUserContext.Provider value={ context }>
       {children}
+      
     </CurrentUserContext.Provider>
   );
 }
