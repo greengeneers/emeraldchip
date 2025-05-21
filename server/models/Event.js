@@ -2,7 +2,16 @@ const knex = require('../db/knex');
 
 class Event {
   // Create an Event instance with all the required details
-  constructor({ id, created_at, updated_at, name, event_url, address, start_date, end_date}) {
+  constructor({
+    id,
+    created_at,
+    updated_at,
+    name,
+    event_url,
+    address,
+    start_date,
+    end_date,
+  }) {
     this.id = id;
     this.createdAt = created_at;
     this.updatedAt = updated_at;
@@ -22,18 +31,28 @@ class Event {
    *  - None
    */
   static toUTCDate(date) {
-    return new Date(Date.UTC(
-      date.getUTCFullYear(),
-      date.getUTCMonth(),
-      date.getUTCDate(),
-      date.getUTCHours(),
-      date.getUTCMinutes(),
-      date.getUTCSeconds(),
-      date.getUTCMilliseconds()
-    ));
+    return new Date(
+      Date.UTC(
+        date.getUTCFullYear(),
+        date.getUTCMonth(),
+        date.getUTCDate(),
+        date.getUTCHours(),
+        date.getUTCMinutes(),
+        date.getUTCSeconds(),
+        date.getUTCMilliseconds()
+      )
+    );
   }
 
-  static async create(createdAt, updatedAt, name, eventUrl, address, startDate, endDate) {
+  static async create(
+    createdAt,
+    updatedAt,
+    name,
+    eventUrl,
+    address,
+    startDate,
+    endDate
+  ) {
     try {
       const query = `
         INSERT INTO events (created_at, updated_at, name, eventUrl, address, startDate, endDate)
@@ -41,7 +60,13 @@ class Event {
         RETURNING *;
       `;
       const result = await knex.raw(query, [
-        createdAt, updatedAt, name, eventUrl, address, startDate, endDate
+        createdAt,
+        updatedAt,
+        name,
+        eventUrl,
+        address,
+        startDate,
+        endDate,
       ]);
 
       const rawEventData = result.rows[0];
@@ -120,7 +145,6 @@ class Event {
       // TODO: Scrape event.eventUrl in order to grab
       // the latest information. This is periodic, probably once every
       // week or every day, to make sure that all event data is accurate.
-
       // TODO: Push changes into DB.
     }
   }
