@@ -152,7 +152,9 @@ async function runEventUpdate() {
   // Define a function
   console.log("Running event update job...");
   try {
-    await Event.updateAllEvents();
+    await Event.updateAllEvents(
+      `https://www.lesecologycenter.org/calendar/category/public-events-e-waste/ewaste-events/`,
+    );
     console.log("Event update job completed.");
   } catch (error) {
     console.error("Error running event update job:", error);

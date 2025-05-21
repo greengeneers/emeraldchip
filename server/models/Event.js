@@ -1,6 +1,14 @@
 const knex = require("../db/knex");
-const axios = require("axios");
-const cheerio = require("cheerio");
+const { getRequest } = require("../services/htmlGet");
+
+// dynamic import for google/genai
+let ai;
+let type;
+async function loadGenAI() {
+  const { GoogleGenAI, Type } = await import("@google/genai");
+  ai = new GoogleGenAI({ apiKey: process.env.EMERALDCHIP_API_KEY });
+  type = Type;
+}
 
 class Event {
   // Create an Event instance with all the required details
@@ -46,24 +54,14 @@ class Event {
     );
   }
 
-  static async create(
-    createdAt,
-    updatedAt,
-    name,
-    eventUrl,
-    address,
-    startDate,
-    endDate,
-  ) {
+  static async create(name, eventUrl, address, startDate, endDate) {
     try {
       const query = `
-        INSERT INTO events (created_at, updated_at, name, eventUrl, address, startDate, endDate)
+        INSERT INTO events (name, event_url, address, start_date, end_date)
         VALUES (?, ?, ?, ?, ?, ? ,?)
         RETURNING *;
       `;
       const result = await knex.raw(query, [
-        createdAt,
-        updatedAt,
         name,
         eventUrl,
         address,
@@ -141,253 +139,88 @@ class Event {
    * @sideEffects:
    *  - Modifies event data by scraping and updating information from external URLs.
    */
-  static async updateAllEvents() {
-    const lesEvents = await Event.scrapeLESEvents();
-    console.log(lesEvents);
-    // const eventsArr = await Event.list();
-    // for (const event of eventsArr) {
-    //   // TODO: Scrape event.eventUrl in order to grab
-    //   // the latest information. This is periodic, probably once every
-    //   // week or every day, to make sure that all event data is accurate.
-    //   // TODO: Push changes into DB.
-    // }
-  }
-
-  static async scrapeLESEvents() {
-    try {
-      // URL to scrape
-      const url =
-        "https://www.lesecologycenter.org/calendar/category/public-events-e-waste/ewaste-events/";
-
-      // Fetch the HTML content with added headers to mimic a browser
-      console.log("Fetching data from the website...");
-      const response = await axios.get(url, {
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-          Accept:
-            "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-          "Accept-Language": "en-US,en;q=0.5",
-          Connection: "keep-alive",
-          "Upgrade-Insecure-Requests": "1",
-          "Cache-Control": "max-age=0",
+  static async updateAllEvents(url) {
+    const htmlBody = await getRequest(url);
+    await loadGenAI();
+    console.log("generating...");
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash-preview-04-17",
+      contents: `
+        Scrape all the event URLs from this htmlBody
+        ${htmlBody}
+      `,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: type.ARRAY,
+          description: "Array of links.",
+          items: {
+            type: type.STRING,
+          },
         },
-        timeout: 10000,
+      },
+    });
+
+    const responseJSON = JSON.parse(
+      response.candidates[0].content.parts[0].text,
+    );
+    console.log(responseJSON);
+    console.log(typeof responseJSON);
+
+    const eventDataArray = [];
+    for (let i = 0; i < responseJSON.length; i++) {
+      console.log(`doing the ${i + 1}st one`);
+      const eventHtmlBody = await getRequest(responseJSON[i]);
+      const response = await ai.models.generateContent({
+        model: "gemini-2.0-flash-001",
+        // model: "gemini-2.5-flash-preview-04-17",
+        contents: `
+          Find the following:
+            1. Event name
+            2. Event address
+            3. Start date
+            4. End date
+          Use this htmlBody: ${eventHtmlBody}
+        `,
+        config: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: type.OBJECT,
+            properties: {
+              name: { type: type.STRING },
+              address: { type: type.STRING },
+              startDate: { type: type.STRING },
+              endDate: { type: type.STRING },
+            },
+          },
+        },
       });
-
-      const html = response.data;
-
-      // Load HTML content into cheerio
-      const $ = cheerio.load(html);
-
-      // Debug: Output HTML structure to understand website layout
-      console.log("Analyzing HTML structure...");
-
-      // Let's try multiple selectors that might match event containers
-      let eventContainers = $(".tribe-events-loop .type-tribe_events");
-
-      if (eventContainers.length === 0) {
-        console.log("Trying alternative selectors...");
-        eventContainers = $(".tribe-events-loop article");
-      }
-
-      if (eventContainers.length === 0) {
-        console.log("Trying more general selectors...");
-        eventContainers = $("[data-tribejson]");
-      }
-
-      if (eventContainers.length === 0) {
-        console.log("Checking for any event-related elements...");
-        eventContainers = $('[class*="event"]');
-      }
-
-      console.log(
-        `Found ${eventContainers.length} potential events. Processing...`,
+      const eventResponseJSON = JSON.parse(
+        response.candidates[0].content.parts[0].text,
       );
+      eventResponseJSON["eventUrl"] = responseJSON[i];
+      eventDataArray.push(eventResponseJSON);
+      console.log(eventResponseJSON);
+      console.log(typeof eventResponseJSON);
 
-      // Array to store event data
-      const events = [];
+      setTimeout(() => {}, 2000);
+    }
 
-      // Process each event container
-      eventContainers.each((index, element) => {
-        try {
-          // Try multiple possible title selectors
-          let titleElement = $(element).find(
-            ".tribe-events-list-event-title a, .tribe-event-url",
-          );
-          if (titleElement.length === 0) {
-            titleElement = $(element).find("h2 a, h3 a");
-          }
-
-          const title =
-            titleElement.text().trim() ||
-            $(element).find('[class*="title"]').text().trim();
-          const eventUrl = titleElement.attr("href") || "";
-
-          // Extract date information - try multiple possible selectors
-          let dateInfo = $(element).find(
-            ".tribe-event-schedule-details, .tribe-event-date-start",
-          );
-          if (dateInfo.length === 0) {
-            dateInfo = $(element).find(
-              '[class*="date"], [class*="time"], [class*="when"]',
-            );
-          }
-
-          let dateText = dateInfo.text().trim();
-
-          // If no direct date text, look at the JSON data that might be embedded
-          if (!dateText && $(element).attr("data-tribejson")) {
-            try {
-              const jsonData = JSON.parse($(element).attr("data-tribejson"));
-              if (jsonData.start_date) {
-                dateText = jsonData.start_date;
-                if (jsonData.end_date) {
-                  dateText += ` - ${jsonData.end_date}`;
-                }
-              }
-            } catch (e) {
-              console.log("Failed to parse JSON data for event", index);
-            }
-          }
-
-          // Attempt to extract date, start time, and end time
-          let date = "";
-          let startTime = "";
-          let endTime = "";
-
-          // Handle different possible date formats
-          if (dateText) {
-            // Try to match pattern: "Month Day @ Time - Time" or similar
-            const dateTimeMatch = dateText.match(
-              /([A-Za-z]+\s+\d+(?:,\s+\d+)?)\s*@\s*(\d+:\d+\s*(?:am|pm))\s*-\s*(\d+:\d+\s*(?:am|pm))/i,
-            );
-
-            if (dateTimeMatch) {
-              date = dateTimeMatch[1].trim();
-              startTime = dateTimeMatch[2].trim();
-              endTime = dateTimeMatch[3].trim();
-            } else {
-              // Just grab what we can
-              // Look for separate date and time elements
-              const startDateEl = $(element).find(".tribe-event-date-start");
-              const endDateEl = $(element).find(".tribe-event-date-end");
-
-              if (startDateEl.length && endDateEl.length) {
-                date = startDateEl.text().split("@")[0].trim();
-                startTime = startDateEl.text().split("@")[1]?.trim() || "";
-                endTime = endDateEl.text().trim();
-              } else {
-                // Last resort: just use the whole text and try to clean it
-                date = dateText.split("@")[0]?.trim() || dateText;
-
-                // If there's a time part, extract it
-                if (dateText.includes("@")) {
-                  const timePart = dateText.split("@")[1]?.trim() || "";
-                  if (timePart.includes("-")) {
-                    startTime = timePart.split("-")[0]?.trim() || "";
-                    endTime = timePart.split("-")[1]?.trim() || "";
-                  } else {
-                    startTime = timePart;
-                  }
-                }
-              }
-            }
-          }
-
-          // Add event data to array if we at least have a title
-          if (title) {
-            events.push({
-              title,
-              url: eventUrl,
-              date,
-              startTime,
-              endTime,
-            });
-          }
-        } catch (err) {
-          console.log(`Error processing event ${index}:`, err.message);
-        }
-      });
-
-      // If we still don't have events, try an alternative approach for calendar events
-      if (events.length === 0) {
-        console.log("Trying to find events in calendar format...");
-        const calendarEvents = $(".tribe-events-calendar-list__event");
-
-        calendarEvents.each((index, element) => {
-          try {
-            const title = $(element)
-              .find(".tribe-events-calendar-list__event-title-link")
-              .text()
-              .trim();
-            const eventUrl = $(element)
-              .find(".tribe-events-calendar-list__event-title-link")
-              .attr("href");
-            const dateText = $(element)
-              .find(".tribe-events-calendar-list__event-datetime")
-              .text()
-              .trim();
-
-            let date = "";
-            let startTime = "";
-            let endTime = "";
-
-            // Simple extraction from datetime text
-            if (dateText) {
-              const parts = dateText.split("@");
-              if (parts.length > 0) {
-                date = parts[0].trim();
-
-                if (parts.length > 1) {
-                  const timeParts = parts[1].split("-");
-                  startTime = timeParts[0].trim();
-                  endTime = timeParts[1]?.trim() || "";
-                }
-              }
-            }
-
-            if (title) {
-              events.push({
-                title,
-                url: eventUrl,
-                date,
-                startTime,
-                endTime,
-              });
-            }
-          } catch (err) {
-            console.log(
-              `Error processing calendar event ${index}:`,
-              err.message,
-            );
-          }
-        });
+    console.log(eventDataArray);
+    // name,
+    // eventUrl,
+    // address,
+    // startDate,
+    // endDate,
+    for (let i = 0; i < eventDataArray; i++) {
+      console.log(`inserting into db... ${i + 1}th`);
+      try {
+        const { name, eventUrl, startDate, address, endDate } =
+          eventDataArray[i];
+        await Event.create(name, eventUrl, address, startDate, endDate);
+      } catch (error) {
+        console.error("Error in Event.updateAll()");
       }
-
-      // Display results
-      if (events.length > 0) {
-        console.log("E-Waste Events:");
-        console.log("==============");
-
-        events.forEach((event, index) => {
-          console.log(`Event #${index + 1}:`);
-          console.log(`Title: ${event.title}`);
-          console.log(`URL: ${event.url}`);
-          console.log(`Date: ${event.date}`);
-          console.log(`Time: ${event.startTime} - ${event.endTime}`);
-          console.log("---------------------------");
-        });
-      } else {
-        console.log(
-          "No events found. The website structure might have changed.",
-        );
-      }
-
-      return events;
-    } catch (error) {
-      console.error("Error scraping website:", error.message);
-      return [];
     }
   }
 
