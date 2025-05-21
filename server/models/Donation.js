@@ -1,4 +1,5 @@
-const knex = require('../db/knex.js');
+const knex = require("../db/knex.js");
+const calcCO2Saved = require("../services/co2Calc.js");
 
 class Donation {
   static async create(userId, title, imageUrl, description, status, weightLbs) {
@@ -66,7 +67,7 @@ class Donation {
     imageUrl,
     description,
     status,
-    weightLbs
+    weightLbs,
   ) {
     const query = `
       UPDATE donations
@@ -77,8 +78,7 @@ class Donation {
       RETURNING *;
     `;
 
-    const CO2_MULTIPLIER = 0.185; // kg CO₂e per lb (EPA/RecycleSmart)
-    const co2SavedKg = +(weightLbs * CO2_MULTIPLIER).toFixed(2);
+    const co2SavedKg = calcCO2Saved(weightLbs);
 
     const result = await knex.raw(query, [
       title,
