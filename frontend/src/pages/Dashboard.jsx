@@ -7,32 +7,32 @@ import ProfileModal from "../components/ProfileModal.jsx";
 import { links } from "../components/Dashboard/constants.js";
 import CurrentUserContext from "../contexts/current-user-context";
 import { logUserOut } from "../adapters/auth-adapter";
+import DonationModal from '../components/Dashboard/Donations/DonationsModal.jsx';
+import DonationsContext from '../contexts/donation-context.js';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [currentTab, setCurrentTab] = useState(links[0]); // Default to the first tab
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext); // Access current user context
+  const [currentTab, setCurrentTab] = useState(links[0]);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const {
+    isModalOpen,
+    selectedDonation,
+    closeModal,
+    saveDonation,
+    createDonation,
+    donations,
+  } = useContext(DonationsContext);
 
-  // Function to handle tab changes for modal
   const handleTabChange = (tab) => {
     setCurrentTab(tab);
-    if (tab.state === "profile") {
-      setIsModalOpen(true); // Open modal for "My Profile"
-    } else {
-      setIsModalOpen(false); // Close modal for other tabs
-    }
+    setIsProfileModalOpen(false);
   };
 
-  // Function to handle logout
   const handleLogout = () => {
     logUserOut();
     setCurrentUser(null);
     navigate("/");
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false); // Close the modal
   };
 
   return (
@@ -40,18 +40,25 @@ const Dashboard = () => {
       <Sidebar
         currentTab={currentTab}
         setCurrentTab={handleTabChange}
-        setIsModalOpen={setIsModalOpen}
+        setIsModalOpen={setIsProfileModalOpen}
         onLogout={handleLogout}
       />
 
-      <Content currentTab={currentTab} />
+      <Content currentTab={currentTab} setCurrentTab={setCurrentTab} />
 
-      {/* Modal for profile update */}
-      {isModalOpen && (
+      {isProfileModalOpen && (
         <ProfileModal
           currentUser={currentUser}
           setCurrentUser={setCurrentUser}
-          onClose={handleCloseModal}
+          onClose={() => setIsProfileModalOpen(false)}
+        />
+      )}
+
+      {isModalOpen && selectedDonation && (
+        <DonationModal
+          donation={selectedDonation}
+          onSave={selectedDonation.id ? saveDonation : createDonation}
+          onClose={closeModal}
         />
       )}
     </div>

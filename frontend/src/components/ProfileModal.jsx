@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { updateUser } from '../adapters/user-adapter';
-import { useContext } from 'react';
-import UserContext from '../contexts/current-user-context';
-import ErrorPage from '../pages/ErrorPage';
-import handleUpload from '../utils/s3.js';
+import { useState } from "react";
+import { updateUser } from "../adapters/user-adapter";
+import { useContext } from "react";
+import UserContext from "../contexts/current-user-context";
+import ErrorPage from "../pages/ErrorPage";
+import handleUpload from "../utils/s3.js";
 
 const ProfileModal = ({ onClose }) => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -16,19 +16,19 @@ const ProfileModal = ({ onClose }) => {
     pfp: currentUser.pfp,
   });
 
-  const [zipCodeWarning, setZipCodeWarning] = useState('');
+  const [zipCodeWarning, setZipCodeWarning] = useState("");
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'zipCode') {
+    if (name === "zipCode") {
       if (!/^\d*$/.test(value)) {
-        setZipCodeWarning('ZIP code must contain only numbers');
+        setZipCodeWarning("ZIP code must contain only numbers");
       } else if (value.length !== 5) {
-        setZipCodeWarning('ZIP code must be exactly 5 characters long');
+        setZipCodeWarning("ZIP code must be exactly 5 characters long");
       } else {
-        setZipCodeWarning('');
+        setZipCodeWarning("");
       }
     }
 
@@ -45,16 +45,14 @@ const ProfileModal = ({ onClose }) => {
       pfp: formData.pfp,
     };
 
-    // TODO: maybe add a loading here? for now can just skip
     const [data, error] = await updateUser(currentUser.id, body);
 
     if (error) {
-      console.error('Server error details:', error);
+      console.error("Server error details:", error);
       setError(error);
       return;
     }
 
-    // happy path
     setCurrentUser(data);
     setIsEditing(false);
   };
@@ -71,24 +69,22 @@ const ProfileModal = ({ onClose }) => {
     }
   };
 
-  // TODO: MAYBE add loading here to match line 45 above
-
   return (
     <div className="modal-overlay">
-      <div className="modal-content" style={{ position: 'relative' }}>
+      <div className="modal-content" style={{ position: "relative" }}>
         <button
           onClick={onClose}
           aria-label="Close"
           style={{
-            position: 'absolute',
-            top: '10px',
-            right: '15px',
-            background: 'none',
-            border: 'none',
-            fontSize: '1.5rem',
-            fontWeight: 'bold',
-            color: '#555',
-            cursor: 'pointer',
+            position: "absolute",
+            top: "10px",
+            right: "15px",
+            background: "none",
+            border: "none",
+            fontSize: "1.5rem",
+            fontWeight: "bold",
+            color: "#555",
+            cursor: "pointer",
           }}
         >
           &times;
@@ -160,13 +156,13 @@ const ProfileModal = ({ onClose }) => {
                 className="modal-input"
               />
               {zipCodeWarning && (
-                <p style={{ color: 'red' }}>{zipCodeWarning}</p>
+                <p style={{ color: "red" }}>{zipCodeWarning}</p>
               )}
             </div>
             <div className="modal-footer">
               <button
                 type="submit"
-                disabled={zipCodeWarning !== ''}
+                disabled={zipCodeWarning !== ""}
                 className="modal-save"
               >
                 Save
@@ -176,12 +172,12 @@ const ProfileModal = ({ onClose }) => {
                 onClick={() => {
                   setIsEditing(false);
                   setFormData({
-                    username: currentUser.username || '',
-                    name: currentUser.name || '',
-                    email: currentUser.email || '',
-                    zipCode: currentUser.zipCode || '',
+                    username: currentUser.username || "",
+                    name: currentUser.name || "",
+                    email: currentUser.email || "",
+                    zipCode: currentUser.zipCode || "",
                   });
-                  setZipCodeWarning('');
+                  setZipCodeWarning("");
                 }}
                 className="modal-edit"
               >

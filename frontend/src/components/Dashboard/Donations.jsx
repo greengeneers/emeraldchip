@@ -1,42 +1,41 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { listDonations } from "../../adapters/donation-adapter.js";
 import Donation from "./Donations/Donation.jsx";
+import DonationsContext from '../../contexts/donation-context';
+import DonationModal from './Donations/DonationsModal.jsx';
+import '../../styles/Donations.css';
 
 const Donations = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  const handleFetchDonations = useCallback(async () => {
-    !loading && setLoading(true);
-
-    const [results, error] = await listDonations();
-
-    if (error) {
-      console.error("Error fetching donations");
-      return;
-    }
-
-    setData(results);
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    handleFetchDonations();
-  }, []);
-
-  if (loading) {
-    return null;
-  }
+  const {
+    donations,
+    isModalOpen,
+    selectedDonation,
+    openDonationModal,
+    closeModal,
+    saveDonation,
+    showAll,
+  } = useContext(DonationsContext);
 
   return (
     <div id="donations">
       <h1 className="tab-title">Donations</h1>
       <div className="donations-container">
-        {!loading &&
-          data.map((donation) => (
-            <Donation data={donation} key={donation.title} />
-          ))}
+        {donations.map((donation) => (
+          <Donation
+            data={donation}
+            key={donation.id}
+            onClick={() => openDonationModal(donation)}
+          />
+        ))}
       </div>
+
+      {isModalOpen && selectedDonation && (
+        <DonationModal
+          donation={selectedDonation}
+          onSave={saveDonation}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 };
