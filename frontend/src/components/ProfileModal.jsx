@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { updateUser } from '../adapters/user-adapter';
-import { useContext } from 'react';
-import UserContext from '../contexts/current-user-context';
-import ErrorPage from '../pages/ErrorPage';
+import { useState } from "react";
+import { updateUser } from "../adapters/user-adapter";
+import { useContext } from "react";
+import UserContext from "../contexts/current-user-context";
+import ErrorPage from "../pages/ErrorPage";
+import handleUpload from "../utils/s3.js";
 
 const ProfileModal = ({ onClose }) => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -12,20 +13,22 @@ const ProfileModal = ({ onClose }) => {
     email: currentUser.email,
     name: currentUser.name,
     zipCode: currentUser.zipCode,
+    pfp: currentUser.pfp,
   });
-  const [zipCodeWarning, setZipCodeWarning] = useState('');
+
+  const [zipCodeWarning, setZipCodeWarning] = useState("");
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'zipCode') {
+    if (name === "zipCode") {
       if (!/^\d*$/.test(value)) {
-        setZipCodeWarning('ZIP code must contain only numbers');
+        setZipCodeWarning("ZIP code must contain only numbers");
       } else if (value.length !== 5) {
-        setZipCodeWarning('ZIP code must be exactly 5 characters long');
+        setZipCodeWarning("ZIP code must be exactly 5 characters long");
       } else {
-        setZipCodeWarning('');
+        setZipCodeWarning("");
       }
     }
 
@@ -39,17 +42,16 @@ const ProfileModal = ({ onClose }) => {
       email: formData.email,
       name: formData.name,
       zipCode: formData.zipCode,
+      pfp: formData.pfp,
     };
-
 
     const [data, error] = await updateUser(currentUser.id, body);
 
     if (error) {
-      console.error('Server error details:', error);
+      console.error("Server error details:", error);
       setError(error);
       return;
     }
-
 
     setCurrentUser(data);
     setIsEditing(false);
@@ -59,24 +61,30 @@ const ProfileModal = ({ onClose }) => {
     return <ErrorPage error={error} />;
   }
 
+  const handlePfpUpload = async (e) => {
+    const imageUrl = await handleUpload(e);
 
+    if (imageUrl) {
+      setFormData({ ...formData, pfp: imageUrl });
+    }
+  };
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content" style={{ position: 'relative' }}>
+      <div className="modal-content" style={{ position: "relative" }}>
         <button
           onClick={onClose}
           aria-label="Close"
           style={{
-            position: 'absolute',
-            top: '10px',
-            right: '15px',
-            background: 'none',
-            border: 'none',
-            fontSize: '1.5rem',
-            fontWeight: 'bold',
-            color: '#555',
-            cursor: 'pointer',
+            position: "absolute",
+            top: "10px",
+            right: "15px",
+            background: "none",
+            border: "none",
+            fontSize: "1.5rem",
+            fontWeight: "bold",
+            color: "#555",
+            cursor: "pointer",
           }}
         >
           &times;
@@ -85,6 +93,25 @@ const ProfileModal = ({ onClose }) => {
         <h1>Profile</h1>
         {isEditing ? (
           <form onSubmit={handleSave}>
+            <div className="modal-form-group">
+              <label htmlFor="pfp-input">Profile Picture:</label>
+              <div className="pfp-input-container">
+                {formData.pfp && (
+                  <img
+                    src={formData.pfp}
+                    alt="Profile Picture"
+                    className="modal-form-pfp"
+                  />
+                )}
+                <input
+                  type="file"
+                  name="pfp"
+                  id="pfp-input"
+                  className="modal-input"
+                  onChange={(e) => handlePfpUpload(e)}
+                />
+              </div>
+            </div>
             <div className="modal-form-group">
               <label htmlFor="username">Username:</label>
               <input
@@ -129,13 +156,13 @@ const ProfileModal = ({ onClose }) => {
                 className="modal-input"
               />
               {zipCodeWarning && (
-                <p style={{ color: 'red' }}>{zipCodeWarning}</p>
+                <p style={{ color: "red" }}>{zipCodeWarning}</p>
               )}
             </div>
             <div className="modal-footer">
               <button
                 type="submit"
-                disabled={zipCodeWarning !== ''}
+                disabled={zipCodeWarning !== ""}
                 className="modal-save"
               >
                 Save
@@ -145,12 +172,12 @@ const ProfileModal = ({ onClose }) => {
                 onClick={() => {
                   setIsEditing(false);
                   setFormData({
-                    username: currentUser.username || '',
-                    name: currentUser.name || '',
-                    email: currentUser.email || '',
-                    zipCode: currentUser.zipCode || '',
+                    username: currentUser.username || "",
+                    name: currentUser.name || "",
+                    email: currentUser.email || "",
+                    zipCode: currentUser.zipCode || "",
                   });
-                  setZipCodeWarning('');
+                  setZipCodeWarning("");
                 }}
                 className="modal-edit"
               >
@@ -159,21 +186,32 @@ const ProfileModal = ({ onClose }) => {
             </div>
           </form>
         ) : (
-          <>
-            <p>Username: {currentUser.username}</p>
-            <p>Name: {currentUser.name}</p>
-            <p>Email: {currentUser.email}</p>
-            <p>Zip Code: {currentUser.zipCode}</p>
+          <div className="profile-modal">
+            <div className="profile-details-container">
+              {currentUser.pfp && (
+                <img src={currentUser.pfp} className="modal-form-pfp" />
+              )}
+
+              <div className="profile-details">
+                <p>{currentUser.name}</p>
+                <p>@{currentUser.username}</p>
+                <p>
+                  Email: <span>{currentUser.email}</span>
+                </p>
+                <p>
+                  Zip Code:
+                  <span> {currentUser.zipCode}</span>
+                </p>
+              </div>
+            </div>
+
             <div className="modal-footer">
               <button onClick={() => setIsEditing(true)} className="modal-edit">
                 Edit
               </button>
             </div>
-          </>
+          </div>
         )}
-        <button onClick={onClose} style={{ marginTop: '10px' }}>
-          Close
-        </button>
       </div>
     </div>
   );

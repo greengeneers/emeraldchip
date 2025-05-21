@@ -2,14 +2,13 @@ import { useContext } from 'react';
 import CurrentUserContext from '../../contexts/current-user-context.js';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
 import Logo from '../Logo.jsx';
-import { links } from './constants.js';
+import { links, profile } from './constants.js';
+import ThemeContext from '../../contexts/theme-context.js';
+import { FaMoon, FaSun } from 'react-icons/fa6';
 
 const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
-  const { currentUser } = useContext(CurrentUserContext);
-
-  const pfpUrl =
-    currentUser.pfp || `https://robohash.org/${currentUser.email}?set=set1`;
-
+  const { currentUser } = useContext(CurrentUserContext); // Access current user context
+  const { theme, toggleTheme } = useContext(ThemeContext);
   return (
     <div className="dashboard-sidebar">
       <div className="sidebar-logo-container">
@@ -32,16 +31,22 @@ const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
         </ul>
       </nav>
       <div className="sidebar-profile-container">
-       
         <button
           className="sidebar-button profile-button"
           onClick={() => setIsModalOpen(true)}
         >
-          <img src={pfpUrl} className="sidebar-pfp" alt="Profile" />
+          {currentUser.pfp ? (
+            <img src={currentUser.pfp} className="sidebar-user-pfp" />
+          ) : (
+            <profile.icon />
+          )}
           {currentUser.name.split(' ')[0]}
         </button>
         <button className="sidebar-button logout-button" onClick={onLogout}>
           <RiLogoutBoxRLine />
+        </button>
+        <button onClick={toggleTheme} className="sidebar-button theme-button">
+          {theme === 'dark' ? <FaSun /> : <FaMoon />}
         </button>
       </div>
     </div>

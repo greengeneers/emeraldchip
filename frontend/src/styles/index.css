@@ -11,6 +11,7 @@ html {
 }
 
 :root {
+  --alt-font-family: monospace;
   --font-xs: 0.75rem;
   --font-sm: 0.875rem;
   --font-base: 1rem;
@@ -65,6 +66,8 @@ html {
   --opacity: 0.7;
   --underline-offset: 5px;
   --desktop-max-width: 1600px;
+
+  color-scheme: light;
 }
 
 .dark {
@@ -75,6 +78,8 @@ html {
   --primary: #69968c;
   --accent: #626262;
   --border: rgba(255, 255, 255, 0.1);
+
+  color-scheme: dark;
 }
 
 ::selection {
@@ -106,7 +111,7 @@ section {
 
 a {
   text-decoration: none;
-  color: var(--text);
+  color: var(--primary);
   transition: opacity 0.25s linear;
 }
 

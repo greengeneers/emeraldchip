@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
-import { useNavigate, Navigate, Link } from "react-router-dom";
-import CurrentUserContext from "../contexts/current-user-context";
-import { registerUser } from "../adapters/auth-adapter";
-import Logo from "../components/Logo";
-import "../styles/Login.css";
+import { useContext, useState } from 'react';
+import { useNavigate, Navigate, Link } from 'react-router-dom';
+import CurrentUserContext from '../contexts/current-user-context';
+import { registerUser } from '../adapters/auth-adapter';
+import Logo from '../components/Logo';
+import '../styles/index.css';
+import '../styles/Login-signUp.css';
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -73,7 +74,8 @@ export default function SignUpPage() {
     }
 
     if (name === 'password') {
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       if (!passwordRegex.test(value)) {
         setPasswordWarning(
           'Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character'
@@ -184,7 +186,17 @@ export default function SignUpPage() {
       </div>
 
       <div className="auth-right">
-        {}
+        <div className="image-placeholder">
+          <div className="slideshow">
+            {/* <div className="slide s1">
+              <img src={loginImg1} alt="" />
+            </div> */}
+            <div className="slide s1"></div>
+            <div className="slide s2"></div>
+            <div className="slide s3"></div>
+            {/* <div className="slide s4"></div> */}
+          </div>
+        </div>
       </div>
     </div>
   );

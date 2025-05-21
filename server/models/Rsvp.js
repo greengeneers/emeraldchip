@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 const knex = require('../db/knex');
+const Event = require('./Event');
 
 class Rsvp {
   /**
@@ -11,14 +12,23 @@ class Rsvp {
    */
   static async list(userId) {
     try {
-      const query = `
-        SELECT * FROM rsvp
+      const { rows } = await knex.raw(`
+        SELECT event_id FROM rsvp
         WHERE donor_id = ?
-      `;
+      `, [userId]);
 
-      const result = await knex.raw(query, [userId]);
+      const rsvpEvents = [];
+      for (const row of rows) {
+        const eventData = await knex.raw(`
+            SELECT *
+            FROM events
+            WHERE id = ?
+        `, [row.event_id]);
+        rsvpEvents.push(new Event(eventData.rows[0]));
+      }
 
-      return result.rows;
+      console.log(rsvpEvents);
+      return rsvpEvents;
     } catch (error) {
       console.error('Error in Rsvp.list():', error);
     }
