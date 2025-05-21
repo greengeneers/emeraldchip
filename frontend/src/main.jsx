@@ -1,11 +1,12 @@
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App.jsx';
-import UserContextProvider from './contexts/CurrentUserContextProvider.jsx';
-import ThemeContextProvider from './contexts/ThemeContextProvider.jsx';
-import './styles/index.css';
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App.jsx";
+import UserContextProvider from "./contexts/CurrentUserContextProvider.jsx";
+import ThemeContextProvider from "./contexts/ThemeContextProvider.jsx";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+import "./styles/index.css";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
   <UserContextProvider>
     <ThemeContextProvider>
       <BrowserRouter>

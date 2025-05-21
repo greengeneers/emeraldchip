@@ -1,5 +1,6 @@
 import Donations from './Donations.jsx';
 import Overview from './Overview.jsx';
+
 import Events from './Events.jsx';
 import Facilities from './Facilities.jsx';
 import {
@@ -8,7 +9,6 @@ import {
   FaBuilding,
   FaCalendar,
   FaChartPie,
-  FaUser,
 } from 'react-icons/fa6';
 
 export const links = [
@@ -23,12 +23,13 @@ export const links = [
     state: 'donations',
     component: Donations,
     icon: FaBox,
+    
   },
   {
     title: 'Facilities',
     state: 'facilities',
     component: Facilities,
-    icon: FaBuilding,
+    icon: FaBuilding
   },
 
   {
@@ -37,11 +38,7 @@ export const links = [
     component: Events,
     icon: FaCalendar,
   },
-  {
-    title: 'My Impact',
-    state: 'impact',
-    icon: FaAward,
-  },
+
 ];
 
 export const profile = {
@@ -82,7 +79,7 @@ export const weekdays = [
 ]
 
 export const statusColor = {
-  Recycled: '#3DA733',
-  'In Process': '#BABA30',
-  Pending: '#EE4B2B	',
+  'Donated': '#3DA733',
+  'In Transit': '#BABA30',
+  'Pending': '#EE4B2B	',
 };
