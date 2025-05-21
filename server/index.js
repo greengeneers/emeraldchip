@@ -23,9 +23,7 @@ const dashboardControllers = require("./controllers/dashboardController.js");
 const donationControllers = require("./controllers/donationController.js");
 
 const { generateUploadURL } = require("./services/s3.js");
-
 const Event = require("./models/Event");
-
 const app = express();
 
 // middleware
@@ -110,6 +108,7 @@ app.delete(
   checkAuthentication,
   rsvpControllers.removeRsvp,
 );
+app.get("/api/rsvp/:eventId", checkAuthentication, rsvpControllers.checkRsvp);
 
 ///////////////////////////////
 // Dashboard Endpoints

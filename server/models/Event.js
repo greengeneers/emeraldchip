@@ -70,12 +70,13 @@ class Event {
 
   static async list(month, year) {
     try {
-      const startOfMonth = new Date(Date.UTC(year, month - 1, 1)); // Note: month is 0-indexed in JavaScript Dates
-      const endOfMonth = new Date(Date.UTC(year, month, 1)); // First day of the next month
+      // we are getting events from the currentmonth +/- 1 as well
+      const startOfMonth = new Date(Date.UTC(year, month - 1, 1));
+      const endOfMonth = new Date(Date.UTC(year, month, 1));
       const startWithBuffer = new Date(startOfMonth);
-      startWithBuffer.setUTCMonth(startWithBuffer.getUTCMonth() - 1); // Subtract 1 month (buffer)
+      startWithBuffer.setUTCMonth(startWithBuffer.getUTCMonth() - 1);
       const endWithBuffer = new Date(endOfMonth);
-      endWithBuffer.setUTCMonth(endWithBuffer.getUTCMonth() + 1); // Add 1 month (buffer)
+      endWithBuffer.setUTCMonth(endWithBuffer.getUTCMonth() + 1);
       const startDateString = startWithBuffer.toISOString();
       const endDateString = endWithBuffer.toISOString();
 

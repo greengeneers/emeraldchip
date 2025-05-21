@@ -2,7 +2,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 
-const User = require('../../models/User.js');
+const User = require("../../models/User.js");
 
 /**
  * @param { import("knex").Knex } knex
@@ -10,25 +10,25 @@ const User = require('../../models/User.js');
  */
 exports.seed = async (knex) => {
   await Promise.all([
-    knex('rsvp').del(),
-    knex('events').del(),
-    knex('donations').del(),
-    knex('users').del(),
+    knex("rsvp").del(),
+    knex("events").del(),
+    knex("donations").del(),
+    knex("users").del(),
   ]);
 
   // resets tables' id to 1 each time the seed file is executed.
-  await knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 1');
-  await knex.raw('ALTER SEQUENCE donations_id_seq RESTART WITH 1');
-  await knex.raw('ALTER SEQUENCE events_id_seq RESTART WITH 1');
+  await knex.raw("ALTER SEQUENCE users_id_seq RESTART WITH 1");
+  await knex.raw("ALTER SEQUENCE donations_id_seq RESTART WITH 1");
+  await knex.raw("ALTER SEQUENCE events_id_seq RESTART WITH 1");
 
   // Seed Users
 
   await User.create(
-    'johndoe',
-    'johndoe@email.com',
-    'John Doe',
-    'securePass42',
-    '10001'
+    "johndoe",
+    "johndoe@email.com",
+    "John Doe",
+    "securePass42",
+    "10001",
   );
 
   // Create
@@ -43,96 +43,96 @@ exports.seed = async (knex) => {
   const donationsData = [
     {
       donor_id: 1,
-      title: 'Old Smartphone - Samsung Galaxy S8',
+      title: "Old Smartphone - Samsung Galaxy S8",
       image_url:
-        'https://external-preview.redd.it/found-my-old-s8-in-a-drawer-any-idea-what-i-can-do-with-it-v0-krAruytPlJ5eZJE-qUQC3sfrAqr6zpMc1mdQOi4utnw.png?width=640&crop=smart&format=pjpg&auto=webp&s=78f7a79eda1afd17ffa299ef232e3a3e881c542a',
+        "https://external-preview.redd.it/found-my-old-s8-in-a-drawer-any-idea-what-i-can-do-with-it-v0-krAruytPlJ5eZJE-qUQC3sfrAqr6zpMc1mdQOi4utnw.png?width=640&crop=smart&format=pjpg&auto=webp&s=78f7a79eda1afd17ffa299ef232e3a3e881c542a",
       description:
-        'Used Galaxy S8, screen cracked but still powers on. Ideal for parts or recycling.',
-      status: 'Recycled',
+        "Used Galaxy S8, screen cracked but still powers on. Ideal for parts or recycling.",
+      status: "Recycled",
       weight_lbs: 0.342,
     },
     {
       donor_id: 1,
-      title: 'Broken Laptop - HP Pavilion',
+      title: "Broken Laptop - HP Pavilion",
       image_url:
-        'https://guide-images.cdn.ifixit.com/igi/XtgiKQUFKIfkQ1Si.full',
-      description: 'HP Pavilion with damaged motherboard. Hard drive removed.',
-      status: 'In Process',
+        "https://guide-images.cdn.ifixit.com/igi/XtgiKQUFKIfkQ1Si.full",
+      description: "HP Pavilion with damaged motherboard. Hard drive removed.",
+      status: "In Process",
       weight_lbs: 3.86,
     },
     {
       donor_id: 1,
-      title: 'CRT Monitor - 17 inch',
-      image_url: 'https://i.redd.it/txpcstcupwn91.jpg',
+      title: "CRT Monitor - 17 inch",
+      image_url: "https://i.redd.it/txpcstcupwn91.jpg",
       description:
-        'Heavy CRT monitor, works but outdated. Suitable for proper disposal.',
-      status: 'Pending',
+        "Heavy CRT monitor, works but outdated. Suitable for proper disposal.",
+      status: "Pending",
       weight_lbs: 34.1,
     },
     {
       donor_id: 1,
-      title: 'Old Printer - Canon Pixma',
-      image_url: 'https://i.ebayimg.com/images/g/cKYAAOSw~mRknzQa/s-l1200.jpg',
+      title: "Old Printer - Canon Pixma",
+      image_url: "https://i.ebayimg.com/images/g/cKYAAOSw~mRknzQa/s-l1200.jpg",
       description:
         "Canon Pixma printer, doesn't power on. No ink cartridges included.",
-      status: 'Recycled',
+      status: "Recycled",
       weight_lbs: 19.0,
     },
     {
       donor_id: 1,
-      title: 'Box of Misc Electronic Cables',
+      title: "Box of Misc Electronic Cables",
       image_url:
-        'https://i.ebayimg.com/00/s/MTIwMFgxNjAw/z/KOYAAOSwP5pjZppu/$_32.JPG?set_id=880000500F',
-      description: 'Mix of HDMI, USB, power cords, and old charging cables.',
-      status: 'Pending',
+        "https://i.ebayimg.com/00/s/MTIwMFgxNjAw/z/KOYAAOSwP5pjZppu/$_32.JPG?set_id=880000500F",
+      description: "Mix of HDMI, USB, power cords, and old charging cables.",
+      status: "Pending",
       weight_lbs: 1.0,
     },
     {
       donor_id: 1,
-      title: 'Old iPad 3rd Generation',
-      image_url: 'https://i.ebayimg.com/images/g/lo8AAOSwsPJkdUE9/s-l400.jpg',
+      title: "Old iPad 3rd Generation",
+      image_url: "https://i.ebayimg.com/images/g/lo8AAOSwsPJkdUE9/s-l400.jpg",
       description:
-        'iPad with cracked screen but functional. Battery holds about 2 hours of charge. 16GB model.',
-      status: 'In Process',
+        "iPad with cracked screen but functional. Battery holds about 2 hours of charge. 16GB model.",
+      status: "In Process",
       weight_lbs: 1.44,
     },
     {
       donor_id: 1,
-      title: 'Dell XPS 13 Laptop (2017)',
+      title: "Dell XPS 13 Laptop (2017)",
       image_url:
-        'https://www.cnet.com/a/img/resize/f567a00a6638424a1032d11be77c65cc10840bf6/hub/2017/11/03/2183d4d2-bc00-4711-9b16-5db02c5f477e/03-dell-xps-13-late-2017.jpg?auto=webp&fit=crop&height=360&width=640',
+        "https://www.cnet.com/a/img/resize/f567a00a6638424a1032d11be77c65cc10840bf6/hub/2017/11/03/2183d4d2-bc00-4711-9b16-5db02c5f477e/03-dell-xps-13-late-2017.jpg?auto=webp&fit=crop&height=360&width=640",
       description:
-        'Dell XPS 13 with faulty keyboard. Otherwise in good condition. 8GB RAM, 256GB SSD.',
-      status: 'Pending',
+        "Dell XPS 13 with faulty keyboard. Otherwise in good condition. 8GB RAM, 256GB SSD.",
+      status: "Pending",
       weight_lbs: 2.7,
     },
     {
       donor_id: 1,
-      title: 'Old Wireless Router - Netgear N300',
-      image_url: 'https://i.ebayimg.com/images/g/x64AAOSw0QpkbBy1/s-l400.jpg',
+      title: "Old Wireless Router - Netgear N300",
+      image_url: "https://i.ebayimg.com/images/g/x64AAOSw0QpkbBy1/s-l400.jpg",
       description:
-        'Working but outdated router. No longer needed after upgrade.',
-      status: 'Recycled',
+        "Working but outdated router. No longer needed after upgrade.",
+      status: "Recycled",
       weight_lbs: 0.75,
     },
     {
       donor_id: 1,
-      title: 'PlayStation 3 Console',
+      title: "PlayStation 3 Console",
       image_url:
-        'https://u-mercari-images.mercdn.net/photos/m74402018389_1.jpg',
+        "https://u-mercari-images.mercdn.net/photos/m74402018389_1.jpg",
       description:
-        'Original fat model PS3, turns on but disc drive not working. Includes power cable only.',
-      status: 'In Process',
+        "Original fat model PS3, turns on but disc drive not working. Includes power cable only.",
+      status: "In Process",
       weight_lbs: 11.0,
     },
     {
       donor_id: 1,
-      title: 'Nokia 3310 Old Cell Phone',
+      title: "Nokia 3310 Old Cell Phone",
       image_url:
-        'https://i.ebayimg.com/00/s/MTYwMFgxMjAw/z/Y2UAAOSwspZniQ3V/$_57.PNG?set_id=880000500F',
+        "https://i.ebayimg.com/00/s/MTYwMFgxMjAw/z/Y2UAAOSwspZniQ3V/$_57.PNG?set_id=880000500F",
       description:
         "Classic Nokia phone. Still works but battery doesn't hold charge well.",
-      status: 'Recycled',
+      status: "Recycled",
       weight_lbs: 0.3,
     },
   ];
@@ -155,20 +155,36 @@ exports.seed = async (knex) => {
 
   const events = [
     {
-      name: 'E-Waste Collection - Jamaica (Baisley Pond Park)',
+      name: "E-Waste Collection - Jamaica (Baisley Pond Park) kajdslfkjsdlkfjasdlkfjaldskjflkadsjfasjfkaslfkajsklfjajlkakjfjlak",
       event_url:
-        'https://www.lesecologycenter.org/calendar/jamaica-baisley-pond-park/',
-      address: 'Baisley Pond Park – 156-10 Baisley Blvd, Rochdale, NY 11434',
-      start_date: new Date('2025-06-23T10:00:00-04:00'),
-      end_date: new Date('2025-06-23T14:00:00-04:00'),
+        "https://www.lesecologycenter.org/calendar/jamaica-baisley-pond-park/",
+      address: "Baisley Pond Park – 156-10 Baisley Blvd, Rochdale, NY 11434",
+      start_date: new Date("2025-06-23T10:00:00-04:00"),
+      end_date: new Date("2025-06-23T14:00:00-04:00"),
     },
     {
-      name: 'E-Waste Collection - Woodhaven (Forest Park)',
+      name: "E-Waste Collection - Woodhaven (Forest Park)",
       event_url:
-        'https://www.lesecologycenter.org/calendar/woodhaven-forest-park/',
-      address: 'Forest Park Bandshell Parking Lot, Woodhaven, NY 11421',
-      start_date: new Date('2025-06-01T10:00:00-04:00'),
-      end_date: new Date('2025-06-02T14:00:00-04:00'),
+        "https://www.lesecologycenter.org/calendar/woodhaven-forest-park/",
+      address: "Forest Park Bandshell Parking Lot, Woodhaven, NY 11421",
+      start_date: new Date("2025-06-01T10:00:00-04:00"),
+      end_date: new Date("2025-06-02T14:00:00-04:00"),
+    },
+    {
+      name: "E-Waste Collection - Woodhaveasdfn (Forest Park)",
+      event_url:
+        "https://www.lesecologycenter.org/calendar/woodhaven-forest-park/",
+      address: "Forest Park Bandshell Parking Lot, Woodhaven, NY 11421",
+      start_date: new Date("2025-07-07T10:00:00-04:00"),
+      end_date: new Date("2025-07-07T14:00:00-04:00"),
+    },
+    {
+      name: "E-Waste Collection - Woodhaveasdfn (Forest Park)",
+      event_url:
+        "https://www.lesecologycenter.org/calendar/woodhaven-forest-park/",
+      address: "Forest Park Bandshell Parking Lot, Woodhaven, NY 11421",
+      start_date: new Date("2025-07-19T10:00:00-04:00"),
+      end_date: new Date("2025-07-19T14:00:00-04:00"),
     },
   ];
 
