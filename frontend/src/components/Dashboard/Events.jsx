@@ -22,6 +22,25 @@ export default function Events() {
   // for scroll/swipe
   const calendarRef = useRef(null);
   const scrollTimeout = useRef(null);
+  // states for modal
+  const [modalEvent, setModalEvent] = useState(null);
+  const [modalPosition, setModalPosition] = useState(null);
+
+  useEffect(() => {
+    setModalEvent(null);
+    setModalPosition(null);
+  }, [currentYear, currentMonth]);
+
+  const openEventModal = (event, position) => {
+    setModalPosition(position);
+    setModalEvent(event);
+  };
+
+  // could be a handler on a click anywhere outside the rendered modal
+  const closeEventModal = (e) => {
+    setModalEvent(null);
+    setModalPosition(null);
+  };
 
   const fetchEvents = useCallback(async () => {
     try {
@@ -61,11 +80,13 @@ export default function Events() {
   const handleWhichEventsChange = () => {
     if (whichEvents === "ALL") setWhichEvents("RSVP");
     else setWhichEvents("ALL");
+    closeEventModal();
   };
 
   const handleViewModeChange = () => {
     if (viewMode === "Monthly") setViewMode("Weekly");
     else setViewMode("Monthly");
+    closeEventModal();
   };
 
   const handlePrevMonth = () => {
@@ -76,6 +97,7 @@ export default function Events() {
     setCalendarContentAnimation(currentMonth, monthToSet);
     setCurrentMonth(monthToSet);
     setCurrentYear(yearToSet);
+    closeEventModal();
   };
 
   const handleNextMonth = () => {
@@ -86,6 +108,7 @@ export default function Events() {
     setCalendarContentAnimation(currentMonth, monthToSet);
     setCurrentMonth(monthToSet);
     setCurrentYear(yearToSet);
+    closeEventModal();
   };
 
   const handleJumpToday = () => {
@@ -106,6 +129,7 @@ export default function Events() {
     setCurrentYear(today.getFullYear());
     setCurrentMonth(today.getMonth());
     setCurrentWeek(weekNumber);
+    closeEventModal();
   };
 
   return (
@@ -133,6 +157,10 @@ export default function Events() {
             whichEvents,
             viewMode,
             events,
+            modalEvent,
+            closeEventModal,
+            openEventModal,
+            modalPosition,
           }}
         />
       </div>

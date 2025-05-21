@@ -10,9 +10,17 @@ import {
 import { useState, useRef, useEffect } from "react";
 
 export default function CalendarView({ props }) {
-  const { currentYear, currentMonth, currentWeek, viewMode, events } = props;
-  const [modalEvent, setModalEvent] = useState(null);
-  const [modalPosition, setModalPosition] = useState(null);
+  const {
+    currentYear,
+    currentMonth,
+    currentWeek,
+    viewMode,
+    events,
+    modalEvent,
+    closeEventModal,
+    openEventModal,
+    modalPosition,
+  } = props;
   const calendarContentRef = useRef(null);
   const modalFrameRef = useRef(null);
   const modalRef = useRef(null);
@@ -28,22 +36,6 @@ export default function CalendarView({ props }) {
       );
     }
   }, [modalPosition]);
-
-  useEffect(() => {
-    setModalEvent(null);
-    setModalPosition(null);
-  }, [currentYear, currentMonth]);
-
-  const openEventModal = (event, position) => {
-    setModalPosition(position);
-    setModalEvent(event);
-  };
-
-  // could be a handler on a click anywhere outside the rendered modal
-  const closeEventModal = (e) => {
-    setModalEvent(null);
-    setModalPosition(null);
-  };
 
   const monthMatrix = buildMonthMatrix(currentYear, currentMonth);
   const weekNumbers = monthMatrix.map((week) =>

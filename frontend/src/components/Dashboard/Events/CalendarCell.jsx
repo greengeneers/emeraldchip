@@ -31,9 +31,7 @@ export default function CalendarCell({
 
   return (
     <>
-      <div
-        className={`calendar-cell ${currentMonth === dateObj.getMonth() ? "" : "pointer-none"}`}
-      >
+      <div className={`calendar-cell`}>
         <div
           className={`calendar-cell-header ${currentMonth === dateObj.getMonth() ? "" : "not-current-month"}`}
         >
@@ -45,9 +43,7 @@ export default function CalendarCell({
             </span>
           </div>
         </div>
-        <div
-          className={`calendar-cell-body ${currentMonth === dateObj.getMonth() ? "" : "not-current-month"}`}
-        >
+        <div className={`calendar-cell-body`}>
           {dailyEvents && (
             <ol className="calendar-cell-events">
               {dailyEvents.map((event, eventIndex) => {

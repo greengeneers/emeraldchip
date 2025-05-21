@@ -23,9 +23,9 @@ export default function EventModal({ eventData, closeEventModal, position }) {
 
   const fetchPatchRsvp = useCallback(
     async (rsvp) => {
-      let data, error;
-      if (!rsvp) [data, error] = await addRsvp(eventData.id);
-      else [data, error] = await removeRsvp(eventData.id);
+      let error;
+      if (!rsvp) [_, error] = await addRsvp(eventData.id);
+      else [_, error] = await removeRsvp(eventData.id);
       if (error) {
         setError(error);
         return;
@@ -80,7 +80,10 @@ export default function EventModal({ eventData, closeEventModal, position }) {
         </div>
       </div>
       <div className="event-modal-rsvp-container">
-        <button className="rsvp-button" onClick={handleRsvp}>
+        <button
+          className={`rsvp-button ${rsvpRef.current ? "danger" : "success"}`}
+          onClick={handleRsvp}
+        >
           {rsvpRef.current ? "Remove From Calendar" : "Add to Calendar"}
         </button>
       </div>
