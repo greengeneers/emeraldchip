@@ -58,7 +58,7 @@ class Event {
     try {
       const query = `
         INSERT INTO events (name, event_url, address, start_date, end_date)
-        VALUES (?, ?, ?, ?, ?, ? ,?)
+        VALUES (?, ?, ?, ? ,?)
         RETURNING *;
       `;
       const result = await knex.raw(query, [
@@ -144,7 +144,7 @@ class Event {
     await loadGenAI();
     console.log("generating...");
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash-preview-04-17",
+      model: "gemini-2.0-flash-001",
       contents: `
         Scrape all the event URLs from this htmlBody
         ${htmlBody}
@@ -176,10 +176,10 @@ class Event {
         // model: "gemini-2.5-flash-preview-04-17",
         contents: `
           Find the following:
-            1. Event name
-            2. Event address
-            3. Start date
-            4. End date
+            1. name
+            2. address
+            3. startDate
+            4. endDate
           Use this htmlBody: ${eventHtmlBody}
         `,
         config: {
@@ -192,6 +192,7 @@ class Event {
               startDate: { type: type.STRING },
               endDate: { type: type.STRING },
             },
+            propertyOrdering: ["name", "address", "startDate", "endDate"],
           },
         },
       });
@@ -212,7 +213,7 @@ class Event {
     // address,
     // startDate,
     // endDate,
-    for (let i = 0; i < eventDataArray; i++) {
+    for (let i = 0; i < eventDataArray.length; i++) {
       console.log(`inserting into db... ${i + 1}th`);
       try {
         const { name, eventUrl, startDate, address, endDate } =
