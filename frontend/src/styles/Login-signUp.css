@@ -63,7 +63,8 @@
 
 .auth-form input::placeholder {
   font-size: var(--font-xs);
-  color: rgba(0, 0, 0, var(--opacity));
+  color: rgba(var(--opacity));
+  color: var(--text);
 }
 
 .auth-form .submit-btn {
