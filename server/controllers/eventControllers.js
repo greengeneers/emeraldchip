@@ -1,4 +1,4 @@
-const Event = require('../models/Event');
+const Event = require("../models/Event");
 
 /*
 GET /api/events
@@ -10,13 +10,14 @@ exports.listEvents = async (req, res, next) => {
     const { yearMonth } = req.params;
     // split and convert
     const [year, month] = [yearMonth.slice(0, 4), yearMonth.slice(4)].map((i) =>
-      Number(i)
+      Number(i),
     );
 
-    const events = await Event.list(month, year);
+    // since Date string months are 1-indexed
+    const events = await Event.list(month + 1, year);
     if (!events) {
       res.status(404).send({
-        message: 'Error fetching resource.',
+        message: "Error fetching resource.",
       });
     }
     res.send(events);
@@ -33,9 +34,9 @@ exports.showEventById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const event = await Event.findBy('id', id);
+    const event = await Event.findBy("id", id);
     if (!event) {
-      return res.status(404).send({ message: 'Event not found.' });
+      return res.status(404).send({ message: "Event not found." });
     }
 
     res.send(event);
@@ -52,9 +53,9 @@ exports.showEventByName = async (req, res, next) => {
   try {
     const { name } = req.params;
 
-    const event = await Event.findBy('name', name);
+    const event = await Event.findBy("name", name);
     if (!event) {
-      return res.status(404).send({ message: 'Event not found.' });
+      return res.status(404).send({ message: "Event not found." });
     }
 
     res.send(event);

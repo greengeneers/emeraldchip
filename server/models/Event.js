@@ -1,4 +1,4 @@
-const knex = require('../db/knex');
+const knex = require("../db/knex");
 
 class Event {
   // Create an Event instance with all the required details
@@ -39,8 +39,8 @@ class Event {
         date.getUTCHours(),
         date.getUTCMinutes(),
         date.getUTCSeconds(),
-        date.getUTCMilliseconds()
-      )
+        date.getUTCMilliseconds(),
+      ),
     );
   }
 
@@ -51,7 +51,7 @@ class Event {
     eventUrl,
     address,
     startDate,
-    endDate
+    endDate,
   ) {
     try {
       const query = `
@@ -72,28 +72,19 @@ class Event {
       const rawEventData = result.rows[0];
       return new Event(rawEventData);
     } catch (error) {
-      console.error('Error in Event.create():', error);
+      console.error("Error in Event.create():", error);
     }
   }
 
-  // static async list(month, year) {
-  //   try {
-  //     const query = `SELECT * FROM events;`;
-  //     const result = await knex.raw(query);
-  //     return result.rows.map((rawEventData) => new Event(rawEventData));
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
-
   static async list(month, year) {
     try {
-      const startOfMonth = new Date(Date.UTC(year, month - 1, 1)); // Note: month is 0-indexed in JavaScript Dates
-      const endOfMonth = new Date(Date.UTC(year, month, 1)); // First day of the next month
+      // we are getting events from the currentmonth +/- 1 as well
+      const startOfMonth = new Date(Date.UTC(year, month - 1, 1));
+      const endOfMonth = new Date(Date.UTC(year, month, 1));
       const startWithBuffer = new Date(startOfMonth);
-      startWithBuffer.setUTCMonth(startWithBuffer.getUTCMonth() - 1); // Subtract 1 month (buffer)
+      startWithBuffer.setUTCMonth(startWithBuffer.getUTCMonth() - 1);
       const endWithBuffer = new Date(endOfMonth);
-      endWithBuffer.setUTCMonth(endWithBuffer.getUTCMonth() + 1); // Add 1 month (buffer)
+      endWithBuffer.setUTCMonth(endWithBuffer.getUTCMonth() + 1);
       const startDateString = startWithBuffer.toISOString();
       const endDateString = endWithBuffer.toISOString();
 
@@ -105,7 +96,7 @@ class Event {
       const result = await knex.raw(query);
       return result.rows.map((rawEventData) => new Event(rawEventData));
     } catch (error) {
-      console.error('Error in Event.list():', error);
+      console.error("Error in Event.list():", error);
     }
   }
 
@@ -126,7 +117,7 @@ class Event {
       const rawEventData = result.rows[0];
       return rawEventData ? new Event(rawEventData) : null;
     } catch (error) {
-      console.error('Error in Event.findBy():', error);
+      console.error("Error in Event.findBy():", error);
     }
   }
 
@@ -151,9 +142,9 @@ class Event {
 
   static async deleteAll() {
     try {
-      return knex('events').del();
+      return knex("events").del();
     } catch (error) {
-      console.error('Error in Event.deleteAll():', error);
+      console.error("Error in Event.deleteAll():", error);
     }
   }
 }

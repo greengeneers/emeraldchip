@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
-const knex = require('../db/knex');
-const Event = require('./Event');
+const knex = require("../db/knex");
+const Event = require("./Event");
 
 class Rsvp {
   /**
@@ -11,26 +11,32 @@ class Rsvp {
    *  - Executes a SQL query against the database via `knex.raw()`.
    */
   static async list(userId) {
+    // TODO: bound this too
     try {
-      const { rows } = await knex.raw(`
+      const { rows } = await knex.raw(
+        `
         SELECT event_id FROM rsvp
         WHERE donor_id = ?
-      `, [userId]);
+      `,
+        [userId],
+      );
 
       const rsvpEvents = [];
       for (const row of rows) {
-        const eventData = await knex.raw(`
+        const eventData = await knex.raw(
+          `
             SELECT *
             FROM events
             WHERE id = ?
-        `, [row.event_id]);
+        `,
+          [row.event_id],
+        );
         rsvpEvents.push(new Event(eventData.rows[0]));
       }
 
-      console.log(rsvpEvents);
       return rsvpEvents;
     } catch (error) {
-      console.error('Error in Rsvp.list():', error);
+      console.error("Error in Rsvp.list():", error);
     }
   }
 
@@ -55,7 +61,7 @@ class Rsvp {
 
       return !!result.rows[0];
     } catch (error) {
-      console.error('Error in Rsvp.add():', error.stack);
+      console.error("Error in Rsvp.add():", error.stack);
     }
   }
 
@@ -76,15 +82,38 @@ class Rsvp {
       const result = await knex.raw(query, [userId, eventId]);
       return !!result.rowCount;
     } catch (error) {
-      console.error('Error in Rsvp.remove()', error);
+      console.error("Error in Rsvp.remove()", error);
+    }
+  }
+
+  /**
+   * Checks if this specific RSVP exists.
+   *
+   * @param {number} userId - The ID of the user.
+   * @param {number} eventId - The ID of the event.
+   * @returns {Promise<Number>} - 1 or 0 if it exists or not
+   */
+  static async check(userId, eventId) {
+    try {
+      const result = await knex.raw(
+        `
+        SELECT 1
+        FROM rsvp
+        WHERE donor_id = ? AND event_id = ?
+      `,
+        [userId, eventId],
+      );
+      return result.rows.length;
+    } catch (error) {
+      console.error("Error in Rsvp.check()", error);
     }
   }
 
   static async deleteAll() {
     try {
-      return knex('rsvp').del();
+      return knex("rsvp").del();
     } catch (error) {
-      console.error('Error in Rsvp.deleteAll()', error);
+      console.error("Error in Rsvp.deleteAll()", error);
     }
   }
 }

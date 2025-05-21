@@ -1,11 +1,11 @@
-const Rsvp = require('../models/Rsvp');
+const Rsvp = require("../models/Rsvp");
 
 exports.listRsvp = async (req, res) => {
   const { userId } = req.session;
   const rsvps = await Rsvp.list(userId);
   if (!rsvps) {
     return res.status(404).send({
-      message: 'Error fetching resource.',
+      message: "Error fetching resource.",
     });
   }
   res.send(rsvps);
@@ -24,10 +24,10 @@ exports.addRsvp = async (req, res) => {
   if (!data) {
     return res
       .status(409)
-      .send({ message: 'RSVP failed, link already exists!' });
+      .send({ message: "RSVP failed, link already exists!" });
   }
 
-  res.status(201).send({ message: 'RSVP created!' });
+  res.status(201).send({ message: "RSVP created!" });
 };
 
 /*
@@ -42,8 +42,21 @@ exports.removeRsvp = async (req, res) => {
   if (!removeRsvpSuccess) {
     return res
       .status(404)
-      .send({ message: 'RSVP removal failed, link does not exist!' });
+      .send({ message: "RSVP removal failed, link does not exist!" });
   }
 
-  res.status(200).send({ message: 'RSVP removal successful!' });
+  res.status(200).send({ message: "RSVP removal successful!" });
+};
+
+/*
+GET /api/rsvp/:eventId
+Checks if this specific RSVP exists. UserId is grabbed from session.
+*/
+exports.checkRsvp = async (req, res) => {
+  const { userId } = req.session;
+  const { eventId } = req.params;
+
+  const check = await Rsvp.check(userId, eventId);
+  if (check === 1) res.status(200).send({ exists: true });
+  else res.status(200).send({ exists: false });
 };

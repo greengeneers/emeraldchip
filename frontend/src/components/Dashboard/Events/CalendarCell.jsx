@@ -12,9 +12,26 @@ export default function CalendarCell({
     dateObj.getFullYear() === today.getFullYear();
 
   const formattedMonth = dateObj.toLocaleString("default", { month: "long" });
+
+  const handleOpenEventModal = (e) => {
+    // // sending pointer position
+    // const position = {
+    //   x: e.clientX,
+    //   y: e.clientY,
+    // };
+    // sending top right position
+    const button = e.target.closest("button");
+    const rect = button.getBoundingClientRect();
+    const buttonWidth = rect.width;
+    let x = rect.right + 5;
+    let y = rect.top;
+    const li = e.target.closest("li");
+    openEventModal(dailyEvents[li.dataset.eventIndex], { x, y, buttonWidth });
+  };
+
   return (
     <>
-      <div className="calendar-cell">
+      <div className={`calendar-cell`}>
         <div
           className={`calendar-cell-header ${currentMonth === dateObj.getMonth() ? "" : "not-current-month"}`}
         >
@@ -26,9 +43,7 @@ export default function CalendarCell({
             </span>
           </div>
         </div>
-        <div
-          className={`calendar-cell-body ${currentMonth === dateObj.getMonth() ? "" : "not-current-month"}`}
-        >
+        <div className={`calendar-cell-body`}>
           {dailyEvents && (
             <ol className="calendar-cell-events">
               {dailyEvents.map((event, eventIndex) => {
@@ -40,7 +55,7 @@ export default function CalendarCell({
                   >
                     <button
                       className="calendar-cell-events-button"
-                      onClick={openEventModal}
+                      onClick={handleOpenEventModal}
                     >
                       <div className="calendar-cell-events-title">
                         {event.name}

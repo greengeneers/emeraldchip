@@ -1,6 +1,7 @@
-import { useContext } from 'react';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { listDonations } from "../../adapters/donation-adapter.js";
+import Donation from "./Donations/Donation.jsx";
 import DonationsContext from '../../contexts/donation-context';
-import Donation from './Donations/Donation.jsx';
 import DonationModal from './Donations/DonationsModal.jsx';
 import '../../styles/Donations.css';
 
@@ -14,8 +15,6 @@ const Donations = () => {
     saveDonation,
     showAll,
   } = useContext(DonationsContext);
-
-
 
   return (
     <div id="donations">
