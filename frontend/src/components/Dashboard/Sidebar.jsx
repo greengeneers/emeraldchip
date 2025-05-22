@@ -5,6 +5,7 @@ import Logo from '../Logo.jsx';
 import { links, profile } from './constants.js';
 import ThemeContext from '../../contexts/theme-context.js';
 import { FaMoon, FaSun } from 'react-icons/fa6';
+import '../../styles/Dashboard/Sidebar.css';
 
 const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
   const { currentUser } = useContext(CurrentUserContext); // Access current user context
@@ -25,7 +26,7 @@ const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
               key={link.state}
             >
               <span>{<link.icon />}</span>
-              {link.title}
+              <p>{link.title}</p>
             </button>
           ))}
         </ul>
@@ -40,7 +41,7 @@ const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
           ) : (
             <profile.icon />
           )}
-          {currentUser.name.split(' ')[0]}
+          <p>{currentUser.name.split(' ')[0]}</p>
         </button>
         <button className="sidebar-button logout-button" onClick={onLogout}>
           <RiLogoutBoxRLine />

@@ -52,7 +52,7 @@ export default function CalendarCell({
                       onClick={handleOpenEventModal}
                     >
                       <div className="calendar-cell-events-title">
-                        {event.name}
+                        <p className='event-name-title'>{event.name}</p>
                       </div>
                     </button>
                   </li>

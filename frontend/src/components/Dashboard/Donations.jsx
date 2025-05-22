@@ -1,9 +1,8 @@
-import { useContext, useCallback, useEffect, useRef, useState } from "react";
-import { listDonations } from "../../adapters/donation-adapter.js";
-import Donation from "./Donations/Donation.jsx";
-import DonationsContext from "../../contexts/donation-context";
-import DonationModal from "./Donations/DonationsModal.jsx";
-import "../../styles/Donations.css";
+import { useContext } from 'react';
+import { listDonations } from '../../adapters/donation-adapter.js';
+import Donation from './Donations/Donation.jsx';
+import DonationsContext from '../../contexts/donation-context';
+import DonationModal from './Donations/DonationsModal.jsx';
 
 const Donations = () => {
   const {

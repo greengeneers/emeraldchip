@@ -134,10 +134,40 @@ footer {
   max-width: var(--desktop-max-width);
 }
 
+h1 {
+  font-size: var(--font-2xl);
+}
+
+h2 {
+  font-size: var(--font-xl);
+}
+
+p,
+button,
+a,
+input {
+  font-size: var(--font-base);
+}
+
 /* Small devices and most phones */
 @media screen and (min-width: 480px) {
   :root {
     --gutters: 1.25rem;
+  }
+
+  h1 {
+    font-size: var(--font-3xl);
+  }
+
+  h2 {
+    font-size: var(--font-2xl);
+  }
+
+  p,
+  button,
+  a,
+  input {
+    font-size: var(--font-lg);
   }
 }
 
@@ -146,12 +176,42 @@ footer {
   :root {
     --gutters: 1.5rem;
   }
+
+  h1 {
+    font-size: var(--font-3xl);
+  }
+
+  h2 {
+    font-size: var(--font-2xl);
+  }
+
+  p,
+  button,
+  a,
+  input {
+    font-size: var(--font-xl);
+  }
 }
 
 /* Smaller desktop */
 @media screen and (min-width: 992px) {
   :root {
     --gutters: 1.75rem;
+  }
+
+  h1 {
+    font-size: var(--font-4xl);
+  }
+
+  h2 {
+    font-size: var(--font-3xl);
+  }
+
+  p,
+  button,
+  a,
+  input {
+    font-size: var(--font-2xl);
   }
 }
 
