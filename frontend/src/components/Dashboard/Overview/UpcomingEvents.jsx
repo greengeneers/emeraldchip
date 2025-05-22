@@ -1,7 +1,8 @@
 import { FaLocationDot, FaRegClock } from 'react-icons/fa6';
 import { addRsvp, removeRsvp } from '../../../adapters/rsvp-adapter.js';
+import { links } from '../constants.js';
 
-const UpcomingEvents = ({ events, handleGetOverview }) => {
+const UpcomingEvents = ({ events, handleGetOverview, setCurrentTab }) => {
   const handleAddRsvp = async (eventId) => {
     await addRsvp(eventId);
     await handleGetOverview();
@@ -12,12 +13,22 @@ const UpcomingEvents = ({ events, handleGetOverview }) => {
     await handleGetOverview();
   };
 
+  const handleViewAll = () => {
+    const eventsTab = links.find((link) => link.state === 'events');
+
+    if (eventsTab) {
+      setCurrentTab(eventsTab);
+    }
+  };
+
   return (
     <div id="upcoming-events" className="donations-events">
       <div className="donations-events-heading">
         <h2 className="donations-events-title">Upcoming Events</h2>
 
-        <button className="donations-events-view-all">View All</button>
+        <button className="donations-events-view-all" onClick={handleViewAll}>
+          View All
+        </button>
       </div>
 
       <ul className="donations-events-list">

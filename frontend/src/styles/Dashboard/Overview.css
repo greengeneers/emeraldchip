@@ -109,7 +109,7 @@
 .recent-donation-image {
   width: 30%;
   height: 150px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .recent-donation-date {

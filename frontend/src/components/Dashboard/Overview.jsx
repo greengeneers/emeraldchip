@@ -64,6 +64,7 @@ const Overview = ({
         <UpcomingEvents
           events={data.recentEvents}
           handleGetOverview={handleGetOverview}
+          setCurrentTab={setCurrentTab}
         />
       </div>
     </div>
