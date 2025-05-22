@@ -1,4 +1,4 @@
- .dashboard {
+.dashboard {
   display: flex;
   gap: var(--gap-md);
   padding: var(--gutters);
