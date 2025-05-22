@@ -1,14 +1,14 @@
-import { useRef, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import "../styles/Dashboard.css";
-import Sidebar from "../components/Dashboard/Sidebar.jsx";
-import Content from "../components/Dashboard/Content.jsx";
-import ProfileModal from "../components/ProfileModal.jsx";
-import { links } from "../components/Dashboard/constants.js";
-import CurrentUserContext from "../contexts/current-user-context";
-import { logUserOut } from "../adapters/auth-adapter";
+import { useRef, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Sidebar from '../components/Dashboard/Sidebar.jsx';
+import Content from '../components/Dashboard/Content.jsx';
+import ProfileModal from '../components/ProfileModal.jsx';
+import { links } from '../components/Dashboard/constants.js';
+import CurrentUserContext from '../contexts/current-user-context';
+import { logUserOut } from '../adapters/auth-adapter';
 import DonationModal from '../components/Dashboard/Donations/DonationsModal.jsx';
 import DonationsContext from '../contexts/donation-context.js';
+import '../styles/Dashboard.css';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const Dashboard = () => {
   const handleLogout = () => {
     logUserOut();
     setCurrentUser(null);
-    navigate("/");
+    navigate('/');
   };
 
   return (

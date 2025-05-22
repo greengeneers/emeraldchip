@@ -1,4 +1,5 @@
 import { statusColor } from '../constants.js';
+import '../../../styles/Dashboard/Donation.css';
 
 const Donation = ({ data, onClick }) => {
   return (
@@ -21,4 +22,3 @@ const Donation = ({ data, onClick }) => {
 };
 
 export default Donation;
-

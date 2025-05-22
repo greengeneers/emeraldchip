@@ -35,7 +35,7 @@ exports.showOverview = async (req, res, next) => {
       FROM donations
       WHERE donor_id = ?
       ORDER BY created_at DESC
-      LIMIT 2
+      LIMIT 3
       `,
       [user]
     );
@@ -64,7 +64,7 @@ exports.showOverview = async (req, res, next) => {
         ON e.id = r.event_id AND r.donor_id = ?
       WHERE e.end_date > NOW()
       ORDER BY e.start_date ASC
-      LIMIT 2
+      LIMIT 4
       `,
       [user]
     );
