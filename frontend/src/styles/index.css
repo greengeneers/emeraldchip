@@ -84,10 +84,6 @@ html {
   color-scheme: dark;
 }
 
-.dark iframe {
-  filter: grayscale(100%) invert(92%) contrast(83%);
-}
-
 ::selection {
   background: var(--accent);
 }
