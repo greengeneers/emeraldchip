@@ -26,7 +26,7 @@ const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
               key={link.state}
             >
               <span>{<link.icon />}</span>
-              {link.title}
+              <p>{link.title}</p>
             </button>
           ))}
         </ul>
@@ -41,7 +41,7 @@ const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
           ) : (
             <profile.icon />
           )}
-          {currentUser.name.split(' ')[0]}
+          <p>{currentUser.name.split(' ')[0]}</p>
         </button>
         <button className="sidebar-button logout-button" onClick={onLogout}>
           <RiLogoutBoxRLine />

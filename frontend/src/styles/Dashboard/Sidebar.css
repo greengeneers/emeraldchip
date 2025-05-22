@@ -69,11 +69,11 @@
 }
 
 .sidebar-profile-container {
-  gap: var(--gap-sm);
   display: flex;
   justify-content: center;
   align-items: flex-end;
   flex-grow: 1;
+  gap: var(--gap-md);
 }
 
 .profile-button,

@@ -16,11 +16,8 @@ const RecentDonations = ({
   return (
     <div id="recent-donations" className="donations-events">
       <div className="donations-events-heading">
-        <h1 className="donations-events-title">Recent Donations</h1>
-        <button
-          className="donations-events-view-all"
-          onClick={handleViewAll}
-        >
+        <h2 className="donations-events-title">Recent Donations</h2>
+        <button className="donations-events-view-all" onClick={handleViewAll}>
           View All
         </button>
       </div>
@@ -39,7 +36,7 @@ const RecentDonations = ({
               alt={`${donation.title} thumbnail`}
             />
             <div className="recent-donation-content">
-              <h2 className="recent-donation-title">{donation.title}</h2>
+              <p className="recent-donation-title">{donation.title}</p>
               <p className="recent-donation-date">
                 Donated on {new Date(donation.created_at).toDateString()}
               </p>

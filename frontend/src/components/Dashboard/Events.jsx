@@ -6,7 +6,7 @@ import { setCalendarContentAnimation } from '../../utils/animationUtils.js';
 import { listEvents, showEventById } from '../../adapters/event-adapter.js';
 import { getWeekNumber } from '../../utils/calendarUtils.js';
 import { listRsvp } from '../../adapters/rsvp-adapter.js';
-import '../../styles/Dashboard/Donations.css';
+import '../../styles/Dashboard/Events.css';
 
 export default function Events() {
   // not sure if this is the optimal approach but just for a dirty prototype this should be okay :sob:
