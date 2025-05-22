@@ -5,6 +5,7 @@ import Logo from '../Logo.jsx';
 import { links, profile } from './constants.js';
 import ThemeContext from '../../contexts/theme-context.js';
 import { FaMoon, FaSun } from 'react-icons/fa6';
+import '../../styles/Dashboard/Sidebar.css';
 
 const Sidebar = ({ currentTab, setCurrentTab, setIsModalOpen, onLogout }) => {
   const { currentUser } = useContext(CurrentUserContext); // Access current user context

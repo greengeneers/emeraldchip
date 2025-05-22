@@ -1,3 +1,5 @@
+import '../../styles/Dashboard/Facilities.css';
+
 const Facilities = ({}) => {
   return (
     <div id="facilities">

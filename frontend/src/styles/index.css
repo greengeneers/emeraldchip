@@ -105,7 +105,6 @@ body {
   line-height: var(--line-height-base);
   background: var(--background);
   color: var(--text);
-  transition: color 0.25s linear;
 }
 
 section {

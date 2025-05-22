@@ -1,11 +1,16 @@
 import { getOverview } from '../../adapters/dashboard-adapter.js';
 import UserContext from '../../contexts/current-user-context.js';
 import { useContext, useEffect, useState } from 'react';
-import Details from './Oveview/Details.jsx';
-import RecentDonations from './Oveview/RecentDonations.jsx';
-import UpcomingEvents from './Oveview/UpcomingEvents.jsx';
+import Details from './Overview/Details.jsx';
+import RecentDonations from './Overview/RecentDonations.jsx';
+import UpcomingEvents from './Overview/UpcomingEvents.jsx';
+import '../../styles/Dashboard/Overview.css';
 
-const Overview = ({ onViewAllDonations, onOpenDonationModal, setCurrentTab }) => {
+const Overview = ({
+  onViewAllDonations,
+  onOpenDonationModal,
+  setCurrentTab,
+}) => {
   const { currentUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
@@ -40,7 +45,8 @@ const Overview = ({ onViewAllDonations, onOpenDonationModal, setCurrentTab }) =>
           </span>
         </h2>
         <p className="greet-text">
-          Your journey to a greener future continues. Here's your recycling impact so far.
+          Your journey to a greener future continues. Here's your recycling
+          impact so far.
         </p>
       </div>
 
@@ -51,7 +57,7 @@ const Overview = ({ onViewAllDonations, onOpenDonationModal, setCurrentTab }) =>
           donations={data.recentDonations}
           handleGetOverview={handleGetOverview}
           onViewAllDonations={onViewAllDonations}
-          onAddDonation={onOpenDonationModal} 
+          onAddDonation={onOpenDonationModal}
           onOpenDonationModal={onOpenDonationModal}
           setCurrentTab={setCurrentTab}
         />

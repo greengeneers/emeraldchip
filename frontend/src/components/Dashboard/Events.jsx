@@ -1,11 +1,12 @@
-import { useRef, useState, useEffect, useCallback } from "react";
-import CalendarNav from "./Events/CalendarNav.jsx";
-import CalendarView from "./Events/CalendarView.jsx";
+import { useRef, useState, useEffect, useCallback } from 'react';
+import CalendarNav from './Events/CalendarNav.jsx';
+import CalendarView from './Events/CalendarView.jsx';
 
-import { setCalendarContentAnimation } from "../../utils/animationUtils.js";
-import { listEvents, showEventById } from "../../adapters/event-adapter.js";
-import { getWeekNumber } from "../../utils/calendarUtils.js";
-import { listRsvp } from "../../adapters/rsvp-adapter.js";
+import { setCalendarContentAnimation } from '../../utils/animationUtils.js';
+import { listEvents, showEventById } from '../../adapters/event-adapter.js';
+import { getWeekNumber } from '../../utils/calendarUtils.js';
+import { listRsvp } from '../../adapters/rsvp-adapter.js';
+import '../../styles/Dashboard/Donations.css';
 
 export default function Events() {
   // not sure if this is the optimal approach but just for a dirty prototype this should be okay :sob:
@@ -16,9 +17,9 @@ export default function Events() {
   const [currentWeek, setCurrentWeek] = useState(getWeekNumber(currentDate));
   const [events, setCurrentEvents] = useState(null);
   // 'ALL' or 'RSVP'
-  const [whichEvents, setWhichEvents] = useState("ALL");
+  const [whichEvents, setWhichEvents] = useState('ALL');
   // 'Monthly' or 'Weekly'
-  const [viewMode, setViewMode] = useState("Monthly");
+  const [viewMode, setViewMode] = useState('Monthly');
   // for scroll/swipe
   const calendarRef = useRef(null);
   const scrollTimeout = useRef(null);
@@ -39,12 +40,12 @@ export default function Events() {
   // please i am so cooked do not say anything about this
   const closeEventModal = (e) => {
     let flags = 0;
-    const divClassList = e.target.closest("div").classList;
-    if (!divClassList.contains("event-modal-frame")) flags++;
-    const isCloseButton = e.target.closest("button");
+    const divClassList = e.target.closest('div').classList;
+    if (!divClassList.contains('event-modal-frame')) flags++;
+    const isCloseButton = e.target.closest('button');
     if (
       isCloseButton &&
-      !isCloseButton.classList.contains("event-modal-exit")
+      !isCloseButton.classList.contains('event-modal-exit')
     ) {
       flags++;
     }
@@ -56,7 +57,7 @@ export default function Events() {
   const fetchEvents = useCallback(async () => {
     try {
       let data, error;
-      if (whichEvents === "ALL")
+      if (whichEvents === 'ALL')
         [data, error] = await listEvents(`${currentYear}${currentMonth}`);
       else [data, error] = await listRsvp();
 
@@ -89,14 +90,14 @@ export default function Events() {
   }, [currentMonth, whichEvents]);
 
   const handleWhichEventsChange = () => {
-    if (whichEvents === "ALL") setWhichEvents("RSVP");
-    else setWhichEvents("ALL");
+    if (whichEvents === 'ALL') setWhichEvents('RSVP');
+    else setWhichEvents('ALL');
     closeEventModal();
   };
 
   const handleViewModeChange = () => {
-    if (viewMode === "Monthly") setViewMode("Weekly");
-    else setViewMode("Monthly");
+    if (viewMode === 'Monthly') setViewMode('Weekly');
+    else setViewMode('Monthly');
     closeEventModal();
   };
 
