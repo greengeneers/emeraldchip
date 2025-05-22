@@ -19,9 +19,9 @@ const Details = ({ data }) => {
 
       <div className="overview-details">
         <div className='co2-hint-container'>
-          <button className='co2-show-hint'>
+          {/* <button className='co2-show-hint'>
             <FaRegQuestionCircle size={30} />
-          </button>
+          </button> */}
         </div>
         <PiPlant />
         <h1>{(data.totalCO2Saved ?? 0).toFixed(1)} kg</h1>
