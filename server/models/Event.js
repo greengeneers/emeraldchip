@@ -153,10 +153,9 @@ class Event {
       console.log(`List of parsed URLs: ${responseJSON}`);
 
       console.log(`Scraping event data from the URL list...`);
-      const eventDataArray = [];
-      for (let i = 0; i < responseJSON.length; i++) {
-        const eventHtmlBody = await getRequest(responseJSON[i]);
-        const response = await ai.models.generateContent({
+      const eventDataPromises = responseJSON.map(async (eventURL) => {
+        const eventHtmlBody = await getRequest(eventURL);
+        const eventParseResponse = await ai.models.generateContent({
           model: "gemini-2.0-flash-001",
           contents: `
             Find the following:
@@ -182,25 +181,26 @@ class Event {
         });
         // taking the scraped data from a single URL
         const eventResponseJSON = JSON.parse(
-          response.candidates[0].content.parts[0].text,
+          eventParseResponse.candidates[0].content.parts[0].text,
         );
-        eventResponseJSON["eventUrl"] = responseJSON[i];
-        eventDataArray.push(eventResponseJSON);
+        eventResponseJSON.eventUrl = url;
         setTimeout(() => {}, 2000); // timeout to make sure we don't go over API request limits
-      }
+        return eventResponseJSON;
+      });
+      const eventDataArray = await Promise.all(eventDataPromises);
 
       console.log(
         `Resulting array of Event objects: ${JSON.stringify(eventDataArray)}`,
       );
       console.log("Saving Events into the database...");
       // looping through the scraped data to finally add it in the database
-      for (let i = 0; i < eventDataArray.length; i++) {
-        const { name, eventUrl, startDate, address, endDate } =
-          eventDataArray[i];
-        const event = await Event.findBy("event_url", eventUrl);
-        if (!event)
-          await Event.create(name, eventUrl, address, startDate, endDate);
-      }
+      const saveEventsPromises = eventDataArray.map(async (event) => {
+        const { name, eventUrl, startDate, address, endDate } = event;
+        const eventExists = await Event.findBy("event_url", eventUrl);
+        if (!eventExists) await Event.create(name, eventUrl, address, startDate, endDate);
+      });
+
+      await Promise.all(saveEventsPromises);
       // this will be invoked through a cron job so no need to return anything.
       console.log("Finished scraping and saving Events data in the database!");
     } catch (error) {

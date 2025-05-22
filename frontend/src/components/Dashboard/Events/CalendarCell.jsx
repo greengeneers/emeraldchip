@@ -14,12 +14,6 @@ export default function CalendarCell({
   const formattedMonth = dateObj.toLocaleString("default", { month: "long" });
 
   const handleOpenEventModal = (e) => {
-    // // sending pointer position
-    // const position = {
-    //   x: e.clientX,
-    //   y: e.clientY,
-    // };
-    // sending top right position
     const button = e.target.closest("button");
     const rect = button.getBoundingClientRect();
     const buttonWidth = rect.width;

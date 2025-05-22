@@ -34,6 +34,7 @@
 .dashboard-content {
   width: 80%;
   height: 100%;
+  max-width: calc(80% - var(--gap-md)); /* these overflows suck lol */
 }
 
 .sidebar-navigation {
@@ -671,6 +672,7 @@
 .calendar-body {
   display: flex;
   height: 100%;
+  max-width: 100%;
 }
 
 .calendar-side-label {
@@ -682,6 +684,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  max-width: calc(100% - calc(2 * var(--padding-md))); /* annoying */ 
 }
 
 .weekdays-row {

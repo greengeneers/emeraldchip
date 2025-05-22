@@ -1,8 +1,8 @@
 const https = require("https");
 const http = require("http");
 
-exports.getRequest = (url) => {
-  return new Promise((resolve, reject) => {
+exports.getRequest = (url) => (
+  new Promise((resolve, reject) => {
     const lib = url.startsWith("https") ? https : http;
     lib
       .get(url, (res) => {
@@ -23,5 +23,5 @@ exports.getRequest = (url) => {
       .on("error", (err) => {
         reject(err);
       });
-  });
-};
+  })
+);
