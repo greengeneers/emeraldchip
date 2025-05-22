@@ -156,8 +156,19 @@
 }
 
 .overview-details svg {
+  position: relative;
   font-size: var(--font-5xl);
   color: var(--primary);
+}
+
+.co2-hint-container {
+  position: absolute;
+  transform: translateX(100%);
+}
+
+.co2-show-hint {
+  background: none;
+  border: none;
 }
 
 /* OVERVIEW - RECENT DONATION & UPCOMING EVENTS */

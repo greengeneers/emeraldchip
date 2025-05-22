@@ -3,7 +3,7 @@
 const CO2_LB_FACTOR = 0.814;
 const LBS_TO_KG_FACTOR = 0.453592;
 
-exports.calcCO2Saved = (weightLbs) => {
+exports.calcCO2Saved = (weightLbs) => (
   // apply the factor and return the CO2 emissions saved in kg
-  return (+weightLbs * CO2_LB_FACTOR * LBS_TO_KG_FACTOR).toFixed(2);
-};
+  (+weightLbs * CO2_LB_FACTOR * LBS_TO_KG_FACTOR).toFixed(2)
+);
