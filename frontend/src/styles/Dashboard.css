@@ -129,69 +129,6 @@
   color: var(--secondary-text);
 }
 
-/* Donations Tab */
-
-#donations,
-#facilities {
-  background-color: var(--background);
-  height: 100%;
-  border-radius: var(--radius-lg);
-  padding: var(--padding-md);
-  overflow-y: scroll;
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-md);
-}
-
-.donations-container {
-  /* display: flex;
-  gap: var(--gap-md);
-  flex-wrap: wrap; */
-  display: grid;
-  grid-template-columns: 2fr 2fr 2fr;
-  gap: var(--gap-md);
-}
-
-.donation {
-  border: 2px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: var(--padding-md);
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-md);
-  transition: 0.25s linear;
-  cursor: pointer;
-}
-
-.donation:hover,
-.donation:focus,
-.donation:active {
-  background-color: var(--primary);
-  color: var(--secondary-text);
-}
-
-.donation-title {
-  width: 100%;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.donation-image {
-  width: 100%;
-  height: 300px;
-  object-fit: contain;
-  background-color: var(--background);
-}
-
-#facilities-map {
-  width: 100%;
-  height: 100%;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--primary);
-}
-
 /* Small devices and most phones */
 @media screen and (min-width: 480px) {
 }

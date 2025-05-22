@@ -3,6 +3,7 @@ import { listDonations } from '../../adapters/donation-adapter.js';
 import Donation from './Donations/Donation.jsx';
 import DonationsContext from '../../contexts/donation-context';
 import DonationModal from './Donations/DonationsModal.jsx';
+import '../../styles/Dashboard/Donation.css';
 
 const Donations = () => {
   const {
