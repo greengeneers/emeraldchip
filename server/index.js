@@ -6,6 +6,7 @@ require("dotenv").config();
 
 const path = require("path");
 const express = require("express");
+const cron = require("node-cron");
 
 // middleware imports
 const handleCookieSessions = require("./middleware/handleCookieSessions");
@@ -22,7 +23,7 @@ const dashboardControllers = require("./controllers/dashboardController.js");
 const donationControllers = require("./controllers/donationController.js");
 
 const { generateUploadURL } = require("./services/s3.js");
-
+const Event = require("./models/Event");
 const app = express();
 
 // middleware
@@ -141,6 +142,24 @@ app.get("*", (req, res, next) => {
 });
 
 app.use(logErrors);
+
+///////////////////////////////
+// Schedule the event update job
+///////////////////////////////
+// cron job that runs immediately on server restart, and then every 10 mins
+async function runEventUpdate() {
+  console.log("Running event update job...");
+  try {
+    await Event.updateAllEvents(
+      `https://www.lesecologycenter.org/calendar/category/public-events-e-waste/ewaste-events/`,
+    );
+    console.log("Event update job completed.");
+  } catch (error) {
+    console.error("Error running event update job:", error);
+  }
+}
+runEventUpdate();
+cron.schedule("*/10 * * * *", runEventUpdate);
 
 ///////////////////////////////
 // Start Listening

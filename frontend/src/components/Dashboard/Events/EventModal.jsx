@@ -71,6 +71,7 @@ export default function EventModal({ eventData, closeEventModal, position }) {
               minute: "2-digit",
             })}
           </span>
+          <span>-</span>
           <span>
             {new Date(eventData.endDate).toLocaleString([], {
               hour: "2-digit",
