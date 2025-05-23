@@ -11,7 +11,7 @@ import '../../styles/Dashboard/Events.css';
 export default function Events() {
   // not sure if this is the optimal approach but just for a dirty prototype this should be okay :sob:
   // also this is just the data for today's demo!!!
-  const currentDate = new Date(2025, 5, 1);
+  const currentDate = new Date();
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth()); // months are 0-indexed
   const [currentWeek, setCurrentWeek] = useState(getWeekNumber(currentDate));

@@ -170,22 +170,6 @@ exports.seed = async (knex) => {
       start_date: new Date("2025-06-01T10:00:00-04:00"),
       end_date: new Date("2025-06-02T14:00:00-04:00"),
     },
-    {
-      name: "E-Waste Collection - Woodhaveasdfn (Forest Park)",
-      event_url:
-        "https://www.lesecologycenter.org/calendar/woodhaven-forest-park/",
-      address: "Forest Park Bandshell Parking Lot, Woodhaven, NY 11421",
-      start_date: new Date("2025-07-07T10:00:00-04:00"),
-      end_date: new Date("2025-07-07T14:00:00-04:00"),
-    },
-    {
-      name: "E-Waste Collection - Woodhaveasdfn (Forest Park)",
-      event_url:
-        "https://www.lesecologycenter.org/calendar/woodhaven-forest-park/",
-      address: "Forest Park Bandshell Parking Lot, Woodhaven, NY 11421",
-      start_date: new Date("2025-07-19T10:00:00-04:00"),
-      end_date: new Date("2025-07-19T14:00:00-04:00"),
-    },
   ];
 
   const eventsQuery = `

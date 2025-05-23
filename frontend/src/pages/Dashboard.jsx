@@ -1,4 +1,4 @@
-import { useRef, useState, useContext } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Dashboard/Sidebar.jsx';
 import Content from '../components/Dashboard/Content.jsx';

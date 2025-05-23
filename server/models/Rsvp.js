@@ -29,7 +29,8 @@ class Rsvp {
         [row.event_id],
       ));
 
-      return await Promise.all(rsvpEventsPromises);
+      const rsvpEventsData = await Promise.all(rsvpEventsPromises);
+      return rsvpEventsData.map((promise) => promise.rows[0]);
     } catch (error) {
       console.error("Error in Rsvp.list():", error);
     }

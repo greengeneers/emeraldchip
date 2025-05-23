@@ -158,12 +158,12 @@ class Event {
         const eventParseResponse = await ai.models.generateContent({
           model: "gemini-2.0-flash-001",
           contents: `
-            Find the following:
-              1. name
-              2. address
-              3. startDate
-              4. endDate
-            Use this htmlBody: ${eventHtmlBody}
+          Find the following:
+          1. name
+          2. address
+          3. startDate
+          4. endDate
+          Use this htmlBody: ${eventHtmlBody}
           `,
           config: {
             responseMimeType: "application/json",
@@ -179,12 +179,12 @@ class Event {
             },
           },
         });
+        setTimeout(() => {}, 2000); // timeout to make sure we don't go over API request limits
         // taking the scraped data from a single URL
         const eventResponseJSON = JSON.parse(
           eventParseResponse.candidates[0].content.parts[0].text,
         );
         eventResponseJSON.eventUrl = url;
-        setTimeout(() => {}, 2000); // timeout to make sure we don't go over API request limits
         return eventResponseJSON;
       });
       const eventDataArray = await Promise.all(eventDataPromises);
