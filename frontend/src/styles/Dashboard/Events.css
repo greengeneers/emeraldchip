@@ -174,6 +174,7 @@
 .calendar-body {
   display: flex;
   height: 100%;
+  max-width: 100%;
 }
 
 .calendar-side-label {
@@ -185,6 +186,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  max-width: calc(100% - calc(2 * var(--padding-md))); /* annoying */ 
 }
 
 .weekdays-row {
@@ -360,6 +362,10 @@
   border: none;
   padding: var(--padding-sm);
   border-radius: var(--radius-lg);
+}
+
+p.event-name-title {
+  font-size: var(--font-sm);
 }
 
 /* ANIMATION CLASSES */

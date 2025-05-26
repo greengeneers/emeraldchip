@@ -1,4 +1,6 @@
 const knex = require("../db/knex");
+const { getRequest } = require("../services/htmlGet");
+const { loadGenAI } = require("../services/gemini");
 
 class Event {
   // Create an Event instance with all the required details
@@ -44,24 +46,14 @@ class Event {
     );
   }
 
-  static async create(
-    createdAt,
-    updatedAt,
-    name,
-    eventUrl,
-    address,
-    startDate,
-    endDate,
-  ) {
+  static async create(name, eventUrl, address, startDate, endDate) {
     try {
       const query = `
-        INSERT INTO events (created_at, updated_at, name, eventUrl, address, startDate, endDate)
-        VALUES (?, ?, ?, ?, ?, ? ,?)
+        INSERT INTO events (name, event_url, address, start_date, end_date)
+        VALUES (?, ?, ?, ? ,?)
         RETURNING *;
       `;
       const result = await knex.raw(query, [
-        createdAt,
-        updatedAt,
         name,
         eventUrl,
         address,
@@ -130,13 +122,89 @@ class Event {
    * @sideEffects:
    *  - Modifies event data by scraping and updating information from external URLs.
    */
-  static async updateAllEvents() {
-    const eventsArr = await Event.list();
-    for (const event of eventsArr) {
-      // TODO: Scrape event.eventUrl in order to grab
-      // the latest information. This is periodic, probably once every
-      // week or every day, to make sure that all event data is accurate.
-      // TODO: Push changes into DB.
+  static async updateAllEvents(url) {
+    try {
+      const [ai, type] = await loadGenAI();
+      const htmlBody = await getRequest(url);
+
+      console.log(`Parsing list of URLs from ${url}...`);
+      const response = await ai.models.generateContent({
+        model: "gemini-2.0-flash-001",
+        contents: `
+          Scrape all the event URLs from this htmlBody
+          ${htmlBody}
+        `,
+        config: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: type.ARRAY,
+            description: "Array of links.",
+            items: {
+              type: type.STRING,
+            },
+          },
+        },
+      });
+
+      // scraped list of URLs
+      const responseJSON = JSON.parse(
+        response.candidates[0].content.parts[0].text,
+      );
+      console.log(`List of parsed URLs: ${responseJSON}`);
+
+      console.log(`Scraping event data from the URL list...`);
+      const eventDataPromises = responseJSON.map(async (eventURL) => {
+        const eventHtmlBody = await getRequest(eventURL);
+        const eventParseResponse = await ai.models.generateContent({
+          model: "gemini-2.0-flash-001",
+          contents: `
+          Find the following:
+          1. name
+          2. address
+          3. startDate
+          4. endDate
+          Use this htmlBody: ${eventHtmlBody}
+          `,
+          config: {
+            responseMimeType: "application/json",
+            responseSchema: {
+              type: type.OBJECT,
+              properties: {
+                name: { type: type.STRING },
+                address: { type: type.STRING },
+                startDate: { type: type.STRING },
+                endDate: { type: type.STRING },
+              },
+              propertyOrdering: ["name", "address", "startDate", "endDate"],
+            },
+          },
+        });
+        setTimeout(() => {}, 2000); // timeout to make sure we don't go over API request limits
+        // taking the scraped data from a single URL
+        const eventResponseJSON = JSON.parse(
+          eventParseResponse.candidates[0].content.parts[0].text,
+        );
+        eventResponseJSON.eventUrl = url;
+        return eventResponseJSON;
+      });
+      const eventDataArray = await Promise.all(eventDataPromises);
+
+      console.log(
+        `Resulting array of Event objects: ${JSON.stringify(eventDataArray)}`,
+      );
+      console.log("Saving Events into the database...");
+      // looping through the scraped data to finally add it in the database
+      const saveEventsPromises = eventDataArray.map(async (event) => {
+        const { name, eventUrl, startDate, address, endDate } = event;
+        const eventExists = await Event.findBy("event_url", eventUrl);
+        if (!eventExists) await Event.create(name, eventUrl, address, startDate, endDate);
+      });
+
+      await Promise.all(saveEventsPromises);
+      // this will be invoked through a cron job so no need to return anything.
+      console.log("Finished scraping and saving Events data in the database!");
+    } catch (error) {
+      console.error("Error in Event.updateAllEvents():", error);
     }
   }
 

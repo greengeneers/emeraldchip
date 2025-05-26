@@ -11,7 +11,7 @@ import '../../styles/Dashboard/Events.css';
 export default function Events() {
   // not sure if this is the optimal approach but just for a dirty prototype this should be okay :sob:
   // also this is just the data for today's demo!!!
-  const currentDate = new Date(2025, 5, 1);
+  const currentDate = new Date();
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth()); // months are 0-indexed
   const [currentWeek, setCurrentWeek] = useState(getWeekNumber(currentDate));
@@ -40,16 +40,18 @@ export default function Events() {
   // please i am so cooked do not say anything about this
   const closeEventModal = (e) => {
     let flags = 0;
-    const divClassList = e.target.closest('div').classList;
-    if (!divClassList.contains('event-modal-frame')) flags++;
-    const isCloseButton = e.target.closest('button');
-    if (
-      isCloseButton &&
-      !isCloseButton.classList.contains('event-modal-exit')
-    ) {
-      flags++;
+    if (e) {
+      const div = e.target.closest("div");
+      if (div && !div.classList.contains("event-modal-frame")) flags++;
+      const isCloseButton = e.target.closest("button");
+      if (
+        isCloseButton &&
+        !isCloseButton.classList.contains("event-modal-exit")
+      ) {
+        flags++;
+      }
+      if (flags >= 2) return;
     }
-    if (flags >= 2) return;
     setModalEvent(null);
     setModalPosition(null);
   };

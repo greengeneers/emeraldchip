@@ -62,7 +62,9 @@ export default function CalendarView({ props }) {
         <div className="calendar-side-label">
           {viewMode === "Monthly" ? (
             <>
-              <div className="side-label-heading">W</div>
+              <div className="side-label-heading">
+                <p>W</p>
+              </div>
               <ol className="side-label-content">
                 {weekNumbers.map((number) => {
                   return (
