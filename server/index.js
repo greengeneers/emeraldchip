@@ -2,26 +2,26 @@
 // Imports
 ///////////////////////////////
 
-require("dotenv").config();
+require('dotenv').config();
 
-const path = require("path");
-const express = require("express");
+const path = require('path');
+const express = require('express');
 
 // middleware imports
-const handleCookieSessions = require("./middleware/handleCookieSessions");
-const checkAuthentication = require("./middleware/checkAuthentication");
-const logRoutes = require("./middleware/logRoutes");
-const logErrors = require("./middleware/logErrors");
+const handleCookieSessions = require('./middleware/handleCookieSessions');
+const checkAuthentication = require('./middleware/checkAuthentication');
+const logRoutes = require('./middleware/logRoutes');
+const logErrors = require('./middleware/logErrors');
 
 // controller imports
-const authControllers = require("./controllers/authControllers");
-const userControllers = require("./controllers/userControllers");
-const eventControllers = require("./controllers/eventControllers");
-const rsvpControllers = require("./controllers/rsvpControllers");
-const dashboardControllers = require("./controllers/dashboardController.js");
-const donationControllers = require("./controllers/donationController.js");
+const authControllers = require('./controllers/authControllers');
+const userControllers = require('./controllers/userControllers');
+const eventControllers = require('./controllers/eventControllers');
+const rsvpControllers = require('./controllers/rsvpControllers');
+const dashboardControllers = require('./controllers/dashboardController.js');
+const donationControllers = require('./controllers/donationController.js');
 
-const { generateUploadURL } = require("./services/s3.js");
+const { generateUploadURL } = require('./services/s3.js');
 
 const app = express();
 
@@ -29,16 +29,16 @@ const app = express();
 app.use(handleCookieSessions); // adds a session property to each request representing the cookie
 app.use(logRoutes); // print information about each incoming request
 app.use(express.json()); // parse incoming request bodies as JSON
-app.use(express.static(path.join(__dirname, "../frontend/dist"))); // Serve static assets from the dist folder of the frontend
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static assets from the public folder
 
 ///////////////////////////////
 // Auth Endpoints
 ///////////////////////////////
 
-app.post("/api/auth/register", authControllers.registerUser);
-app.post("/api/auth/login", authControllers.loginUser);
-app.get("/api/auth/me", authControllers.showMe);
-app.delete("/api/auth/logout", authControllers.logoutUser);
+app.post('/api/auth/register', authControllers.registerUser);
+app.post('/api/auth/login', authControllers.loginUser);
+app.get('/api/auth/me', authControllers.showMe);
+app.delete('/api/auth/logout', authControllers.logoutUser);
 
 ///////////////////////////////
 // User Endpoints
@@ -46,39 +46,39 @@ app.delete("/api/auth/logout", authControllers.logoutUser);
 
 // These actions require users to be logged in (authentication)
 // Express lets us pass a piece of middleware to run for a specific endpoint
-app.get("/api/users", checkAuthentication, userControllers.listUsers);
-app.get("/api/users/:id", checkAuthentication, userControllers.showUser);
-app.patch("/api/users/:id", checkAuthentication, userControllers.updateUser);
+app.get('/api/users', checkAuthentication, userControllers.listUsers);
+app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
+app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
 
 ///////////////////////////////
 // Donations Endpoints
 ///////////////////////////////
 
 app.post(
-  "/api/donations",
+  '/api/donations',
   checkAuthentication,
-  donationControllers.createDonation,
+  donationControllers.createDonation
 );
 app.get(
-  "/api/donations",
+  '/api/donations',
   checkAuthentication,
-  donationControllers.getDonations,
+  donationControllers.getDonations
 );
 
 app.get(
-  "/api/donations/:id",
+  '/api/donations/:id',
   checkAuthentication,
-  donationControllers.getDonation,
+  donationControllers.getDonation
 );
 app.delete(
-  "/api/donations/:id",
+  '/api/donations/:id',
   checkAuthentication,
-  donationControllers.deleteDonation,
+  donationControllers.deleteDonation
 );
 app.patch(
-  "/api/donations/:id",
+  '/api/donations/:id',
   checkAuthentication,
-  donationControllers.updateDonation,
+  donationControllers.updateDonation
 );
 
 ///////////////////////////////
@@ -86,37 +86,37 @@ app.patch(
 ///////////////////////////////
 
 app.get(
-  "/api/events/:yearMonth",
+  '/api/events/:yearMonth',
   checkAuthentication,
-  eventControllers.listEvents,
+  eventControllers.listEvents
 );
-app.get("/api/events/:id", checkAuthentication, eventControllers.showEventById);
+app.get('/api/events/:id', checkAuthentication, eventControllers.showEventById);
 app.get(
-  "/api/events/:name",
+  '/api/events/:name',
   checkAuthentication,
-  eventControllers.showEventByName,
+  eventControllers.showEventByName
 );
 
 ///////////////////////////////
 // RSVP Endpoints
 ///////////////////////////////
-app.get("/api/rsvp", checkAuthentication, rsvpControllers.listRsvp);
-app.post("/api/rsvp/:eventId", checkAuthentication, rsvpControllers.addRsvp);
+app.get('/api/rsvp', checkAuthentication, rsvpControllers.listRsvp);
+app.post('/api/rsvp/:eventId', checkAuthentication, rsvpControllers.addRsvp);
 app.delete(
-  "/api/rsvp/:eventId",
+  '/api/rsvp/:eventId',
   checkAuthentication,
-  rsvpControllers.removeRsvp,
+  rsvpControllers.removeRsvp
 );
-app.get("/api/rsvp/:eventId", checkAuthentication, rsvpControllers.checkRsvp);
+app.get('/api/rsvp/:eventId', checkAuthentication, rsvpControllers.checkRsvp);
 
 ///////////////////////////////
 // Dashboard Endpoints
 ///////////////////////////////
 
 app.get(
-  "/api/dashboard",
+  '/api/dashboard',
   checkAuthentication,
-  dashboardControllers.showOverview,
+  dashboardControllers.showOverview
 );
 
 ///////////////////////////////
@@ -124,7 +124,7 @@ app.get(
 ///////////////////////////////
 
 // Get Signature URL
-app.get("/api/s3", checkAuthentication, async (req, res) => {
+app.get('/api/s3', checkAuthentication, async (req, res) => {
   const url = await generateUploadURL();
   res.status(200).send({ url });
 });
@@ -135,9 +135,9 @@ app.get("/api/s3", checkAuthentication, async (req, res) => {
 
 // Requests meant for the API will be sent along to the router.
 // For all other requests, send back the index.html file in the dist folder.
-app.get("*", (req, res, next) => {
-  if (req.originalUrl.startsWith("/api")) return next();
-  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+app.get('*', (req, res, next) => {
+  if (req.originalUrl.startsWith('/api')) return next();
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.use(logErrors);
