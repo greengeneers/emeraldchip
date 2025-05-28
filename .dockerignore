@@ -1,0 +1,21 @@
+**/node_modules
+
+# Logs
+**/npm-debug.log
+**/yarn-debug.log
+**/yarn-error.log
+
+**/.env
+
+# Docker files
+**/Dockerfile*
+**/.dockerignore
+
+.git
+**/.gitignore
+
+# IDE and system files
+.vscode
+.idea
+**/.DS_Store
+**/Thumbs.db
