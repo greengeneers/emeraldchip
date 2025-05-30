@@ -4,9 +4,9 @@ Emerald Chip brings about the shift that e-waste recycling has needed: to bring 
 
 ## Team
 
-  - Raffy Castillo: **Lead, Developer, Designer**
-  - Braily Guzman: **Full-stack, Designer**
   - Ana Almonte: **Full-stack Developer**
+  - Braily Guzman: **Full-stack, Designer**
+  - Raffy Castillo: **Lead, Developer, Designer**
 
 ## Project Screenshots
 Overview Tab
