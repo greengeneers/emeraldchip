@@ -20,7 +20,7 @@ Facilities Tab
 Profile Modal
 ![Profile Modal](./md-assets/ec_profile_modal.png)
 Auth
-![Login](./md-assets/ec_login.png)
+![Login](./md-assets/ec_auth.png)
 
 
 ## Table of Contents
