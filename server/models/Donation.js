@@ -10,8 +10,7 @@ class Donation {
     RETURNING *
   `;
 
-    const CO2_MULTIPLIER = 0.185; // kg CO₂e per lb (EPA/RecycleSmart)
-    const co2SavedKg = +(weightLbs * CO2_MULTIPLIER).toFixed(2);
+    const co2SavedKg = calcCO2Saved(weightLbs);
 
     const result = await knex.raw(query, [
       userId,
@@ -75,7 +74,7 @@ class Donation {
       description = ?, status = ?,
       weight_lbs = ?, co2_saved_kg = ?
       WHERE donor_id = ? AND id = ?
-      RETURNING *;
+      RETURNING *
     `;
 
     const co2SavedKg = calcCO2Saved(weightLbs);
