@@ -1,7 +1,8 @@
 import { FaLocationDot, FaRegClock } from 'react-icons/fa6';
 import { addRsvp, removeRsvp } from '../../../adapters/rsvp-adapter.js';
+import { links } from '../constants.js';
 
-const UpcomingEvents = ({ events, handleGetOverview }) => {
+const UpcomingEvents = ({ events, handleGetOverview, setCurrentTab }) => {
   const handleAddRsvp = async (eventId) => {
     await addRsvp(eventId);
     await handleGetOverview();
@@ -12,32 +13,42 @@ const UpcomingEvents = ({ events, handleGetOverview }) => {
     await handleGetOverview();
   };
 
+  const handleViewAll = () => {
+    const eventsTab = links.find((link) => link.state === 'events');
+
+    if (eventsTab) {
+      setCurrentTab(eventsTab);
+    }
+  };
+
   return (
     <div id="upcoming-events" className="donations-events">
       <div className="donations-events-heading">
-        <h1 className="donations-events-title">Upcoming Events</h1>
+        <h2 className="donations-events-title">Upcoming Events</h2>
 
-        <button className="donations-events-view-all">View All</button>
+        <button className="donations-events-view-all" onClick={handleViewAll}>
+          View All
+        </button>
       </div>
 
       <ul className="donations-events-list">
         {events.map((event) => (
           <li className="event-item" key={event.id}>
             <div className="event-day-data-container">
-              <div className="event-item-day">
+              <h1 className="event-item-day">
                 {new Date(event['start_date']).getDate()}
-              </div>
+              </h1>
               <div className="event-data-container">
                 <div className="event-data-title">
-                  <div className="event-data-date">
+                  <p className="event-data-date">
                     {new Date(event['start_date'])
                       .toLocaleDateString('default', {
                         month: 'long',
                         year: 'numeric',
                       })
                       .toUpperCase()}
-                  </div>
-                  <div className="event-data-time">
+                  </p>
+                  <p className="event-data-time">
                     <span>
                       {new Date(event['start_date']).toLocaleString([], {
                         hour: '2-digit',
@@ -51,7 +62,7 @@ const UpcomingEvents = ({ events, handleGetOverview }) => {
                         minute: '2-digit',
                       })}
                     </span>
-                  </div>
+                  </p>
                 </div>
 
                 <div className="event-address-container">

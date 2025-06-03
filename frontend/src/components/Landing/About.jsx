@@ -28,7 +28,7 @@ const About = () => {
     <section id="landing-about">
       <div className="about-cards-container">
         {cards.map((card) => (
-          <div className="about-card">
+          <div className="about-card" key={card.title}>
             <h2 className="about-card-title">{card.title}</h2>
             <img
               src={card.image}

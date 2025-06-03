@@ -1,12 +1,27 @@
-# Project Name
+# Emerald Chip
 
-> Project Mission Statement
+Emerald Chip brings about the shift that e-waste recycling has needed: to bring the process closer to the donors. The platform aims to remove knowledge and logistical barriers to this problem by educating donors and connecting them to proper e-waste processing outlets.
 
 ## Team
 
-  - teamMember: **Scrum Master, Developer**
-  - teamMember: **Developer**
-  - teamMember: **Developer**
+  - Ana Almonte: **Full-stack Developer**
+  - Braily Guzman: **Full-stack, Designer**
+  - Raffy Castillo: **Lead, Developer, Designer**
+
+## Project Screenshots
+Overview Tab
+![Overview Tab](./md-assets/ec_overview_1.png)
+Donations Tab
+![Donations Tab](./md-assets/ec_donations_2.png)
+Events Tab
+![Events Tab](./md-assets/ec_calendar_d.png)
+Facilities Tab
+![Facilities Tab](./md-assets/ec_facilities.png)
+Profile Modal
+![Profile Modal](./md-assets/ec_profile_modal.png)
+Auth
+![Login](./md-assets/ec_auth.png)
+
 
 ## Table of Contents
 - [Getting Started](#getting-started)
@@ -33,17 +48,26 @@ Before you can actually start building, you need to create a database and config
 # These values are used by knexfile.js to connect to your postgres server
 PG_HOST='127.0.0.1'
 PG_PORT=5432
-PG_USER='itsamemario'
-PG_PASS='12345'
-PG_DB='my_react_express_auth_database'
+PG_USER='postgres'
+PG_PASS='postgres'
+PG_DB='emeraldchip'
 
 # Replace session secret with your own random string!
-# This is used by handleCookieSessions to hash your cookie data 
-SESSION_SECRET='db8c3cffebb2159b46ee38ded600f437ee080f8605510ee360758f6976866e00d603d9b3399341b0cd37dfb8e599fff3'
+# This is used by handleCookieSessions to hash your cookie data
+SESSION_SECRET=''
 
 # When you deploy your database on render, this string can be used to test SQL queries to the deployed database.
 # Leave this value blank until you deploy your database.
 PG_CONNECTION_STRING=''
+
+# AWS S3 Bucket
+AWS_ACCESS_KEY=''
+AWS_SECRET_KEY=''
+AWS_S3_REGION=''
+AWS_S3_BUCKET_NAME=''
+
+# GEMINI API KEY
+EMERALDCHIP_API_KEY=''
 ```
 
 ### Build and Start Commands
@@ -60,12 +84,19 @@ cd server && npm start
 
 ## Technologies Used
 
-- Node
-- Express
-- Postgresql
-- React
-- Knex
-- etc...
+Frontend 
+- ReactJS
+- JS, CSS, HTML
+
+Backend 
+- NodeJS
+- ExpressJS
+- KnexJS
+- PostgresQL
+
+Third-party API
+- Google Gemini API
+- AWS S3
 
 ## Project Proposal
 

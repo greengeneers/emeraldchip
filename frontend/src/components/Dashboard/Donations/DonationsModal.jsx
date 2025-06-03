@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
+import handleUpload from '../../../utils/s3';
 
 const DonationModal = ({ donation = {}, onSave, onClose }) => {
-
-
   const [formData, setFormData] = useState({
     id: donation.id || '',
     title: donation.title || '',
@@ -12,14 +11,27 @@ const DonationModal = ({ donation = {}, onSave, onClose }) => {
     weightLbs: donation.weightLbs || 0,
   });
 
+  const [uploading, setUploading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleImageUpload = async (e) => {
+    setUploading(true);
+    const imageUrl = await handleUpload(e);
+
+    if (imageUrl) {
+      setFormData((prev) => ({ ...prev, imageUrl }));
+    }
+
+    setUploading(false);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted with data:', formData); 
+    console.log('Form submitted with data:', formData);
     onSave(formData);
   };
 
@@ -37,12 +49,21 @@ const DonationModal = ({ donation = {}, onSave, onClose }) => {
             />
           </label>
           <label>
-            Image URL:
+            Image:
+            {formData.imageUrl && (
+              <img
+                src={formData.imageUrl}
+                alt="Donation"
+                style={{ maxWidth: '100%', marginBottom: '10px' }}
+              />
+            )}
             <input
+              type="file"
               name="imageUrl"
-              value={formData.imageUrl}
-              onChange={handleChange}
+              onChange={handleImageUpload}
+              accept="image/*"
             />
+            {uploading && <p>Uploading image...</p>}
           </label>
           <label>
             Description:
@@ -73,8 +94,14 @@ const DonationModal = ({ donation = {}, onSave, onClose }) => {
               <option>Donated</option>
             </select>
           </label>
-          <button type="submit">Save</button>
-          <button type="button" className="modal-cancel-button" onClick={onClose}>
+          <button type="submit" disabled={uploading}>
+            Save
+          </button>
+          <button
+            type="button"
+            className="modal-cancel-button"
+            onClick={onClose}
+          >
             Cancel
           </button>
         </form>

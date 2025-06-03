@@ -3,8 +3,7 @@ import { useNavigate, Navigate } from 'react-router-dom';
 import { logUserIn } from '../adapters/auth-adapter';
 import CurrentUserContext from '../contexts/current-user-context';
 import Logo from '../components/Logo';
-import '../styles/index.css';
-import '../styles/Login-signUp.css';
+import '../styles/Auth.css';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -28,7 +27,7 @@ export default function LoginPage() {
 
   return (
     <div className="auth-page">
-      <div className="auth-left">
+      <div className="auth">
         <div className="auth-header">
           <Logo />
           <h1 className="brand-name">Emerald Chip</h1>
@@ -72,19 +71,7 @@ export default function LoginPage() {
         </form>
       </div>
 
-      <div className="auth-right">
-        <div className="image-placeholder">
-          <div className="slideshow">
-            {/* <div className="slide s1">
-              <img src={loginImg1} alt="" />
-            </div> */}
-            <div className="slide s1"></div>
-            <div className="slide s2"></div>
-            <div className="slide s3"></div>
-            {/* <div className="slide s4"></div> */}
-          </div>
-        </div>
-      </div>
+      <div className="auth-right"></div>
     </div>
   );
 }
