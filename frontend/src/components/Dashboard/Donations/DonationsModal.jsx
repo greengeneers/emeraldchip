@@ -53,6 +53,15 @@ const DonationModal = ({ donation = {}, onSave, onClose }) => {
             />
           </label>
           <label>
+            Weight (lbs):
+            <input
+              type="number"
+              name="weightLbs"
+              value={formData.weightLbs}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
             Status:
             <select
               name="status"
