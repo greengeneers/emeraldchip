@@ -1,7 +1,7 @@
-import { IoClose } from "react-icons/io5";
-import { FaLocationDot, FaRegClock } from "react-icons/fa6";
-import { useEffect, useCallback, useState, useRef } from "react";
-import { addRsvp, checkRsvp, removeRsvp } from "../../../adapters/rsvp-adapter";
+import { IoClose } from 'react-icons/io5';
+import { FaLocationDot, FaRegClock } from 'react-icons/fa6';
+import { useEffect, useCallback, useState, useRef } from 'react';
+import { addRsvp, checkRsvp, removeRsvp } from '../../../adapters/rsvp-adapter';
 
 export default function EventModal({ eventData, closeEventModal, position }) {
   const [rsvp, setRsvp] = useState(null);
@@ -23,7 +23,7 @@ export default function EventModal({ eventData, closeEventModal, position }) {
   const fetchPatchRsvp = useCallback(
     async (rsvp) => {
       let data, error;
-      console.log(rsvp);
+
       if (!rsvp) [data, error] = await addRsvp(eventData.id);
       else [data, error] = await removeRsvp(eventData.id);
       if (error) {
@@ -32,7 +32,7 @@ export default function EventModal({ eventData, closeEventModal, position }) {
       }
       setRsvp(() => !rsvp);
     },
-    [eventData],
+    [eventData]
   );
 
   useEffect(() => {
@@ -67,24 +67,24 @@ export default function EventModal({ eventData, closeEventModal, position }) {
           <FaRegClock />
           <span>
             {new Date(eventData.startDate).toLocaleString([], {
-              hour: "2-digit",
-              minute: "2-digit",
+              hour: '2-digit',
+              minute: '2-digit',
             })}
           </span>
           <span>
             {new Date(eventData.endDate).toLocaleString([], {
-              hour: "2-digit",
-              minute: "2-digit",
+              hour: '2-digit',
+              minute: '2-digit',
             })}
           </span>
         </div>
       </div>
       <div className="event-modal-rsvp-container">
         <button
-          className={`rsvp-button ${rsvp ? "danger" : "success"}`}
+          className={`rsvp-button ${rsvp ? 'danger' : 'success'}`}
           onClick={handleRsvp}
         >
-          {rsvp ? "Remove From Calendar" : "Add to Calendar"}
+          {rsvp ? 'Remove From Calendar' : 'Add to Calendar'}
         </button>
       </div>
     </>

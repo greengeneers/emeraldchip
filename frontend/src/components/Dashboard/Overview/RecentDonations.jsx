@@ -1,18 +1,16 @@
+import { useContext, useEffect } from 'react';
 import { statusColor, links } from '../constants.js';
+import DonationsContext from '../../../contexts/donation-context.js';
 
-const RecentDonations = ({
-  donations,
-  onOpenDonationModal,
-  onAddDonation,
-  setCurrentTab,
-}) => {
+const RecentDonations = ({ donations, setCurrentTab }) => {
+  const { openDonationModal } = useContext(DonationsContext);
+
   const handleViewAll = () => {
     const donationsTab = links.find((link) => link.state === 'donations');
     if (donationsTab) {
       setCurrentTab(donationsTab);
     }
   };
-
   return (
     <div id="recent-donations" className="donations-events">
       <div className="donations-events-heading">
@@ -27,7 +25,7 @@ const RecentDonations = ({
           <li
             className="recent-donation"
             key={donation.id}
-            onClick={() => onOpenDonationModal(donation)}
+            onClick={() => openDonationModal(donation)}
             style={{ cursor: 'pointer' }}
           >
             <img
@@ -51,7 +49,7 @@ const RecentDonations = ({
         ))}
       </ul>
 
-      <button className="new-donation-button" onClick={onAddDonation}>
+      <button className="new-donation-button" onClick={openDonationModal}>
         Add New Donation
       </button>
     </div>

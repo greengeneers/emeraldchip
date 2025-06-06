@@ -8,7 +8,7 @@ const DonationModal = ({ donation = {}, onSave, onClose }) => {
     imageUrl: donation.image_url || '',
     description: donation.description || '',
     status: donation.status || 'Pending',
-    weightLbs: donation.weightLbs || 0,
+    weightLbs: donation.weight_lbs || 0,
   });
 
   const [uploading, setUploading] = useState(false);
@@ -31,7 +31,6 @@ const DonationModal = ({ donation = {}, onSave, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted with data:', formData);
     onSave(formData);
   };
 

@@ -1,35 +1,14 @@
-import { getOverview } from '../../adapters/dashboard-adapter.js';
 import UserContext from '../../contexts/current-user-context.js';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import Details from './Overview/Details.jsx';
 import RecentDonations from './Overview/RecentDonations.jsx';
 import UpcomingEvents from './Overview/UpcomingEvents.jsx';
 import '../../styles/Dashboard/Overview.css';
+import DonationsContext from '../../contexts/donation-context.js';
 
-const Overview = ({
-  onViewAllDonations,
-  onOpenDonationModal,
-  setCurrentTab,
-}) => {
+const Overview = ({ setCurrentTab }) => {
   const { currentUser } = useContext(UserContext);
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(null);
-
-  const handleGetOverview = async () => {
-    const [overview, error] = await getOverview();
-
-    if (error) {
-      console.error('Error fetching overview');
-      return;
-    }
-
-    setData(overview);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    handleGetOverview();
-  }, []);
+  const { loading, overviewData } = useContext(DonationsContext);
 
   if (loading) {
     return null;
@@ -50,20 +29,15 @@ const Overview = ({
         </p>
       </div>
 
-      <Details data={data} />
+      <Details data={overviewData} />
 
       <div className="donations-events-container">
         <RecentDonations
-          donations={data.recentDonations}
-          handleGetOverview={handleGetOverview}
-          onViewAllDonations={onViewAllDonations}
-          onAddDonation={onOpenDonationModal}
-          onOpenDonationModal={onOpenDonationModal}
+          donations={overviewData.recentDonations}
           setCurrentTab={setCurrentTab}
         />
         <UpcomingEvents
-          events={data.recentEvents}
-          handleGetOverview={handleGetOverview}
+          events={overviewData.recentEvents}
           setCurrentTab={setCurrentTab}
         />
       </div>

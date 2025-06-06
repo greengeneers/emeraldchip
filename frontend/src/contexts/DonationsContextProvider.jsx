@@ -1,34 +1,47 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import CurrentUserContext from './current-user-context';
 import DonationsContext from './donation-context';
+import { getOverview } from '../adapters/dashboard-adapter.js';
 
 export const DonationsProvider = ({ children }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const [donations, setDonations] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDonation, setSelectedDonation] = useState(null);
-  const [showAll, setShowAll] = useState(false);
+  const [overviewData, setOverviewData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (currentUser?.id) {
-      fetch(`/api/donations?donor_id=${currentUser.id}`)
+      fetch(`/api/donations`)
         .then((res) => res.json())
         .then((data) => setDonations(data))
         .catch(console.error);
     }
   }, [currentUser]);
 
+  const handleGetOverview = useCallback(async () => {
+    const [overview, error] = await getOverview();
+
+    if (error) {
+      console.error('Error fetching overview');
+      return;
+    }
+
+    setOverviewData(overview);
+    setLoading(false);
+  });
+
+  useEffect(() => {
+    handleGetOverview();
+  }, []);
+
   const openDonationModal = (donation) => {
     setSelectedDonation(donation);
     setIsModalOpen(true);
   };
 
-  const addDonation = () => {
-    setSelectedDonation({});
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
+  const closeModal = (callback) => {
     setIsModalOpen(false);
     setSelectedDonation(null);
   };
@@ -47,6 +60,8 @@ export const DonationsProvider = ({ children }) => {
       setDonations((prev) =>
         prev.map((d) => (d.id === savedDonation.id ? savedDonation : d))
       );
+
+      await handleGetOverview();
 
       closeModal();
     } catch (error) {
@@ -72,10 +87,6 @@ export const DonationsProvider = ({ children }) => {
     }
   };
 
-  const onViewAllDonations = () => {
-    setShowAll(true);
-  };
-
   return (
     <DonationsContext.Provider
       value={{
@@ -83,13 +94,12 @@ export const DonationsProvider = ({ children }) => {
         isModalOpen,
         selectedDonation,
         openDonationModal,
-        addDonation,
         closeModal,
         saveDonation,
         createDonation,
-        onViewAllDonations,
-        showAll,
-        setShowAll,
+        overviewData,
+        handleGetOverview,
+        loading,
       }}
     >
       {children}

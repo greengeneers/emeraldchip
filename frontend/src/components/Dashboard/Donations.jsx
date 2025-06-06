@@ -13,7 +13,6 @@ const Donations = () => {
     openDonationModal,
     closeModal,
     saveDonation,
-    showAll,
   } = useContext(DonationsContext);
 
   return (

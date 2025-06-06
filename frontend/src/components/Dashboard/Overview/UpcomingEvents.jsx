@@ -1,8 +1,12 @@
 import { FaLocationDot, FaRegClock } from 'react-icons/fa6';
 import { addRsvp, removeRsvp } from '../../../adapters/rsvp-adapter.js';
 import { links } from '../constants.js';
+import { useContext } from 'react';
+import DonationsContext from '../../../contexts/donation-context.js';
 
-const UpcomingEvents = ({ events, handleGetOverview, setCurrentTab }) => {
+const UpcomingEvents = ({ events, setCurrentTab }) => {
+  const { handleGetOverview } = useContext(DonationsContext);
+
   const handleAddRsvp = async (eventId) => {
     await addRsvp(eventId);
     await handleGetOverview();

@@ -21,7 +21,6 @@ const Dashboard = () => {
     closeModal,
     saveDonation,
     createDonation,
-    donations,
   } = useContext(DonationsContext);
 
   const handleTabChange = (tab) => {

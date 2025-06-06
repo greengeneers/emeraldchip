@@ -1,5 +1,5 @@
-const knex = require("../db/knex.js");
-const { calcCO2Saved } = require("../services/co2Calc.js");
+const knex = require('../db/knex.js');
+const { calcCO2Saved } = require('../services/co2Calc.js');
 
 class Donation {
   static async create(userId, title, imageUrl, description, status, weightLbs) {
@@ -27,7 +27,7 @@ class Donation {
 
   static async list(userId) {
     const query = `
-      SELECT id, title, image_url, status FROM donations
+      SELECT * FROM donations
       WHERE donor_id = ?
     `;
 
@@ -66,7 +66,7 @@ class Donation {
     imageUrl,
     description,
     status,
-    weightLbs,
+    weightLbs
   ) {
     const query = `
       UPDATE donations
