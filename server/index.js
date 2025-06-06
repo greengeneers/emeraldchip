@@ -5,6 +5,7 @@
 require('dotenv').config();
 
 const path = require('path');
+const fs = require('fs');
 const express = require('express');
 
 // middleware imports
@@ -137,6 +138,13 @@ app.get('/api/s3', checkAuthentication, async (req, res) => {
 // For all other requests, send back the index.html file in the dist folder.
 app.get('*', (req, res, next) => {
   if (req.originalUrl.startsWith('/api')) return next();
+
+  const serverPath = path.join(__dirname, 'public', 'index.html');
+
+  if (fs.existsSync(serverPath)) {
+    res.sendFile(serverPath);
+  }
+
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
