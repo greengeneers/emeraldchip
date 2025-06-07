@@ -8,9 +8,9 @@ import DonationsContext from '../../contexts/donation-context.js';
 
 const Overview = ({ setCurrentTab }) => {
   const { currentUser } = useContext(UserContext);
-  const { loading, overviewData } = useContext(DonationsContext);
+  const { overviewData } = useContext(DonationsContext);
 
-  if (loading) {
+  if (!overviewData) {
     return null;
   }
 

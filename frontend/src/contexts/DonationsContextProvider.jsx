@@ -9,7 +9,6 @@ export const DonationsProvider = ({ children }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDonation, setSelectedDonation] = useState(null);
   const [overviewData, setOverviewData] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (currentUser?.id) {
@@ -29,7 +28,6 @@ export const DonationsProvider = ({ children }) => {
     }
 
     setOverviewData(overview);
-    setLoading(false);
   });
 
   useEffect(() => {
@@ -99,7 +97,6 @@ export const DonationsProvider = ({ children }) => {
         createDonation,
         overviewData,
         handleGetOverview,
-        loading,
       }}
     >
       {children}

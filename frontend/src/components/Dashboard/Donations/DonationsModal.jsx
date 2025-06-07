@@ -52,6 +52,7 @@ const DonationModal = ({ donation = {}, onSave, onClose }) => {
             {formData.imageUrl && (
               <img
                 src={formData.imageUrl}
+                className="modal-donation-image"
                 alt="Donation"
                 style={{ maxWidth: '100%', marginBottom: '10px' }}
               />

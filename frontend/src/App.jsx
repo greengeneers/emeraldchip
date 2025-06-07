@@ -1,19 +1,19 @@
-import { useContext, useEffect, useCallback, useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import SignUpPage from "./pages/SignUp";
-import LoginPage from "./pages/Login";
-import NotFoundPage from "./pages/NotFound";
-import UserContext from "./contexts/current-user-context";
-import { checkForLoggedInUser } from "./adapters/auth-adapter";
-import UsersPage from "./pages/Users";
-import UserPage from "./pages/User";
-import Landing from "./pages/Landing.jsx";
-import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
-import GuestRoutes from "./components/GuestRoutes.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
+import { useContext, useEffect, useCallback, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import SignUpPage from './pages/SignUp';
+import LoginPage from './pages/Login';
+import NotFoundPage from './pages/NotFound';
+import UserContext from './contexts/current-user-context';
+import { checkForLoggedInUser } from './adapters/auth-adapter';
+import UsersPage from './pages/Users';
+import UserPage from './pages/User';
+import Landing from './pages/Landing.jsx';
+import ProtectedRoutes from './components/ProtectedRoutes.jsx';
+import GuestRoutes from './components/GuestRoutes.jsx';
+import Dashboard from './pages/Dashboard.jsx';
 
 export default function App() {
-  const { setCurrentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
 
   const loadCurrentUser = useCallback(async () => {
@@ -21,11 +21,11 @@ export default function App() {
     const [data] = await checkForLoggedInUser();
     if (data) setCurrentUser(data);
     setIsLoading(false);
-  });
+  }, [currentUser]);
 
   useEffect(() => {
     loadCurrentUser();
-  }, [setCurrentUser]);
+  }, []);
 
   if (isLoading) {
     return null;
