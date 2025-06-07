@@ -99,4 +99,5 @@
   height: 50px;
   object-fit: cover;
   border-radius: var(--radius-full);
+  border: 2px solid var(--border);
 }

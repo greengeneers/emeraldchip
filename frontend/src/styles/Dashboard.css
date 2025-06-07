@@ -67,6 +67,7 @@
   height: 100px;
   border-radius: var(--radius-full);
   object-fit: cover;
+  border: 2px solid var(--border);
 }
 
 .modal-form-group {
