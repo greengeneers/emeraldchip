@@ -31,8 +31,10 @@ export const DonationsProvider = ({ children }) => {
   });
 
   useEffect(() => {
+    if (!currentUser) return;
+
     handleGetOverview();
-  }, []);
+  }, [currentUser]);
 
   const openDonationModal = (donation) => {
     setSelectedDonation(donation);
