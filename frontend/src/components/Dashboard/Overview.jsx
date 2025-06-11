@@ -1,5 +1,5 @@
 import UserContext from '../../contexts/current-user-context.js';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import Details from './Overview/Details.jsx';
 import RecentDonations from './Overview/RecentDonations.jsx';
 import UpcomingEvents from './Overview/UpcomingEvents.jsx';
@@ -8,11 +8,13 @@ import DonationsContext from '../../contexts/donation-context.js';
 
 const Overview = ({ setCurrentTab }) => {
   const { currentUser } = useContext(UserContext);
-  const { overviewData } = useContext(DonationsContext);
+  const { overviewData, handleGetOverview } = useContext(DonationsContext);
 
-  if (!overviewData) {
-    return null;
-  }
+  useEffect(() => {
+    handleGetOverview();
+  }, []);
+
+  if (!overviewData) return null;
 
   return (
     <div id="overview">

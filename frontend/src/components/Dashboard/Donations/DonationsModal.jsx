@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import handleUpload from '../../../utils/s3';
+import DonationsContext from '../../../contexts/donation-context.js';
 
 const DonationModal = ({ donation = {}, onSave, onClose }) => {
+  const { handleGetOverview } = useContext(DonationsContext);
+
   const [formData, setFormData] = useState({
     id: donation.id || '',
     title: donation.title || '',
@@ -29,9 +32,10 @@ const DonationModal = ({ donation = {}, onSave, onClose }) => {
     setUploading(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     onSave(formData);
+    await handleGetOverview();
   };
 
   return (
