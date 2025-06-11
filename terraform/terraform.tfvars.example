@@ -1,0 +1,15 @@
+# Copy this file to terraform.tfvars and fill in your values
+
+aws_region = "us-east-2"
+app_name   = "emeraldchip"
+
+# Your RDS database details
+db_connection=""
+
+# Generate a secure session secret
+session_secret = "your-super-secure-session-secret-key"
+
+# AWS credentials
+aws_access_key_id     = "YOUR_AWS_ACCESS_KEY"
+aws_secret_access_key = "YOUR_AWS_SECRET_KEY"
+s3_bucket_name        = "your-s3-bucket-name"
