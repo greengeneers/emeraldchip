@@ -4,24 +4,24 @@ Emerald Chip brings about the shift that e-waste recycling has needed: to bring 
 
 ## Team
 
-- Ana Almonte: **Full-stack Developer**
-- Braily Guzman: **Full-stack, Designer**
-- Raffy Castillo: **Lead, Developer, Designer**
+- <a href="https://github.com/Ana039" target="_blank">Ana Almonte</a>: **Full-stack Developer**
+- <a href="https://github.com/brailyguzman" target="_blank">Braily Guzman</a>: **Full-stack, Designer**
+- <a href="https://github.com/raffycastillo" target="_blank">Raffy Castillo</a>: **Lead, Developer, Designer**
 
 ## Project Screenshots
 
 Overview Tab
-![Overview Tab](./md-assets/ec_overview_1.png)
+![Overview Tab](./assets/ec_overview_1.png)
 Donations Tab
-![Donations Tab](./md-assets/ec_donations_2.png)
+![Donations Tab](./assets/ec_donations_2.png)
 Events Tab
-![Events Tab](./md-assets/ec_calendar_d.png)
+![Events Tab](./assets/ec_calendar_d.png)
 Facilities Tab
-![Facilities Tab](./md-assets/ec_facilities.png)
+![Facilities Tab](./assets/ec_facilities.png)
 Profile Modal
-![Profile Modal](./md-assets/ec_profile_modal.png)
+![Profile Modal](./assets/ec_profile_modal.png)
 Auth
-![Login](./md-assets/ec_auth.png)
+![Login](./assets/ec_auth.png)
 
 ## Table of Contents
 
@@ -37,6 +37,7 @@ Auth
       - [Step 3: Access the App](#step-3-access-the-app)
     - [Build and Start Commands](#build-and-start-commands)
   - [Technologies Used](#technologies-used)
+  - [Project Proposal](#project-proposal)
   - [Contributing](#contributing)
   - [Style Guide](#style-guide)
 
@@ -148,11 +149,11 @@ Third-party API
 - AWS S3
 - AWS RDS
 
-<!-- ## Project Proposal
+## Project Proposal
 
 See [PROPOSAL.md](PROPOSAL.md) for more details on the project proposal.
 
-## Roadmap
+<!-- ## Roadmap
 
 View the project roadmap [here](LINK_TO_PROJECTS_TAB). -->
 
