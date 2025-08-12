@@ -69,6 +69,19 @@ class User {
     return rawUserData ? new User(rawUserData) : null;
   }
 
+  static async exists(email, username) {
+    let result;
+
+    if (!username) {
+      const query = `SELECT * FROM users WHERE email = ? LIMIT 1`;
+      result = await knex.raw(query, [email]);
+    } else {
+      const query = `SELECT * FROM users WHERE email = ? OR username = ? LIMIT 1`;
+      result = await knex.raw(query, [email, username]);
+    }
+    return result.rows.length > 0;
+  }
+
   // Updates the user that matches the given id with a new username.
   // Returns the modified user, using the constructor to hide the passwordHash.
   static async update(id, username, email, name, zipCode, pfp = '') {

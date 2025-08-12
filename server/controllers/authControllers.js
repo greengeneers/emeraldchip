@@ -3,13 +3,21 @@ const User = require('../models/User');
 exports.registerUser = async (req, res) => {
   // Request needs a body
   if (!req.body) {
-    return res.status(400).send({ message: 'Username, email, name, password, and zip_code required' });
+    return res
+      .status(400)
+      .send({
+        message: 'Username, email, name, password, and zip_code required',
+      });
   }
 
   // Body needs a username and password
   const { username, email, name, password, zip_code } = req.body;
   if (!username || !password) {
-    return res.status(400).send({ message: 'Username, email, name, password, and zip_code required' });
+    return res
+      .status(400)
+      .send({
+        message: 'Username, email, name, password, and zip_code required',
+      });
   }
 
   // User.create will handle hashing the password and storing in the database
@@ -33,7 +41,7 @@ exports.loginUser = async (req, res) => {
   }
 
   // Username must be valid
-  const user = await User.findByUsername(username);
+  const user = await User.exists(username);
   if (!user) {
     return res.status(404).send({ message: 'User not found.' });
   }
@@ -52,7 +60,7 @@ exports.loginUser = async (req, res) => {
 exports.showMe = async (req, res) => {
   // no cookie with an id => Not authenticated.
   if (!req.session.userId) {
-    return res.status(401).send({ message: "User must be authenticated." });
+    return res.status(401).send({ message: 'User must be authenticated.' });
   }
 
   // cookie with an id => here's your user info!
@@ -62,5 +70,5 @@ exports.showMe = async (req, res) => {
 
 exports.logoutUser = (req, res) => {
   req.session = null; // "erase" the cookie
-  res.status(204).send({ message: "User logged out." });
+  res.status(204).send({ message: 'User logged out.' });
 };
